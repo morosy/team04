@@ -1,0 +1,5 @@
+user_ID, user_name, password, current_coin, login_timestamp, login_count
+00000001, morozumi, moropassword, 10000, false, 0
+00000002, yamada, yamadapassword, 5000, true, 1
+00000003, suzuki, suzukipassword, 3000, true, 2
+00000004, tanaka, tanakapassword, 2000, false, 0
