@@ -1,16 +1,18 @@
-FROM python:3.11-slim
+# Pythonベースイメージ
+FROM python:3.12-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
+# 必要なパッケージをインストール
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libmariadb-dev \
-    libmariadb-dev-compat \
-    pkg-config \
+    default-libmysqlclient-dev \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
+# 作業ディレクトリの作成
 WORKDIR /app
 
-COPY ../../requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# 依存ファイルをコピー
+COPY ./docker/web/requirements.txt /app/requirements.txt
+
+# Pythonパッケージのインストール
+RUN pip install --no-cache-dir -r requirements.txt
+
