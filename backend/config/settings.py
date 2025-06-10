@@ -76,8 +76,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'team04_db',
-        'USER': 'team04_user',
-        'PASSWORD': 'password',
+        'USER': 'team04',
+        'PASSWORD': 'advinfteam04',
         'HOST': 'localhost',
         'PORT': '3306',
     }
