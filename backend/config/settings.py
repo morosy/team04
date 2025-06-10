@@ -76,12 +76,24 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'team04_db',
-        'USER': 'team04_user',
-        'PASSWORD': 'password',
+        'USER': 'team04',
+        'PASSWORD': 'advinfteam04',
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
+
+# Docker
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get("DB_NAME"),
+#         'USER': os.environ.get("DB_USER"),
+#         'PASSWORD': os.environ.get("DB_PASSWORD"),
+#         'HOST': os.environ.get("DB_HOST"),
+#         'PORT': os.environ.get("DB_PORT"),
+#     }
+# }
 
 
 # Password validation
