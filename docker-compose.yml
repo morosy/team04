@@ -20,7 +20,7 @@ services:
             context: .
             dockerfile: ./docker/web/Dockerfile
         command: >
-            /wait-for-it.sh db:3306 -- python backend/manage.py runserver 0.0.0.0:8000
+            /start.sh
         volumes:
             - .:/app
         ports:

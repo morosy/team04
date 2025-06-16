@@ -14,5 +14,6 @@ COPY ./docker/web/requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./docker/web/wait-for-it.sh /wait-for-it.sh
-RUN dos2unix /wait-for-it.sh && chmod +x /wait-for-it.sh
+COPY wait-for-it.sh /wait-for-it.sh
+COPY start.sh /start.sh
+RUN chmod +x /wait-for-it.sh /start.sh  
