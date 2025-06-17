@@ -7,6 +7,8 @@ USE user_info;
 ストアドプロシージャの作成
 ここをコピー
 ```
+USE user_info;
+
 DELIMITER $$
 
 CREATE PROCEDURE create_user_result_table(IN uid INT, IN uname VARCHAR(10))
