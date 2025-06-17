@@ -4,3 +4,6 @@ access.txt
 zsh.txt
 .vscode/
 .env
+__pycache__/
+*.pyc
+
