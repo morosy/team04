@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.core',
+
+    'new_registration.register_user_id',
+    'new_registration.register_name', 
+    'new_registration.generate_user_id',
+    'new_registration.confirm_registration',
+    'new_registration.name_registration',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +65,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '..', 'frontend', 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,5 +149,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '..','frontend', 'static'),
     os.path.join(BASE_DIR, 'apps', 'core', 'static'),
 ]
