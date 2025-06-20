@@ -17,7 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# 新規登録モジュールで使用
+from new_registration.generate_user_id.views import generate_user_id_main 
+from new_registration.register_name.views import register_name_main
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.core.urls')),
+    #新規登録モジュールで使用
+    path('api/user-registration/', include('new_registration.register_user_id.urls')),
+    path('api/register-credentials/', include('new_registration.register_name.urls')),
+    path('api/generate-user-id/', include('new_registration.generate_user_id.urls')),
+    path('api/confirm-registration/', include('new_registration.confirm_registration.urls')),
+    path('api/name-registration/', include('new_registration.name_registration.urls')),
+
 ]
