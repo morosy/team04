@@ -20,7 +20,7 @@ services:
         command: >
             /start.sh
         volumes:
-            - ./backend:/app
+            - .:/app
         ports:
             - "8000:8000"
         depends_on:
