@@ -1,0 +1,45 @@
+<!--
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/06/23
+    Description: 過去情報のhtmlファイル
+    Note: このファイルは, ユーザーの過去情報を表示するためのHTMLテンプレート
+-->
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>User Result</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/user_result.css' %}">
+    <script src="{% static 'js/user_result.js' %}" defer></script>
+</head>
+<body>
+    <h1>User Result Table</h1>
+    {% if error %}
+        <p class="error">Error: {{ error }}</p>
+    {% elif rows %}
+        <table>
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No data found.</p>
+    {% endif %}
+</body>
+</html>
