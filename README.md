@@ -1,63 +1,80 @@
-#### フォークしたリポジトリをローカルにクローン
-```
-git clone https://github.com/[username]/team04.git
-cd team04
-```
+## git コマンド
 
-#### 上流(オリジナル)のリモートを追加
-```
-git remote add upstream https://github.com/morosy/team04.git
-```
 
-#### 最初の内容を追加
+#### 作業開始時
+> [!WARNING]
+> 作業開始前に必ず実行
 ```
-git fetch upstream
 git checkout main
-git merge upstream/main
+git pull origin main
+```
+または
+```
+git fetch origin
+git merge origin/main  # または git rebase origin/main
 ```
 
-#### ブランチを作成してチェックアウト
+新しく作業ブランチを作成
 ```
-git checkout -b feature/[your-feature-name]
+git checkout -b [ブランチ名]
 ```
 
-#### 編集 コミット
+または既存ブランチに入る
 ```
-# 編集作業をしてから
+git checkout [ブランチ名]
+```
+
+
+#### 作業完了後
+
+> [!WARNING]
+> 競合を防ぐために最新のリモートリポジトリを取得
+```
+
+git checkout main
+git pull origin main
+git checkout [ブランチ名]
+```
+または
+```
+git fetch origin
+git merge origin/main  # または git rebase origin/main
+```
+
+push
+```
 git add .
-git commit -m "[message]"
+git commit -m "[コミットメッセージ]"
+git push origin [ブランチ名]
+```
+
+ブランチのプッシュが初めての場合は以下を利用
+```
+git push -u origin [ブランチ名]
 ```
 
 
-#### リポジトリにプッシュ
+#### 必要であれば作業終了後にmainに戻る
 ```
-git push origin feature/[your-feature-name]
-```
-
-
-## Docker
-```bash
-> cd team04
-> docker-compose up --build -d
- ✔ web Built
- ✔ Network team04_default   Created
- ✔ Volume "team04_db_data"  Created
- ✔ Container team04-db-1    Started
- ✔ Container team04-web-1   Started
-
-> docker-compose logs web
-time="2025-06-11T02:09:01+09:00" level=warning msg="D:\\dev\\team04\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
-web-1  | wait-for-it.sh: waiting 15 seconds for db:3306
-web-1  | wait-for-it.sh: db:3306 is available after 8 seconds
-web-1  | Watching for file changes with StatReloader
-
-# Docker 停止
-> docker-compose down
-time="2025-06-11T02:12:40+09:00" level=warning msg="D:\\dev\\team04\\docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
-[+] Running 3/3
- ✔ Container team04-web-1  Removed
- ✔ Container team04-db-1   Removed
- ✔ Network team04_default  Removed
+git checkout main
 ```
 
-[page](http://localhost:8000/)
+
+#### Github 操作
+> [!IMPORTANT]
+> 変更が他ファイルや環境に依存する場合や大規模な場合は必ず対象者にレビューを依頼する
+
+
+#### 変更履歴
+<details>
+<summary>
+変更履歴
+</summary>
+- 2025/06/10 初期バージョン
+
+- 2025/06/11 dockerfile関連記述追加
+
+- 2025/06/19 内容全削除
+
+- 2025/06/23 内容の全更新 簡単なgitコマンドの記述
+</details>

@@ -10,6 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+'''
+    data: 2025/06/23
+    editor: Shunsuke MOROZUMI
+    カレントディレクトリをfrontendに変更
+    css, jsはfrontend/staticに配置
+    htmlはfrontendに配置
+'''
+
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -62,10 +71,29 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+'''
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, '..', 'frontend', 'templates'),],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+'''
+
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, '..', 'frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
