@@ -6,6 +6,8 @@ import json
 from .models import UserCredentials
 from django.db import IntegrityError, transaction
 
+from django.db import transaction, IntegrityError, connection
+
 def _update_user_credentials(user_id_int, username, password):
     if not all([username, password, user_id_int is not None]):
         return {'success': False, 'errorMessage': 'Missing required fields (user_name, password, user_ID).'}
@@ -21,6 +23,39 @@ def _update_user_credentials(user_id_int, username, password):
             user_entry.user_name = username
             user_entry.password = password # ★パスワードは必ずハッシュ化してください！
             user_entry.save()
+
+            # ★ここからストアドプロシージャ呼び出しの最終修正コード★
+
+            # user_info データベース用のストアドプロシージャを呼び出す
+            try:
+                with connection.cursor() as cursor:
+                    # create_user_result_table は uid (INT) と uname (VARCHAR(10)) を必要とします。
+                    # username は VARCHAR(100) なので、VARCHAR(10) に収まるようにスライスするか、
+                    # ストアドプロシージャの定義を VARCHAR(100) に広げることを検討してください。
+                    # ここでは一旦、DB定義に合わせて10文字にスライスします。
+                    user_name_for_sp = username[:10] # 10文字にスライス
+
+                    print(f"DEBUG: Calling create_user_result_table with uid={user_id_int}, uname='{user_name_for_sp}'")
+                    cursor.execute("CALL create_user_result_table(%s, %s)", [user_id_int, user_name_for_sp])
+                print(f"DEBUG: user_result_table for user_ID {user_id_int} created successfully.")
+            except Exception as e:
+                print(f"ERROR: Failed to call create_user_result_table for user_ID {user_id_int}: {str(e)}")
+                # 必要であればここでエラーを返す
+
+            # friend データベース用のストアドプロシージャを呼び出す
+            try:
+                with connection.cursor() as cursor:
+                    # create_friend_table は uid (INT) を必要とします。
+                    print(f"DEBUG: Calling create_friend_table with uid={user_id_int}")
+                    cursor.execute("CALL create_friend_table(%s)", [user_id_int])
+                print(f"DEBUG: friend_user_table for user_ID {user_id_int} created successfully.")
+            except Exception as e:
+                print(f"ERROR: Failed to call create_friend_table for user_ID {user_id_int}: {str(e)}")
+                # 必要であればここでエラーを返す
+
+            # ★ストアドプロシージャ呼び出しの修正コード終わり★
+
+
             return {'success': True, 'errorMessage': ''}
     except UserCredentials.DoesNotExist:
         return {'success': False, 'errorMessage': f'User ID {user_id_int} does not exist.'}
