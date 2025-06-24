@@ -1,4 +1,5 @@
 from django.db import connection
+
 import time
 
 # M1 ランキング主処理

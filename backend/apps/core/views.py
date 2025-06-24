@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .logic.ranking import ranking_main_process
-from .logic.friend import (
+from .logic.ranking_process import ranking_main_process
+from .logic.user_information_process import (
     friend_request_process,
     friend_request_accept_process,
     friend_request_decline_process,
