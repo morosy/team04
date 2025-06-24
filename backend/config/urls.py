@@ -18,8 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 # 新規登録モジュールで使用
-from new_registration.generate_user_id.views import generate_user_id_main 
-from new_registration.register_name.views import register_name_main
+#from new_registration.generate_user_id.views import generate_user_id_main 
+#from new_registration.register_name.views import register_name_main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
