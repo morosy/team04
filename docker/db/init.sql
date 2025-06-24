@@ -20,6 +20,9 @@ FLUSH PRIVILEGES;
 -- user_info データベースとテーブル
 -- ============================
 CREATE DATABASE IF NOT EXISTS user_info;
+GRANT ALL PRIVILEGES ON user_info.* TO 'team04'@'%'; -- ★この行を追加
+FLUSH PRIVILEGES; -- ★この行も追加 (権限変更をすぐに反映させるため)
+
 USE user_info;
 
 CREATE TABLE IF NOT EXISTS users (

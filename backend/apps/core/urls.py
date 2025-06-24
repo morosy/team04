@@ -8,3 +8,5 @@ urlpatterns = [
     path('friend/accept/', views.friend_accept_view, name='friend_accept'),
     path('friend/decline/', views.friend_decline_view, name='friend_decline'),
 ]
+
+
