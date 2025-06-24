@@ -7,6 +7,9 @@ GRANT ALL PRIVILEGES ON django_db.* TO 'team04'@'%';
 FLUSH PRIVILEGES;
 
 CREATE DATABASE IF NOT EXISTS user_info;
+GRANT ALL PRIVILEGES ON user_info.* TO 'team04'@'%'; -- ★この行を追加
+FLUSH PRIVILEGES; -- ★この行も追加 (権限変更をすぐに反映させるため)
+
 USE user_info;
 
 CREATE TABLE IF NOT EXISTS users (
