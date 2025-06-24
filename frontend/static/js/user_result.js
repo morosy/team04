@@ -6,3 +6,17 @@
 */
 
 console.log("User result table loaded");
+
+document.addEventListener("DOMContentLoaded", () => {
+    const showMoreBtn = document.getElementById("showMoreBtn");
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener("click", () => {
+            const hiddenRows = document.querySelectorAll(".hidden-row");
+            hiddenRows.forEach(row => {
+                row.style.display = "";
+            });
+            showMoreBtn.style.display = "none";
+        });
+    }
+});
+

@@ -34,7 +34,7 @@ def home(request):
 '''
 def user_result_view(request, user_id):
     table_name = f"user_result_{user_id}"
-    query = f"SELECT * FROM `{table_name}`;"
+    query = f"SELECT * FROM `{table_name}` ORDER BY date DESC LIMIT 100;"
     rows = []
     columns = []
     error = None

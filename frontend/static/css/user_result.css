@@ -8,16 +8,27 @@
 body {
     font-family: sans-serif;
     padding: 2em;
+    display: flex;
+    justify-content: center;
 }
 
-h1 {
+.container {
     text-align: center;
 }
 
+h1 {
+    margin-bottom: 1em;
+}
+
+.table-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+    display: inline-block;
+}
+
 table {
-    width: 100%;
     border-collapse: collapse;
-    margin-top: 1em;
+    margin: 0 auto;
 }
 
 th, td {
@@ -28,6 +39,17 @@ th, td {
 
 th {
     background-color: #f0f0f0;
+}
+
+button, .button {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.hidden-row {
+    display: none;
 }
 
 .error {
