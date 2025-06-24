@@ -1,0 +1,4 @@
+user_ID,date,category,result,change_coin,current_coin
+1,20250624,1,win,50,150
+2,20250624,2,lose,-30,170
+3,20250624,1,win,40,190
