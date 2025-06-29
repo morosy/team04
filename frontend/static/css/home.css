@@ -8,39 +8,40 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: linear-gradient(to right, #e3f2fd, #fce4ec);
+    font-family: 'Roboto', sans-serif;
     height: 100vh;
-    font-family: sans-serif;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 左上のユーザ情報 */
-.user-info {
+.header {
     position: absolute;
     top: 20px;
-    left: 20px;
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-info, .coin-info {
     display: flex;
     gap: 10px;
 }
 
-/* 右上のコイン情報 */
-.coin-info {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-/* 共通のボックススタイル */
 .user-box {
     font-size: 14px;
     color: #333;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 4px 8px;
-    border-radius: 4px;
+    background-color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
     border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .container {
@@ -52,32 +53,36 @@ body {
 
 .button {
     text-decoration: none;
-    background-color: #007bff;
+    background-color: #1976d2;
     color: white;
-    padding: 20px 40px;
-    font-size: 24px;
+    padding: 18px 36px;
+    font-size: 20px;
     text-align: center;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 250px;
+    transition: all 0.3s ease;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #1565c0;
+    transform: translateY(-2px);
 }
 
 .button-small {
     text-decoration: none;
     background-color: #6c757d;
     color: white;
-    padding: 12px 24px;
-    font-size: 18px;
+    padding: 14px 28px;
+    font-size: 16px;
     text-align: center;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+    border-radius: 10px;
     width: 200px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
 .button-small:hover {
     background-color: #5a6268;
+    transform: translateY(-1px);
 }
