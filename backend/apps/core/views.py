@@ -9,6 +9,7 @@ def home(request):
 
 '''
     data: 2025/06/23
+    editor: Shunsuke MOROZUMI
     カレントディレクトリをfrontendに変更
 '''
 def home(request):
