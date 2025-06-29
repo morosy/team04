@@ -1,0 +1,57 @@
+<!--
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/06/23
+    Description: 過去情報のhtmlファイル
+    Note: このファイルは, ユーザーの過去情報を表示するためのHTMLテンプレート
+-->
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>User Result</title>
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'css/user_result.css' %}">
+    <script src="{% static 'js/user_result.js' %}" defer></script> -->
+
+    <!-- degug -->
+    <link rel="stylesheet" href="static/css/user_result.css">
+    <script src="static/js/user_result.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>User Result Table</h1>
+        {% if error %}
+            <p class="error">Error: {{ error }}</p>
+        {% elif rows %}
+            <div class="table-wrapper">
+                <table id="resultTable">
+                    <thead>
+                        <tr>
+                            {% for col in columns %}
+                                <th>{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                            <tr {% if forloop.counter > 10 %} class="hidden-row" {% endif %}>
+                                {% for cell in row %}
+                                    <td>{{ cell }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button id="showMoreBtn">もっと見る</button>
+        {% else %}
+            <p>No data found.</p>
+        {% endif %}
+        <div class="home-button">
+            <a href="{% url 'home' %}" class="button">ホームに戻る</a>
+        </div>
+    </div>
+</body>
+</html>
