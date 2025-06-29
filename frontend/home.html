@@ -5,13 +5,13 @@
     Note: このファイルは, ユーザーのホーム画面を表示するためのHTMLテンプレート.
 -->
 
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>ホーム</title>
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body>
     <div class="user-info">
@@ -32,7 +32,7 @@
     <div class="container">
         <a href="#" class="button">馬券を買う</a>
         <a href="#" class="button">ランキング</a>
-        <a href="#" class="button">マイページ</a>
+        <a href="{% url 'mypage' %}" class="button">マイページ</a>
         <a href="#" class="button-small">ログアウト</a>
     </div>
 </body>
