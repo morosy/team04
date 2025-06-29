@@ -15,7 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.urls import path
 from django.urls import path, include
+from apps.core import views
 
 # 新規登録モジュールで使用
 from new_registration.generate_user_id.views import generate_user_id_main 
@@ -31,4 +33,10 @@ urlpatterns = [
     path('api/confirm-registration/', include('new_registration.confirm_registration.urls')),
     path('api/name-registration/', include('new_registration.name_registration.urls')),
 
+    # mypageのURL
+    path('', views.home, name='home'),
+    path('mypage/', views.mypage_view, name='mypage'),
+
+    # user_resultのURL
+    path('user_result/<str:user_id>/', views.user_result_view, name='user_result'),
 ]

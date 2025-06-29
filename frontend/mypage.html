@@ -5,12 +5,13 @@
     Note: このファイルは, ユーザーのマイページを表示するためのHTMLテンプレート.
 -->
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>マイページ</title>
-    <link rel="stylesheet" href="css/mypage.css">
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
 </head>
 <body>
     <div class="main-info">
@@ -21,8 +22,8 @@
 
     <div class="container">
         <a href="#" class="button-small">ユーザ名の変更</a>
-        <a href="#" class="button-large">過去のレース</a>
-        <a href="#" class="button">ホームに戻る</a>
+        <a href="{% url 'user_result' user_ID %}" class="button-large">過去のレース</a>
+        <a href="{% url 'home' %}" class="button">ホームに戻る</a>
     </div>
 </body>
 </html>

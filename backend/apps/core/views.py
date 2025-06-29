@@ -52,3 +52,39 @@ def user_result_view(request, user_id):
         'rows': rows,
         'error': error,
     })
+
+
+
+'''
+    Function Name: mypage_view
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/06/29
+    Description:
+        ユーザーのマイページを表示するビュー関数.
+        マイページのHTMLテンプレートをレンダリングして返す.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: マイページを表示するHTMLテンプレート
+    Usage: mypage_view(request)
+'''
+def mypage_view(request):
+    return render(request, 'mypage.html')
+
+
+'''
+    Function Name: mypage_view
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/06/29
+    Description:
+        ユーザーのマイページを表示するビュー関数.
+        マイページのHTMLテンプレートをレンダリングして返す.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: マイページを表示するHTMLテンプレート
+    Usage: mypage_view(request)
+'''
+def mypage_view(request):
+    context = {
+        'user_ID': '00000001', # 実際のユーザーIDに置き換える
+        'user_name': 'testuser',
+        'user_title': '王',
+    }
+    return render(request, 'mypage.html', context)
