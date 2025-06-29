@@ -1,0 +1,28 @@
+<!--
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/06/17
+    Description: マイページのhtmlファイル
+    Note: このファイルは, ユーザーのマイページを表示するためのHTMLテンプレート.
+-->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>マイページ</title>
+    <link rel="stylesheet" href="css/mypage.css">
+</head>
+<body>
+    <div class="main-info">
+        <div class="main-box">ID: {{ user_ID }}</div>
+        <div class="main-box">名前: {{ user_name }}</div>
+        <div class="main-box">称号: {{ user_title }}</div>
+    </div>
+
+    <div class="container">
+        <a href="#" class="button-small">ユーザ名の変更</a>
+        <a href="#" class="button-large">過去のレース</a>
+        <a href="home.html" class="button">ホームに戻る</a>
+    </div>
+</body>
+</html>

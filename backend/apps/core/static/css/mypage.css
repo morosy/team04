@@ -1,8 +1,8 @@
 /*
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/17
-    Description: home.htmlのCSSスタイルシート
-    Note: このファイルは, home.htmlのスタイルを定義している.
+    Description: mypage.htmlのCSSスタイルシート
+    Note: このファイルは, mypage.htmlのスタイルを定義している.
 */
 
 body {
@@ -10,36 +10,27 @@ body {
     padding: 0;
     background-color: #f0f0f0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     font-family: sans-serif;
-    position: relative;
 }
 
-/* 左上のユーザ情報 */
-.user-info {
-    position: absolute;
-    top: 20px;
-    left: 20px;
+.main-info {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
 }
 
-/* 右上のコイン情報 */
-.coin-info {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-/* 共通のボックススタイル */
-.user-box {
-    font-size: 14px;
+.main-box {
+    font-size: 28px;
     color: #333;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 4px 8px;
-    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 6px;
     border: 1px solid #ccc;
 }
 
@@ -54,12 +45,12 @@ body {
     text-decoration: none;
     background-color: #007bff;
     color: white;
-    padding: 20px 40px;
-    font-size: 24px;
+    padding: 16px 32px;
+    font-size: 20px;
     text-align: center;
     border-radius: 8px;
     transition: background-color 0.3s ease;
-    width: 250px;
+    width: 220px;
 }
 
 .button:hover {
@@ -70,14 +61,30 @@ body {
     text-decoration: none;
     background-color: #6c757d;
     color: white;
-    padding: 12px 24px;
-    font-size: 18px;
+    padding: 10px 20px;
+    font-size: 16px;
     text-align: center;
     border-radius: 6px;
     transition: background-color 0.3s ease;
-    width: 200px;
+    width: 180px;
 }
 
 .button-small:hover {
     background-color: #5a6268;
+}
+
+.button-large {
+    text-decoration: none;
+    background-color: #28a745;
+    color: white;
+    padding: 24px 48px;
+    font-size: 28px;
+    text-align: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    width: 300px;
+}
+
+.button-large:hover {
+    background-color: #218838;
 }
