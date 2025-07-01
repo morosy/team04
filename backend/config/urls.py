@@ -35,8 +35,17 @@ urlpatterns = [
 
     # mypageのURL
     path('', views.home, name='home'),
-    path('mypage/', views.mypage_view, name='mypage'),
+    path('mypage/', views.mypage, name='mypage'),
 
     # user_resultのURL
-    path('user_result/<str:user_id>/', views.user_result_view, name='user_result'),
+    path('user_result/<str:user_id>/', views.user_result, name='user_result'),
+
+    # ランキングページへのリンク対応
+    path('ranking/', views.ranking, name='ranking'),
+
+    # マイページへのリンク対応
+    path('mypage/', views.mypage, name='mypage'),
+
+    # ユーザー結果ページへのリンク対応
+    path('user_result/<str:user_id>/', views.user_result, name='user_result'),
 ]
