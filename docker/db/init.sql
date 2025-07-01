@@ -2,6 +2,7 @@
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/11 Version: 1.0
     change: 2025/06/23 Version: 1.1
+          : 2025/07/01 Version: 1.2
         init.sqlの内容を完全化・本番環境に従う内容
     Description: ホーム画面のhtmlファイル
     Note: このファイルは, Dockerコンテナ内のMySQLに初期データを投入するためのSQLスクリプトです。
@@ -20,8 +21,8 @@ FLUSH PRIVILEGES;
 -- user_info データベースとテーブル
 -- ============================
 CREATE DATABASE IF NOT EXISTS user_info;
-GRANT ALL PRIVILEGES ON user_info.* TO 'team04'@'%'; -- ★この行を追加
-FLUSH PRIVILEGES; -- ★この行も追加 (権限変更をすぐに反映させるため)
+GRANT ALL PRIVILEGES ON user_info.* TO 'team04'@'%';
+FLUSH PRIVILEGES;
 
 USE user_info;
 
@@ -31,7 +32,11 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(16) NOT NULL,
     current_coin INT DEFAULT 0,
     login_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    login_count INT DEFAULT 0
+    login_count INT DEFAULT 0,
+
+    -- 勝ち数および負け数のカラムを追加
+    number_of_wins INT DEFAULT 0,
+    number_of_losses INT DEFAULT 0
 );
 
 -- ストアドプロシージャ: create_user_result_table
