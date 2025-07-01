@@ -14,16 +14,39 @@
     <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
 </head>
 <body>
+    <!-- トップのタイトル -->
+    <h1 class="page-title">{{ user_name }}のマイページ</h1>
+
     <div class="main-info">
-        <div class="main-box">ID: {{ user_ID }}</div>
-        <div class="main-box">名前: {{ user_name }}</div>
-        <div class="main-box">称号: {{ user_title }}</div>
+        <div class="main-box">
+            ID: <span id="user-id">{{ user_ID }}</span>
+        </div>
+        <div class="main-box">
+            名前: <span id="user-name">{{ user_name }}</span>
+        </div>
     </div>
 
-    <div class="container">
-        <a href="#" class="button-small">ユーザ名の変更</a>
-        <a href="{% url 'user_result' user_ID %}" class="button-large">過去のレース</a>
-        <a href="{% url 'home' %}" class="button">ホームに戻る</a>
+    <!-- コピー用ボタン（横並び） -->
+    <div class="copy-button-row">
+        <div class="copy-group">
+            <button class="copy-button" onclick="copyToClipboard('user-id', 'ID')">IDをコピー</button>
+            <span id="copy-msg-id" class="copy-message"></span>
+        </div>
+        <div class="copy-group">
+            <button class="copy-button" onclick="copyToClipboard('user-name', '名前')">名前をコピー</button>
+            <span id="copy-msg-name" class="copy-message"></span>
+        </div>
     </div>
+
+
+    <div class="container">
+        <!-- <a href="#" class="button-small">ユーザ名の変更</a> -->
+        <button class="button-small" onclick="alert('まだ対応していません');">ユーザ名の変更</button>
+        <a href="{% url 'user_result' user_ID %}" class="button-large">過去のレース</a>
+        <a href="#" class="button-large">フレンドを管理</a>
+        <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>
+    </div>
+
+    <script src="{% static 'js/mypage.js' %}"></script>
 </body>
 </html>
