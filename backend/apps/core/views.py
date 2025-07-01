@@ -18,7 +18,7 @@ def home(request):
     カレントディレクトリをfrontendに変更
 '''
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'core/ranking.html')
 
 
 
@@ -27,6 +27,9 @@ def ranking_view(request):
         result = ranking_main_process(request.POST)
         return render(request, 'core/ranking.html', {'user_list': result})
     return render(request, 'core/ranking.html')
+
+def friend_registration_view(request):
+    return render(request, 'core/friend-registration.html')
 
 def friend_request_view(request):
     if request.method == 'POST':
