@@ -15,7 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.urls import path
 from django.urls import path, include
+from apps.core import views
 
 # 新規登録モジュールで使用
 from new_registration.generate_user_id.views import generate_user_id_main 
@@ -35,4 +37,19 @@ urlpatterns = [
     path('login/', include('keiba_auth.login_ui.urls')),
     path('api/login/', include('keiba_auth.login_request.urls')),
 
+    # mypageのURL
+    path('', views.home, name='home'),
+    path('mypage/', views.mypage, name='mypage'),
+
+    # user_resultのURL
+    path('user_result/<str:user_id>/', views.user_result, name='user_result'),
+
+    # ランキングページへのリンク対応
+    path('ranking/', views.ranking, name='ranking'),
+
+    # マイページへのリンク対応
+    path('mypage/', views.mypage, name='mypage'),
+
+    # ユーザー結果ページへのリンク対応
+    path('user_result/<str:user_id>/', views.user_result, name='user_result'),
 ]

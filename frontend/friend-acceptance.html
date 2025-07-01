@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>フレンド申請を受け入れる</title>
+        <style>
+                body {
+                        font-family: Arial, sans-serif;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        min-height: 100vh;
+                        background-color: #f0f0f0;
+                        margin: 0;
+                        font-size: 1.2em;
+                }
+
+                .modal-container {
+                        border: 1px solid #000;
+                        width: 600px;
+                        min-height: 450px;
+                        background-color: white;
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                        position: relative;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        align-items: center;
+                        padding-bottom: 30px;
+                }
+
+                .modal-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 20px 25px;
+                        background-color: #f0f0f0;
+                        border-bottom: 1px solid #000;
+                        width: 100%;
+                        box-sizing: border-box;
+                }
+
+                .modal-header h2 {
+                        margin: 0;
+                        font-size: 1.8em;
+                        color: #333;
+                }
+
+                .close-button {
+                        background: none;
+                        border: none;
+                        font-size: 1.5em;
+                        width: 35px;
+                        height: 35px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                        color: #333;
+                        transition: background-color 0.2s ease;
+                }
+
+                .close-button:hover {
+                        background-color: #e0e0e0;
+                }
+
+                .modal-body {
+                        padding: 25px 20px;
+                        text-align: center;
+                        flex-grow: 1;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        width: 100%;
+                }
+
+                .modal-body p {
+                        margin-bottom: 20px;
+                        font-size: 1.5em;
+                        color: #555;
+                        align-self: flex-start;
+                        margin-left: 50px;
+                }
+
+                .application-list {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin-bottom: 30px;
+                }
+
+                .application-item {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 500px;
+                        border: 1px solid #000;
+                        padding: 10px 20px;
+                        margin-bottom: 15px;
+                        background-color: white;
+                        box-sizing: border-box;
+                }
+
+                .application-item:last-child {
+                        margin-bottom: 0;
+                }
+
+                .application-player-name {
+                        font-size: 1.2em;
+                        color: #333;
+                        flex-grow: 1;
+                        text-align: left;
+                }
+
+                .application-checkbox {
+                        width: 20px;
+                        height: 20px;
+                        border: 1px solid #000;
+                        cursor: pointer;
+                        flex-shrink: 0;
+                }
+
+
+                .action-buttons {
+                        display: flex;
+                        gap: 20px;
+                        justify-content: center;
+                        width: 100%;
+                }
+
+                .action-button {
+                        display: block;
+                        width: 150px;
+                        padding: 15px 15px;
+                        border: 1px solid #000;
+                        background-color: white;
+                        color: #333;
+                        text-align: center;
+                        text-decoration: none;
+                        font-size: 1.5em;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                        box-sizing: border-box;
+                }
+
+                .action-button:hover {
+                        background-color: #f5f5f5;
+                }
+
+                .action-button:active {
+                        background-color: #e0e0e0;
+                }
+        </style>
+</head>
+
+<body>
+        <div class="modal-container">
+                <div class="modal-header">
+                        <h2>フレンド申請を受け入れる</h2>
+                        <button class="close-button" onclick="window.history.back()">×</button>
+                </div>
+                <div class="modal-body">
+                        <p>申請を選択</p>
+                        <div class="application-list">
+                                <form id="friendAcceptForm" method="post" action="">
+                                        {% csrf_token %}
+                                        {% for application in applications %}
+                                        <div class="application-item">
+                                                <span class="application-player-name">{{ application.player_name }}</span>
+                                                <input type="checkbox" class="application-checkbox" name="selected_applications" value="{{ application.id }}">
+                                        </div>
+                                        {% empty %}
+                                        <p style="text-align: center; width: 100%; font-size: 1.1em;">新しいフレンド申請はありません。</p>
+                                        {% endfor %}
+                                </form>
+                        </div>
+                        <div class="action-buttons">
+                                <button type="submit" form="friendAcceptForm" class="action-button" name="action" value="accept">受け入れる</button>
+                                <button type="submit" form="friendAcceptForm" class="action-button" name="action" value="reject">拒否する</button>
+                        </div>
+                </div>
+        </div>
+</body>
+
+</html>

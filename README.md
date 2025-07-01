@@ -65,16 +65,27 @@ git checkout main
 > 変更が他ファイルや環境に依存する場合や大規模な場合は必ず対象者にレビューを依頼する
 
 
+#### Docker コマンド
+コンテナのビルド，起動
+```
+docker-compose up -d --build
+```
+
+Djangoのトップページリンク
+```
+http://localhost:8000/
+```
+
+
 #### 変更履歴
 <details>
 <summary>
 変更履歴
 </summary>
+
 - 2025/06/10 初期バージョン
-
 - 2025/06/11 dockerfile関連記述追加
-
 - 2025/06/19 内容全削除
-
 - 2025/06/23 内容の全更新 簡単なgitコマンドの記述
+- 2025/06/29 Docker コマンドの追加
 </details>

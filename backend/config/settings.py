@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'apps.core',
 
     'new_registration.register_user_id',
-    'new_registration.register_name', 
+    'new_registration.register_name',
     'new_registration.generate_user_id',
     'new_registration.confirm_registration',
     'new_registration.name_registration',

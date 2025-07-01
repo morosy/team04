@@ -5,35 +5,35 @@
     Note: このファイルは, ユーザーのホーム画面を表示するためのHTMLテンプレート.
 -->
 
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>ホーム</title>
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <!-- Debug -->
+    <!-- <link rel="stylesheet" href="static/css/home.css"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="user-info">
-        <!--
-        <div class="user-box">{{ user_ID }}</div>
-        <div class="user-box">{{ user_name }}</div>
-        -->
-        <div class="user-box">00001234</div>
-        <div class="user-box">username</div>
+    <div class="header">
+        <div class="user-info">
+            <div class="user-box"><i class="fa-solid fa-id-badge"></i> 00001234</div>
+            <div class="user-box"><i class="fa-solid fa-user"></i> username</div>
+        </div>
+
+        <div class="coin-info">
+            <div class="user-box"><i class="fa-solid fa-coins"></i> コイン：0000001000</div>
+        </div>
     </div>
 
-    <div class="coin-info">
-        <!-- 空の桁を埋め例 -->
-        <!-- <div class="user-box">コイン：{{ user_coins }}</div> -->
-        <div class="user-box">コイン：0000001000</div>
-    </div>
-
-    <div class="container">
-        <a href="#" class="button">馬券を買う</a>
-        <a href="#" class="button">ランキング</a>
-        <a href="#" class="button">マイページ</a>
-        <a href="#" class="button-small">ログアウト</a>
-    </div>
+    <main class="container">
+        <a href="#" class="button"><i class="fa-solid fa-ticket"></i> 馬券を買う</a>
+        <a href="{% url 'ranking' %}" class="button"><i class="fa-solid fa-ranking-star"></i> ランキング</a>
+        <a href="{% url 'mypage' %}" class="button"><i class="fa-solid fa-user-circle"></i> マイページ</a>
+        <a href="#" class="button-small"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</a>
+    </main>
 </body>
 </html>
