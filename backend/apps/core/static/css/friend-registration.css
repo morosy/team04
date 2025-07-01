@@ -11,20 +11,20 @@ body {
 
 .modal-container {
         background-color: #fff;
-        border: 1px solid #000;
+        border: 1px solid #ccc;
         width: 600px;
         min-height: 350px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
         padding-bottom: 30px;
-        overflow: hidden;
 }
 
 .modal-header {
-        background-color: #f0f0f0;
-        border-bottom: 1px solid #000;
-        padding: 20px 25px;
+        background-color: #f8f8f8;
+        border-bottom: 1px solid #ccc;
+        padding: 20px 20px 20px 25px;
+        /* 右パディング調整 */
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -44,16 +44,21 @@ body {
         font-size: 1.5em;
         width: 35px;
         height: 35px;
-        color: #333;
+        color: #000;
+        /* 黒色に変更 */
         cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;
         transition: background-color 0.2s ease;
+        padding: 0;
+        margin: 0;
 }
 
 .close-button:hover {
         background-color: #e0e0e0;
+        color: #333;
+        /* ホバー時は少し薄い黒 */
 }
 
 .modal-body {
@@ -61,32 +66,40 @@ body {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+        /* 縦並びに */
         justify-content: center;
         align-items: center;
+        gap: 30px;
+        /* ボタン間の間隔 */
         width: 100%;
         text-align: center;
+        box-sizing: border-box;
 }
 
 .choice-button {
         width: 300px;
         padding: 20px 15px;
-        margin-bottom: 30px;
-        border: 1px solid #000;
-        background-color: #fff;
-        color: #333;
+        border: 2px solid #007bff;
+        /* 青ボーダー */
+        background-color: #007bff;
+        /* 青背景 */
+        color: #fff;
+        /* 白文字 */
         font-size: 1.5em;
         text-align: center;
         cursor: pointer;
-        box-sizing: border-box;
-        transition: background-color 0.3s ease;
-        display: block;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
         text-decoration: none;
+        border-radius: 5px;
+        user-select: none;
 }
 
 .choice-button:hover {
-        background-color: #f5f5f5;
+        background-color: #0056b3;
+        border-color: #0056b3;
 }
 
 .choice-button:active {
-        background-color: #e0e0e0;
+        background-color: #003d80;
+        border-color: #003d80;
 }

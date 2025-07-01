@@ -13,15 +13,14 @@ body {
         background-color: #fff;
         border: 1px solid #ccc;
         width: 600px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         overflow: hidden;
 }
 
 .modal-header {
-        background-color: #f0f0f0;
-        border-bottom: 1px solid #ddd;
+        background-color: #f8f8f8;
+        border-bottom: 1px solid #ccc;
         padding: 20px 25px;
         display: flex;
         justify-content: space-between;
@@ -37,10 +36,9 @@ body {
 .close-button {
         background: none;
         border: none;
-        font-size: 2.5em;
+        font-size: 2.0em;
         cursor: pointer;
         color: #666;
-        padding: 0 5px;
         transition: color 0.2s ease;
 }
 
@@ -54,7 +52,7 @@ body {
 }
 
 .modal-body p {
-        font-size: 1.5em;
+        font-size: 1.4em;
         color: #555;
         margin-bottom: 30px;
 }
@@ -65,10 +63,9 @@ body {
         margin-bottom: 30px;
         border: 1px solid #aaa;
         border-radius: 5px;
-        font-size: 1.6em;
+        font-size: 1.4em;
         text-align: center;
         box-sizing: border-box;
-        outline: none;
         transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -83,7 +80,7 @@ body {
         padding: 15px 30px;
         border: none;
         border-radius: 5px;
-        font-size: 1.8em;
+        font-size: 1.6em;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
         min-width: 180px;
