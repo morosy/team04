@@ -18,7 +18,7 @@ def home(request):
 
 
 '''
-    Function Name: user_result_view
+    Function Name: user_result
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/23
     Description:
@@ -33,7 +33,7 @@ def home(request):
         - クエリ実行エラー
     Usage: user_result_view(request, user_id)
 '''
-def user_result_view(request, user_id):
+def user_result(request, user_id):
     table_name = f"user_result_{user_id}"
     query = f"SELECT * FROM `{table_name}` ORDER BY date DESC LIMIT 100;"
     rows = []
@@ -56,8 +56,9 @@ def user_result_view(request, user_id):
 
 
 
+
 '''
-    Function Name: mypage_view
+    Function Name: mypage
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/29
     Description:
@@ -67,25 +68,14 @@ def user_result_view(request, user_id):
     Returns: render: マイページを表示するHTMLテンプレート
     Usage: mypage_view(request)
 '''
-def mypage_view(request):
-    return render(request, 'mypage.html')
-
-
-'''
-    Function Name: mypage_view
-    Designer: Shunsuke MOROZUMI
-    Date: 2025/06/29
-    Description:
-        ユーザーのマイページを表示するビュー関数.
-        マイページのHTMLテンプレートをレンダリングして返す.
-    Parameters: request: HTTPリクエストオブジェクト
-    Returns: render: マイページを表示するHTMLテンプレート
-    Usage: mypage_view(request)
-'''
-def mypage_view(request):
+def mypage(request):
     context = {
         'user_ID': '00000001', # 実際のユーザーIDに置き換える
         'user_name': 'testuser',
         'user_title': '王',
     }
     return render(request, 'mypage.html', context)
+
+
+def ranking(request):
+    return render(request, 'ranking.html')

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -203,7 +204,12 @@
                 </div>
 
                 <div class="sidebar-buttons">
-                        <a href="#" class="button" onclick="alert('ホームに戻る機能は未実装です'); return false;">ホームに戻る</a>
+                        <!-- <a href="#" class="button" onclick="alert('ホームに戻る機能は未実装です'); return false;">ホームに戻る</a> -->
+                        <!--
+                                editor: Shunsuke MOROZUMI
+                                Usage: ホームに戻るボタンの有効化
+                        -->
+                        <a href="{% url 'home' %}" class="button">ホームに戻る</a>
                         <a href="#" class="button" onclick="alert('フレンドon/off機能は未実装です'); return false;">フレンドon/off</a>
                         <a href="#" class="button" onclick="alert('フレンド新規登録機能は未実装です'); return false;">フレンド新規登録</a>
                 </div>
