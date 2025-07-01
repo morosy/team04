@@ -4,7 +4,6 @@ import time
 # M1 ユーザデータ送信処理
 def userdata_transfer_process(user_id):
     # 実際のDB連携処理例（登録や更新など）
-    # 今回は単純な存在確認のみ例示
     if not userdata_exists(user_id):
         raise ValueError("指定されたユーザが存在しません")
     # 送信処理例（具体的にはDB更新等）
