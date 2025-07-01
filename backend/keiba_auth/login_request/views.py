@@ -132,7 +132,7 @@ def login_process_view(request):
             login_success, updated_login_count = login_count_Main(user_credentials)
 
             LoginAttemptHistory.objects.create(user=user_credentials, success=True)
-            return JsonResponse({'success': True, 'redirect_url': '/home/'})
+            return JsonResponse({'success': True, 'redirect_url': '/'})
         else:
             # パスワード不一致
             LoginAttemptHistory.objects.create(user=user_credentials, success=False)
