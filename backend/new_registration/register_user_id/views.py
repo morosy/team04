@@ -7,9 +7,9 @@ from .models import UserID
 from django.db import IntegrityError
 
 # ヘルパー関数: UserIDをデータベースに保存するロジック
-# この関数は HttpRequest オブジェクトではなく、直接 user_id_int データを受け取ります。
+# この関数は HttpRequest オブジェクトではなく、直接 user_id_int データを受け取る。
 def _save_user_id_to_db(user_id_int):
-    # 入力チェック (ビュー関数から移動。ただし、呼び出し元で基本的なチェックは済ませておくのが理想)
+    # 入力チェック
     if user_id_int is None:
         return {'success': False, 'errorMessage': 'User ID is missing.'}
     if not isinstance(user_id_int, int):
@@ -45,11 +45,11 @@ def register_user_id(request):
                 return JsonResponse({'success': True, 'errorMessage': ''}, status=200)
             else:
                 # ヘルパー関数からのエラーメッセージを返す
-                status_code = 400 # デフォルトはBad Request
+                status_code = 400 
                 if "already exists" in result['errorMessage']:
-                    status_code = 409 # Conflict
+                    status_code = 409 
                 elif "unexpected error" in result['errorMessage']:
-                    status_code = 500 # Internal Server Error
+                    status_code = 500 
                 return JsonResponse({'success': False, 'errorMessage': result['errorMessage']}, status=status_code)
 
         except json.JSONDecodeError:

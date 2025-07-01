@@ -29,6 +29,10 @@ urlpatterns = [
     path('api/register-credentials/', include('new_registration.register_name.urls')),
     path('api/generate-user-id/', include('new_registration.generate_user_id.urls')),
     path('api/confirm-registration/', include('new_registration.confirm_registration.urls')),
-    path('api/name-registration/', include('new_registration.name_registration.urls')),
+    path('new-registration/', include('new_registration.name_registration.urls')),
+
+    #rログインモジュールで使用
+    path('login/', include('keiba_auth.login_ui.urls')),
+    path('api/login/', include('keiba_auth.login_request.urls')),
 
 ]
