@@ -17,7 +17,7 @@
                         <button class="close-button" onclick="window.history.back()">×</button>
                 </div>
                 <div class="modal-body">
-                        <a href="#" class="choice-button" onclick="alert('フレンド申請を受け入れる画面は未実装です'); return false;">フレンド申請を受け入れる</a>
+                        <a href="{% url 'friend_accept' %}" class="choice-button">フレンド申請を受け入れる</a>
                         <a href="{% url 'friend_request' %}" class="choice-button">フレンド申請を送る</a>
                 </div>
         </div>
