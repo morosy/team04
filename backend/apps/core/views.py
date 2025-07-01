@@ -31,25 +31,26 @@ def ranking_view(request):
 def friend_registration_view(request):
     return render(request, 'core/friend-registration.html')
 
+def friend_accept_view(request):
+    if request.method == 'POST':
+        user_ids = request.POST.getlist("check_box")
+        msg = friend_request_accept_process(user_ids)
+        return render(request, 'core/friend-accept.html', {'message': msg})
+    return render(request, 'core/friend-accept.html')
+
 def friend_request_view(request):
     if request.method == 'POST':
         msg = friend_request_process(request.POST.get("user_id"))
         return render(request, 'core/friend-request.html', {'message': msg})
     return render(request, 'core/friend-request.html')
 
-def friend_accept_view(request):
-    if request.method == 'POST':
-        user_ids = request.POST.getlist("check_box")
-        msg = friend_request_accept_process(user_ids)
-        return render(request, 'core/friend-acceptance.html', {'message': msg})
-    return render(request, 'core/friend-acceptance.html')
 
 def friend_decline_view(request):
     if request.method == 'POST':
         user_ids = request.POST.getlist("check_box")
         msg = friend_request_decline_process(user_ids)
-        return render(request, 'core/friend-acceptance.html', {'message': msg})
-    return render(request, 'core/friend-acceptance.html')
+        return render(request, 'core/friend-accept.html', {'message': msg})
+    return render(request, 'core/friend-accept.html')
 '''
     Function Name: user_result_view
     Designer: Shunsuke MOROZUMI
