@@ -77,6 +77,10 @@ http://localhost:8000/
 ```
 
 
+```
+docker-compose exec db mysql -u team04 -p
+```
+
 #### 変更履歴
 <details>
 <summary>

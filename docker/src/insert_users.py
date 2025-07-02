@@ -12,11 +12,11 @@ db_config = {
 
 # テストユーザー情報
 test_users = [
-    ("testuser1", "pass1"),
-    ("testuser2", "pass2"),
-    ("testuser3", "pass3"),
-    ("testuser4", "pass4"),
-    ("testuser5", "pass5"),
+    ("testuser1", "password1"),
+    ("testuser2", "password2"),
+    ("testuser3", "password3"),
+    ("testuser4", "password4"),
+    ("testuser5", "password5"),
 ]
 
 try:

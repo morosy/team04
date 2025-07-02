@@ -1,12 +1,14 @@
 # backend/keiba_auth/login_request/views.py
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 import logging
 from django.db import transaction
 from django.db import connection
+from django.utils.timezone import localdate
 
 import logging
 
@@ -119,8 +121,6 @@ def login_process_view(request):
     user_credentials, found = Userdata_reader(user_id)
 
     if found:
-
-
         if password == user_credentials.password:
             # 認証成功（カスタム認証）
             # request.session にユーザー情報を保存
@@ -132,7 +132,7 @@ def login_process_view(request):
             login_success, updated_login_count = login_count_Main(user_credentials)
 
             LoginAttemptHistory.objects.create(user=user_credentials, success=True)
-            return JsonResponse({'success': True, 'redirect_url': '/'})
+            return JsonResponse({'success': True, 'redirect_url': '/home/'})
         else:
             # パスワード不一致
             LoginAttemptHistory.objects.create(user=user_credentials, success=False)
@@ -152,3 +152,43 @@ def user_logout(request):
         del request.session['logged_in_user_name']
 
     return redirect('/login/') # ログインページへリダイレクト
+
+
+'''
+    Function Name: initial_entry_view
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/03
+    Description:
+        初回ログイン時のエントリーポイントビュー関数.
+        ユーザーが初回ログインした際に、当日のログイン履歴があるかを確認し、
+        ある場合はホームページへリダイレクトし、ない場合はログインフォームへリダイレクトする。
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render or redirect: ホームページまたはログインフォームへリダイレクト
+    Usage: initial_entry_view(request)
+'''
+def initial_entry_view(request):
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login_form')  # 未ログインなのでログインフォームへ
+
+    # 当日のログイン履歴があるか確認
+    today = localdate()
+    try:
+        user = UserCredentials.objects.get(user_id=user_id)
+        has_today_log = LoginAttemptHistory.objects.filter(
+            user=user,
+            success=True,
+            attempt_timestamp__date=today
+        ).exists()
+
+        if has_today_log:
+            return render(request, 'home.html', {'user_name': request.session.get('logged_in_user_name')})
+        else:
+            return redirect('login_form')
+
+    except UserCredentials.DoesNotExist:
+        return redirect('login_form')
+
+
+def login_form(request):
+    return render(request, 'login_form.html')

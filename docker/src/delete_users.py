@@ -21,11 +21,15 @@ try:
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
 
-    # users テーブルのデータをすべて削除
+    # login_attempt_history のデータを削除（users より先）
+    cursor.execute("DELETE FROM login_attempt_history;")
+    conn.commit()
+
+    # users テーブルのデータを削除
     cursor.execute("DELETE FROM users;")
     conn.commit()
 
-    print("users テーブルのすべてのデータを削除しました。")
+    print("users および login_attempt_history テーブルのデータを削除しました。")
 
     cursor.close()
     conn.close()
