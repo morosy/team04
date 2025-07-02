@@ -33,7 +33,12 @@
         <a href="#" class="button"><i class="fa-solid fa-ticket"></i> 馬券を買う</a>
         <a href="{% url 'ranking' %}" class="button"><i class="fa-solid fa-ranking-star"></i> ランキング</a>
         <a href="{% url 'mypage' %}" class="button"><i class="fa-solid fa-user-circle"></i> マイページ</a>
-        <a href="#" class="button-small"><i class="fa-solid fa-right-from-bracket"></i> ログアウト</a>
+        <form action="{% url 'logout' %}" method="post" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="button-small logout-button">
+                <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+            </button>
+        </form>
     </main>
 </body>
 </html>

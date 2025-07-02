@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
+from django.contrib.auth.views import LogoutView
 
 
 '''
@@ -79,3 +80,16 @@ def mypage(request):
 
 def ranking(request):
     return render(request, 'ranking.html')
+
+
+'''
+    Class Name: LogoutViewAllowGet
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/03
+    Description:
+        ログアウトビューをGETリクエストでも許可するためのクラス
+        基本的に使わない
+'''
+# class LogoutViewAllowGet(LogoutView):
+#     def get(self, request, *args, **kwargs):
+#         return self.post(request, *args, **kwargs)

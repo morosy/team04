@@ -1,7 +1,7 @@
 # backend/keiba_auth/login_request/models.py
 
 from django.db import models
-from django.utils import timezone 
+from django.utils import timezone
 
 from new_registration.register_name.models import UserCredentials as SystemUser
 
@@ -14,6 +14,16 @@ class LoginAttemptHistory(models.Model):
     class Meta:
         db_table = 'login_attempt_history' # Djangoが管理する新しいテーブル
         # managed = True (デフォルトなので省略可能)
+
+        '''
+        editor: Shunsuke MOROZUMI
+        Date: 2025/07/03
+        Usage: Djangoが管理するテーブルではなく、手動で管理するテーブルにするためにmanagedをFalseに設定
+        Note:
+            - docker-compose.ymlのvolumesでマウントされているデータベースファイルを使用するため、
+              Djangoのマイグレーションによる自動生成を防ぐためにmanagedをFalseに設定
+        '''
+        managed = False
 
     def __str__(self):
         return f"Attempt by {self.user.user_name} at {self.attempt_timestamp} - Success: {self.success}"
