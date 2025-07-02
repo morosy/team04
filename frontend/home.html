@@ -20,12 +20,12 @@
 <body>
     <div class="header">
         <div class="user-info">
-            <div class="user-box"><i class="fa-solid fa-id-badge"></i> 00001234</div>
-            <div class="user-box"><i class="fa-solid fa-user"></i> username</div>
+            <div class="user-box"><i class="fa-solid fa-id-badge"></i> {{ user_id|stringformat:"08d" }}</div>
+            <div class="user-box"><i class="fa-solid fa-user"></i> {{ user_name }}</div>
         </div>
 
         <div class="coin-info">
-            <div class="user-box"><i class="fa-solid fa-coins"></i> コイン：0000001000</div>
+            <div class="user-box"><i class="fa-solid fa-coins"></i> コイン：{{ current_coin|stringformat:"08d" }}</div>
         </div>
     </div>
 

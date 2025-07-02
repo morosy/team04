@@ -1,6 +1,13 @@
-from django.shortcuts import render
 from django.db import connection
 from django.contrib.auth.views import LogoutView
+
+from django.shortcuts import render
+from django.shortcuts import redirect
+from new_registration.register_name.models import UserCredentials
+from django.contrib import messages
+
+from keiba_auth.login_request.views import Userdata_reader
+
 
 
 '''
@@ -10,12 +17,30 @@ def home(request):
 
 '''
     data: 2025/06/23
-    editor: Shunsuke MOROZUMI
-    カレントディレクトリをfrontendに変更
+    change: 2025/07/03
+    Designer: Shunsuke MOROZUMI
+    Description:
+        ユーザーのホームページを表示するビュー関数.
+        ユーザーIDをセッションから取得し、ユーザー情報をデータベースから取得して、
+        HTMLテンプレートに渡す.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: ユーザーのホームページを表示するHTMLテンプレート
+    Usage: home_view(request)
 '''
 def home(request):
-    return render(request, 'home.html')
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login_form')
 
+    user, success = Userdata_reader(user_id)
+    if not success:
+        return redirect('login_form')
+
+    return render(request, 'home.html', {
+        'user_id': user.user_id,
+        'user_name': user.user_name,
+        'current_coin': user.current_coin or 0,
+    })
 
 
 '''
@@ -62,19 +87,29 @@ def user_result(request, user_id):
     Function Name: mypage
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/29
+    Change: 2025/07/03
     Description:
-        ユーザーのマイページを表示するビュー関数.
-        マイページのHTMLテンプレートをレンダリングして返す.
+        マイページを表示するビュー関数.
+        ユーザーIDとユーザー名をセッションから取得し、HTMLテンプレートに渡す.
+        ユーザーIDは8桁のゼロ埋め形式で表示する.
     Parameters: request: HTTPリクエストオブジェクト
     Returns: render: マイページを表示するHTMLテンプレート
-    Usage: mypage_view(request)
+    Usage: mypage(request)
 '''
 def mypage(request):
+    user_id = request.session.get('logged_in_user_id')
+    user_name = request.session.get('logged_in_user_name')
+
+    if not user_id or not user_name:
+        return redirect('login_form')
+
+    formatted_user_id = f"{int(user_id):08d}"
+
     context = {
-        'user_ID': '00000001', # 実際のユーザーIDに置き換える
-        'user_name': 'testuser',
-        'user_title': '王',
+        'user_ID': formatted_user_id,
+        'user_name': user_name,
     }
+
     return render(request, 'mypage.html', context)
 
 
