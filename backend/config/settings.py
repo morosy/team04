@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     'new_registration.generate_user_id',
     'new_registration.confirm_registration',
     'new_registration.name_registration',
+
+    'keiba_auth.login_ui',
+    'keiba_auth.login_request',
 ]
 
 MIDDLEWARE = [

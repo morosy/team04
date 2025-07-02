@@ -1,5 +1,3 @@
-# backend/register_user_id/models.py (修正後)
-
 from django.db import models
 
 class UserID(models.Model):

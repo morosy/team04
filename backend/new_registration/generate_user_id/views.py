@@ -1,12 +1,15 @@
-# backend/generate_user_id/views.py (大幅修正)
+# backend/new_registration/generate_user_id/views.py
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-import uuid # 一時的なユニークな値を生成するために追加
+import uuid
+from django.db import connection # データベース接続のために追加
+import logging
 
-# UserCredentials モデルを使って users テーブルに書き込む
-from new_registration.register_name.models import UserCredentials
+# UserCredentials モデルは、直接レコードを保存しないので、ここでインポートする必要はないが、
+# 必要に応じて他の用途で使う場合は残しても良い。
+# from new_registration.register_name.models import UserCredentials
 
 @csrf_exempt
 def generate_user_id_main(request):
@@ -14,31 +17,41 @@ def generate_user_id_main(request):
         try:
             # データベースの AUTO_INCREMENT に user_ID の生成を任せる
             # username と password は NOT NULL なので、一時的な値を設定
-            # ★注意: 本番環境では、ここでパスワードをハッシュ化すること！
-            temp_username = f"t_{uuid.uuid4().hex[:8]}" # これで 1+8 = 9文字
-            temp_password = f"t_pass_{uuid.uuid4().hex[:8]}" # これで 7+8 = 15文字 (OK)
+            # ※注意: 実際のDBスキーマでこれらのフィールドがNOT NULLかつデフォルト値がない場合、
+            #   一時的な有効な値を渡す必要があります。
+            #   UUIDベースの一時名/パスワードは衝突の可能性が非常に低い安全な方法です。
+            temp_username = f"t_{uuid.uuid4().hex[:8]}"
+            temp_password = f"t_pass_{uuid.uuid4().hex[:8]}"
 
-            # UserCredentials のインスタンスを作成し、user_ID は指定しない
-            new_user_entry = UserCredentials(
-                user_name=temp_username,
-                password=temp_password,
-                current_coin=0,
-                login_count=0
-                # login_timestamp は auto_now_add=True (もしあれば) または default=timezone.now で自動設定
-            )
-            new_user_entry.save() # これでデータベースが user_ID を自動生成し、保存される
+            generated_user_id = None
+            with connection.cursor() as cursor:
+                # 生のSQL INSERT文を使用してレコードを挿入し、自動生成されたIDを取得
+                # users テーブルの user_ID が AUTO_INCREMENT になっていることを前提とする
+                # current_coinとlogin_countはnull許容なので0を挿入
+                cursor.execute(
+                    "INSERT INTO users (user_name, password, current_coin, login_count) VALUES (%s, %s, %s, %s)",
+                    [temp_username, temp_password, 0, 0]
+                )
+                # 挿入された行の最後のAUTO_INCREMENT IDを取得 (MySQLの場合)
+                cursor.execute("SELECT LAST_INSERT_ID()")
+                generated_user_id = cursor.fetchone()[0]
 
-            # 保存された new_user_entry から自動生成された user_ID を取得
-            generated_user_id = new_user_entry.pk
-
-            return JsonResponse({
-                'user_ID': generated_user_id,
-                'registration_success': True,
-                'errorMessage': ''
-            }, status=200)
+            if generated_user_id:
+                return JsonResponse({
+                    'user_ID': generated_user_id,
+                    'registration_success': True,
+                    'errorMessage': ''
+                }, status=200)
+            else:
+                return JsonResponse({
+                    'user_ID': None,
+                    'registration_success': False,
+                    'errorMessage': 'Failed to generate user ID from database.'
+                }, status=500)
 
         except Exception as e:
-            # データベースエラー（例：一時ユーザー名の重複など、非常に稀）やその他の予期せぬエラー
+            # データベースエラーなどの予期せぬエラー
+            logging.error(f"An unexpected error occurred during ID generation: {str(e)}")
             return JsonResponse({
                 'user_ID': None,
                 'registration_success': False,

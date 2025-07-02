@@ -1,10 +1,8 @@
-# backend/confirm_registration/views.py (変更後)
-
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-# register_name アプリケーションの新しいヘルパー関数をインポート
+# register_name アプリケーションヘルパー関数をインポート
 from new_registration.register_name.views import _update_user_credentials
 
 @csrf_exempt
@@ -16,7 +14,7 @@ def confirm_registration_main(request):
             password = data.get('password')
             user_ID_int = data.get('user_ID')
 
-            # 入力チェック (変更なし)
+            # 入力チェック 
             if not all([user_name, password, user_ID_int is not None]):
                 return JsonResponse({
                     'registration_success': False,
@@ -30,7 +28,7 @@ def confirm_registration_main(request):
 
             # C2ユーザー情報管理部（register_nameアプリ）のヘルパー関数に登録要求として送信
             # HTTPリクエストではなく、直接Python関数としてデータを渡す
-            registration_result = _update_user_credentials(user_name, password, user_ID_int)
+            registration_result = _update_user_credentials(user_ID_int, user_name, password)
 
             if registration_result.get('success'):
                 return JsonResponse({
@@ -39,11 +37,10 @@ def confirm_registration_main(request):
                 }, status=200)
             else:
                 # 登録失敗の場合、ヘルパー関数からのerrorMessageを使用
-                # 必要に応じてstatusコードもヘルパー関数から受け取るように設計変更も可能
                 return JsonResponse({
                     'registration_success': False,
                     'errorMessage': f'Failed to register credentials: {registration_result.get("errorMessage", "Unknown error")}'
-                }, status=200) # 登録失敗でも200を返すか、エラーコードを返すかは設計による
+                }, status=200)
 
         except json.JSONDecodeError:
             return JsonResponse({

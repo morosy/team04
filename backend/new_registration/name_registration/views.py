@@ -16,15 +16,6 @@ def name_registration_main(request):
             password = data.get('password')
             user_id_int = data.get('user_ID')
 
-            # !!! ここにデバッグログを追加 !!!
-            print(f"--- DEBUG: name_registration_main received data ---")
-            print(f"data: {data}")
-            print(f"user_name (from request): {user_name} (type: {type(user_name)})")
-            print(f"password (from request): {password} (type: {type(password)})")
-            print(f"user_ID (from request): {user_id_int} (type: {type(user_id_int)})")
-            print(f"--------------------------------------------------")
-            # !!! デバッグログここまで !!!
-
             # user_name のバリデーション (半角英数字、1文字以上10文字以内)
             if not user_name or not (1 <= len(user_name) <= 10) or not re.fullmatch(r'^[a-zA-Z0-9]+$', user_name):
                 return JsonResponse({
@@ -51,22 +42,12 @@ def name_registration_main(request):
                     'success': False,
                     'errorMessage': 'User ID must be an integer.'
                 }, status=400)
-            
-            '''ユーザIDの八桁チェック部分
-            if not (10**7 <= user_id_int <= 10**8 - 1): # 8桁の範囲チェック
-                return JsonResponse({
-                    'success': False,
-                    'errorMessage': 'User ID must be an 8-digit integer.'
-                }, status=400)
-            '''
-            # --- バリデーション終了 ---
 
             # C2情報管理部（register_nameアプリ）のヘルパー関数を直接呼び出す
             # HTTPリクエストではなく、Pythonの関数として直接データを渡す
             registration_result = _update_user_credentials(user_id_int, user_name, password)
 
             if registration_result.get('success'):
-                # 成功した場合、UIへの遷移はUI側でハンドリング
                 return JsonResponse({
                     'success': True,
                     'errorMessage': ''
@@ -76,7 +57,7 @@ def name_registration_main(request):
                 return JsonResponse({
                     'success': False,
                     'errorMessage': f'登録に失敗しました: {registration_result.get("errorMessage", "不明なエラー")}'
-                }, status=200) # エラーメッセージの表示 (status=200は設計による)
+                }, status=200)
 
         except json.JSONDecodeError:
             return JsonResponse({
