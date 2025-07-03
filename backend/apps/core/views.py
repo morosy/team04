@@ -7,6 +7,10 @@ from new_registration.register_name.models import UserCredentials
 from django.contrib import messages
 
 from keiba_auth.login_request.views import Userdata_reader
+import MySQLdb
+from collections import namedtuple
+from datetime import datetime
+
 
 
 
@@ -47,39 +51,63 @@ def home(request):
     Function Name: user_result
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/23
+    Change: 2025/07/03
     Description:
         ユーザーの結果を表示するビュー関数.
-        ユーザーIDに基づいて、対応するテーブルからデータを取得し、HTMLテンプレートに渡す.
+        ユーザーIDをURLパラメータから取得し、対応するテーブルからデータを取得して、
+        HTMLテンプレートに渡す.
     Parameters: request: HTTPリクエストオブジェクト, user_id: ユーザーID
-                user_id: ユーザーID
     Returns: render: ユーザーの結果を表示するHTMLテンプレート
-    例外処理: データベース接続やクエリ実行時のエラーをキャッチし、エラーメッセージを表示する.
-    例外:
-        - データベース接続エラー
-        - クエリ実行エラー
-    Usage: user_result_view(request, user_id)
+    Usage: user_result(request, user_id)
 '''
 def user_result(request, user_id):
-    table_name = f"user_result_{user_id}"
-    query = f"SELECT * FROM `{table_name}` ORDER BY date DESC LIMIT 100;"
-    rows = []
-    columns = []
-    error = None
-
+    # ユーザー名取得
     try:
-        with connection.cursor() as cursor:
-            cursor.execute(query)
-            columns = [col[0] for col in cursor.description]
-            rows = cursor.fetchall()
+        user = UserCredentials.objects.get(user_id=user_id)
+        user_name = user.user_name
+    except UserCredentials.DoesNotExist:
+        user_name = "不明なユーザー"
+
+    # DB接続して結果取得
+    conn = MySQLdb.connect(
+        host='db',
+        user='team04',
+        passwd='advinfteam04',
+        db='user_info',
+        charset='utf8'
+    )
+    cursor = conn.cursor()
+    try:
+        query = f"""
+            SELECT date, category, result, change_coin, current_coin 
+            FROM user_result_{user_id}
+            ORDER BY date DESC
+        """
+        cursor.execute(query)
+        rows = cursor.fetchall()
     except Exception as e:
-        error = str(e)
+        rows = []
+    finally:
+        conn.close()
 
-    return render(request, 'user_result.html', {
-        'columns': columns,
-        'rows': rows,
-        'error': error,
+    # 整形
+    ResultRow = namedtuple("ResultRow", ["date", "category", "result", "coin_change", "total_coin"])
+    result_rows = [
+        ResultRow(
+            date=datetime.strptime(str(row[0]), "%Y%m%d"),
+            category=row[1],
+            result="1着" if row[2] == "win" else "ハズレ",
+            coin_change=row[3],
+            total_coin=row[4]
+        )
+        for row in rows
+    ]
+
+    return render(request, "user_result.html", {
+        "user_ID": f"{int(user_id):08d}",  # 8桁ゼロ埋め
+        "user_name": user_name,
+        "result_rows": result_rows
     })
-
 
 
 
