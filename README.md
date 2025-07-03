@@ -80,7 +80,7 @@ http://localhost:8000/
 docker exec -it <コンテナ名> /bin/bash
 ```
 
-
+#### Docker上のデータベース確認手順
 ```
 # MySQLへ入る
 docker-compose exec db mysql -u team04 -p
@@ -134,4 +134,5 @@ PASSWORD: password1
 - 2025/06/29 Docker コマンドの追加
 - 2025/07/03 MySQL用コマンドの追加
 - 2025/07/03 デバッグ開始の記述追加
+- 2025/07/04 記述の整理
 </details>
