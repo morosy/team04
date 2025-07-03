@@ -30,6 +30,6 @@ urlpatterns = [
     # --- アプリコア ---
     path('home/', core_views.home, name='home'),
     path('mypage/', core_views.mypage, name='mypage'),
-    path('user_result/<str:user_id>/', core_views.user_result, name='user_result'),
+    path('user_result/<int:user_id>/', core_views.user_result, name='user_result'),
     path('ranking/', core_views.ranking, name='ranking'),
 ]

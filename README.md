@@ -78,7 +78,23 @@ http://localhost:8000/
 
 
 ```
+# MySQLへ入る
 docker-compose exec db mysql -u team04 -p
+
+# データベース一覧表示
+SHOW DATABASES;
+
+# 操作するデータベースを選択
+USE [DATABASE_NAME];
+
+# テーブル一覧の表示
+SHOW TABLES;
+
+# テーブルカラムの表示
+DESCRIBE users;
+
+# テーブルの内容表示
+SELECT * FROM [TABLE_NAME];
 ```
 
 #### 変更履歴
@@ -92,4 +108,5 @@ docker-compose exec db mysql -u team04 -p
 - 2025/06/19 内容全削除
 - 2025/06/23 内容の全更新 簡単なgitコマンドの記述
 - 2025/06/29 Docker コマンドの追加
+- 2025/07/03 MySQL用コマンドの追加
 </details>
