@@ -101,6 +101,26 @@ DESCRIBE users;
 SELECT * FROM [TABLE_NAME];
 ```
 
+#### 起動手順(デバッグアカウント作成含む)
+```
+# Dockerコンテナのビルドと起動
+docker-compose up -d --build
+
+# Dockerコンテナに入る
+docker-compose exec web /bin/bash
+
+# テストアカウントの作成
+cd docker/init
+python initialization.py
+
+# Webブラウザで以下にアクセス
+http://localhost:8000/
+
+# 作成したアカウントでログイン(例)
+ID: 1
+PASSWORD: password1
+```
+
 #### 変更履歴
 <details>
 <summary>
@@ -113,4 +133,5 @@ SELECT * FROM [TABLE_NAME];
 - 2025/06/23 内容の全更新 簡単なgitコマンドの記述
 - 2025/06/29 Docker コマンドの追加
 - 2025/07/03 MySQL用コマンドの追加
+- 2025/07/03 デバッグ開始の記述追加
 </details>
