@@ -76,6 +76,10 @@ Djangoのトップページリンク
 http://localhost:8000/
 ```
 
+```
+docker exec -it <コンテナ名> /bin/bash
+```
+
 
 ```
 # MySQLへ入る
