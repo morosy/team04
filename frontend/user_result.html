@@ -13,10 +13,9 @@
     <title>過去レース結果</title>
     <link rel="stylesheet" href="{% static 'css/user_result.css' %}">
 </head>
-<body>
-    <div class="container">
-        <h1>{{ user_name }}の過去レース結果</h1>
-
+    <body>
+        <div class="container">
+            <h1>{{ user_name }}の過去レース結果</h1>
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -51,11 +50,10 @@
             </table>
         </div>
 
-        <!-- もっと見るボタン -->
-        <button class="button-large" onclick="alert('もっと見る機能は未実装です');">もっと見る</button>
-
-        <!-- ホームに戻るボタン　-->
-        <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>
+        <div class="button-group">
+            <button class="button-large" onclick="alert('もっと見る機能は未実装です');">もっと見る</button>
+            <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>
+        </div>
     </div>
 </body>
 </html>
