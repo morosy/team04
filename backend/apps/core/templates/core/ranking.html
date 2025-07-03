@@ -26,16 +26,30 @@
                                         <h2>ランキング</h2>
                                 </div>
 
-                                <table class="ranking-table" id="rankingTable">
+                                <!-- ランキング表示部 -->
+                                <table class="ranking-table">
                                         <thead>
                                                 <tr>
                                                         <th>順位</th>
                                                         <th>プレイヤー名</th>
-                                                        <th class="current-ranking-header">コイン</th>
+                                                        <th>コイン</th>
+                                                        <th>勝率</th>
+                                                        <th>勝ち数</th>
                                                 </tr>
                                         </thead>
-                                        <tbody id="rankingTableBody"></tbody>
+                                        <tbody>
+                                                {% for player in player_list %}
+                                                <tr>
+                                                        <td>{{ player.rank }}</td>
+                                                        <td>{{ player.playerName }}</td>
+                                                        <td>{{ player.coin }}</td>
+                                                        <td>{{ player.winrate }}</td>
+                                                        <td>{{ player.wins }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                        </tbody>
                                 </table>
+
                         </div>
                 </div>
 
@@ -47,44 +61,7 @@
         </div>
 
         <script>
-                const dummyRankings = {
-                        coin: [
-                                { rank: 1, playerName: '強者ゴルシ', value: 12000 },
-                                { rank: 2, playerName: 'ウマ娘大好き', value: 10500 },
-                                { rank: 3, playerName: '蹄鉄マスター', value: 9800 },
-                                { rank: 4, playerName: '風の如く', value: 8700 },
-                                { rank: 5, playerName: '爆走皇帝', value: 7500 },
-                                { rank: 6, playerName: '伝説の調教師', value: 6200 },
-                                { rank: 7, playerName: '駆け抜ける星', value: 5800 },
-                                { rank: 8, playerName: 'ラッキー馬主', value: 4900 },
-                                { rank: 9, playerName: '黄金の脚', value: 4200 },
-                                { rank: 10, playerName: '新米トレーナー', value: 3500 },
-                        ],
-                        winrate: [
-                                { rank: 1, playerName: '勝利の女神', value: '92%' },
-                                { rank: 2, playerName: 'パーフェクトラン', value: '88%' },
-                                { rank: 3, playerName: '勝率の鬼', value: '85%' },
-                                { rank: 4, playerName: 'プロ馬券師', value: '82%' },
-                                { rank: 5, playerName: '無敗の軌跡', value: '79%' },
-                                { rank: 6, playerName: '確実な一歩', value: '76%' },
-                                { rank: 7, playerName: '勝負師ケン', value: '73%' },
-                                { rank: 8, playerName: 'ベストパフォーマンス', value: '70%' },
-                                { rank: 9, playerName: '高みを目指す者', value: '68%' },
-                                { rank: 10, playerName: '堅実な走り', value: '65%' },
-                        ],
-                        wins: [
-                                { rank: 1, playerName: '百戦錬磨', value: 250 },
-                                { rank: 2, playerName: '勝ち街道', value: 220 },
-                                { rank: 3, playerName: '勝利請負人', value: 190 },
-                                { rank: 4, playerName: '勝ち点稼ぎ', value: 160 },
-                                { rank: 5, playerName: '韋駄天', value: 130 },
-                                { rank: 6, playerName: 'コツコツ勝利', value: 100 },
-                                { rank: 7, playerName: '馬群を抜ける', value: 80 },
-                                { rank: 8, playerName: '連勝記録更新中', value: 60 },
-                                { rank: 9, playerName: '期待の新星', value: 40 },
-                                { rank: 10, playerName: '初勝利の喜び', value: 20 },
-                        ],
-                };
+
 
                 const rankingTypeButtons = document.querySelectorAll('.ranking-type-button');
                 const rankingTableBody = document.getElementById('rankingTableBody');

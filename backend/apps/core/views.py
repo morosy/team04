@@ -51,6 +51,37 @@ def friend_decline_view(request):
         msg = friend_request_decline_process(user_ids)
         return render(request, 'core/friend-accept.html', {'message': msg})
     return render(request, 'core/friend-accept.html')
+
+def ranking_view(request):
+    # POSTでない場合はデフォルト値で初期化
+    post_data = {
+        'coin_button': 'true',
+        'win_rate_button': 'false',
+        'num_of_win_button': 'false',
+        'friend_or_all_button': 'false'
+    }
+
+    # 実行（DBからデータ取得＆ソート）
+    user_ids = ranking_main_process(post_data)
+
+    # 表示用にプレイヤー情報を再度取得（IDだけではなく名前も必要）
+    # 本当はJOINしておいた方が効率的
+    player_list = []
+    with connection.cursor() as cursor:
+        for idx, user_id in enumerate(user_ids):
+            cursor.execute("SELECT player_name, coin, win_rate, wins FROM users WHERE user_id = %s", [user_id])
+            row = cursor.fetchone()
+            if row:
+                player_list.append({
+                    'rank': idx + 1,
+                    'playerName': row[0],
+                    'coin': row[1],
+                    'winrate': f"{row[2]:.0f}%",  # 92.3 → "92%"
+                    'wins': row[3],
+                })
+
+    return render(request, 'ranking.html', {'player_list': player_list})
+
 '''
     Function Name: user_result_view
     Designer: Shunsuke MOROZUMI
