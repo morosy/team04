@@ -4,6 +4,8 @@ import init_user_result
 import time
 
 def initialize_all():
+    print("=== 待機中 ===")
+    time.sleep(5)
     print("=== ユーザー挿入中 ===")
     init_users.insert_users()
 

@@ -117,7 +117,7 @@ python initialization.py
 http://localhost:8000/
 
 # 作成したアカウントでログイン(例)
-ID: 1
+ID: 00000001
 PASSWORD: password1
 ```
 

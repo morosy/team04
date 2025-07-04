@@ -102,7 +102,7 @@ tr:nth-child(even) {
 }
 
 .hidden-row {
-    display: none;
+    display: none !important;
 }
 
 .error {
