@@ -32,6 +32,10 @@ CREATE TABLE IF NOT EXISTS users (
     current_coin INT DEFAULT 0,
     login_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     login_count INT DEFAULT 0
+
+    -- 勝ち数および負け数のカラムを追加
+    number_of_wins INT DEFAULT 0,
+    number_of_losses INT DEFAULT 0
 );
 
 -- ストアドプロシージャ: create_user_result_table
