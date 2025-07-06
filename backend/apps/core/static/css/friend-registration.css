@@ -77,14 +77,14 @@ body {
 }
 
 .choice-button {
-        width: 300px;
+        display: inline-block;
+        /* これを追加 */
+        width: 350px;
+        /* 好きな幅に設定 */
         padding: 20px 15px;
         border: 2px solid #007bff;
-        /* 青ボーダー */
         background-color: #007bff;
-        /* 青背景 */
         color: #fff;
-        /* 白文字 */
         font-size: 1.5em;
         text-align: center;
         cursor: pointer;
@@ -93,6 +93,8 @@ body {
         border-radius: 5px;
         user-select: none;
 }
+
+
 
 .choice-button:hover {
         background-color: #0056b3;
