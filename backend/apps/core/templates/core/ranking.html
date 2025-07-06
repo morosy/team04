@@ -1,175 +1,13 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>ランキング＋フレンド機能</title>
-        <style>
-                body {
-                        font-family: Arial, sans-serif;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        min-height: 100vh;
-                        background-color: #f0f0f0;
-                        margin: 0;
-                        padding: 20px;
-                        box-sizing: border-box;
-                }
-
-                h1 {
-                        font-size: 1.8em;
-                        margin-bottom: 30px;
-                        color: #333;
-                }
-
-                .container {
-                        border: 1px solid #ccc;
-                        width: 800px;
-                        min-height: 550px;
-                        background-color: white;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        position: relative;
-                        padding: 30px;
-                        box-sizing: border-box;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: flex-start;
-                }
-
-                .main-content {
-                        flex-grow: 1;
-                        margin-right: 30px;
-                        display: flex;
-                        flex-direction: column;
-                }
-
-                .ranking-type-buttons-top {
-                        display: flex;
-                        justify-content: center;
-                        gap: 15px;
-                        margin-bottom: 25px;
-                        width: 100%;
-                }
-
-                .ranking-type-button {
-                        padding: 12px 20px;
-                        border: 1px solid #aaa;
-                        background-color: #f0f0f0;
-                        color: #333;
-                        text-align: center;
-                        font-size: 1.1em;
-                        cursor: pointer;
-                        transition: background-color 0.3s ease, border-color 0.3s ease;
-                        min-width: 100px;
-                }
-
-                .ranking-type-button:hover {
-                        background-color: #e0e0e0;
-                        border-color: #888;
-                }
-
-                .ranking-type-button.active {
-                        background-color: #007bff;
-                        color: white;
-                        border-color: #007bff;
-                }
-
-                .ranking-type-button.active:hover {
-                        background-color: #0056b3;
-                        border-color: #0056b3;
-                }
-
-                .ranking-section-wrapper {
-                        border: 1px solid #ccc;
-                        padding: 20px;
-                        background-color: white;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                }
-
-                .ranking-header {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 15px;
-                }
-
-                .ranking-header h2 {
-                        margin: 0;
-                        font-size: 1.5em;
-                        color: #444;
-                }
-
-                .ranking-table {
-                        width: 100%;
-                        border-collapse: collapse;
-                }
-
-                .ranking-table th,
-                .ranking-table td {
-                        border: 1px solid #ddd;
-                        padding: 12px 10px;
-                        text-align: center;
-                        font-size: 1.1em;
-                }
-
-                .ranking-table th {
-                        background-color: #f2f2f2;
-                        font-weight: bold;
-                        color: #555;
-                }
-
-                .ranking-table td {
-                        background-color: #fff;
-                }
-
-                .ranking-table tr:nth-child(even) td {
-                        background-color: #f9f9f9;
-                }
-
-                .ranking-table tr:hover td {
-                        background-color: #e9e9e9;
-                }
-
-                .ranking-table td:nth-child(2) {
-                        text-align: left;
-                        padding-left: 20px;
-                }
-
-                .sidebar-buttons {
-                        width: 180px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 20px;
-                        margin-top: 55px;
-                }
-
-                .button {
-                        display: block;
-                        padding: 12px 15px;
-                        border: 1px solid #aaa;
-                        background-color: #f0f0f0;
-                        color: #333;
-                        text-align: center;
-                        text-decoration: none;
-                        font-size: 1.1em;
-                        cursor: pointer;
-                        transition: background-color 0.3s ease, border-color 0.3s ease;
-                        white-space: nowrap;
-                }
-
-                .button:hover {
-                        background-color: #e0e0e0;
-                        border-color: #888;
-                }
-
-                .button:active {
-                        background-color: #d0d0d0;
-                        border-color: #777;
-                }
-        </style>
+        <link rel="stylesheet" href="{% static 'css/ranking.css' %}" />
 </head>
 
 <body>
@@ -177,114 +15,101 @@
 
         <div class="container">
                 <div class="main-content">
-                        <div class="ranking-type-buttons-top">
-                                <button class="ranking-type-button active" data-ranking-type="coin">コイン</button>
-                                <button class="ranking-type-button" data-ranking-type="winrate">勝率</button>
-                                <button class="ranking-type-button" data-ranking-type="wins">勝ち数</button>
-                        </div>
+
+                        <form method="POST" id="rankingForm" action="{% url 'ranking' %}">
+                                {% csrf_token %}
+                                <div class="ranking-type-buttons-top">
+                                        <button type="button" class="ranking-type-button {% if coin %}active{% endif %}" data-ranking-type="coin">コイン</button>
+                                        <button type="button" class="ranking-type-button {% if win_rate %}active{% endif %}" data-ranking-type="winrate">勝率</button>
+                                        <button type="button" class="ranking-type-button {% if num_win %}active{% endif %}" data-ranking-type="wins">勝ち数</button>
+                                </div>
+
+                                <input type="hidden" name="coin_button" id="coin_button" value="{% if coin %}true{% else %}false{% endif %}" />
+                                <input type="hidden" name="win_rate_button" id="win_rate_button" value="{% if win_rate %}true{% else %}false{% endif %}" />
+                                <input type="hidden" name="num_of_win_button" id="num_of_win_button" value="{% if num_win %}true{% else %}false{% endif %}" />
+                                <input type="hidden" name="friend_or_all_button" id="friend_or_all_button" value="{% if is_friend %}true{% else %}false{% endif %}" />
+
+                                <div style="margin: 10px 0;">
+                                        <label>
+                                                <input type="checkbox" id="friendToggle" {% if is_friend %}checked{% endif %} />
+                                                フレンドのみ表示
+                                        </label>
+                                </div>
+                        </form>
 
                         <div class="ranking-section-wrapper">
                                 <div class="ranking-header">
                                         <h2>ランキング</h2>
                                 </div>
 
-                                <table class="ranking-table" id="rankingTable">
+                                <table class="ranking-table">
                                         <thead>
                                                 <tr>
                                                         <th>順位</th>
                                                         <th>プレイヤー名</th>
-                                                        <th class="current-ranking-header">コイン</th>
+                                                        <th>コイン</th>
+                                                        <th>勝率</th>
+                                                        <th>勝ち数</th>
                                                 </tr>
                                         </thead>
-                                        <tbody id="rankingTableBody">
+                                        <tbody>
+                                                {% for player in player_list %}
+                                                <tr>
+                                                        <td>{{ player.rank }}</td>
+                                                        <td>{{ player.playerName }}</td>
+                                                        <td>{{ player.coin }}</td>
+                                                        <td>{{ player.winrate }}</td>
+                                                        <td>{{ player.wins }}</td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                        <td colspan="5">データがありません</td>
+                                                </tr>
+                                                {% endfor %}
                                         </tbody>
                                 </table>
                         </div>
                 </div>
 
                 <div class="sidebar-buttons">
-                        <a href="#" class="button" onclick="alert('ホームに戻る機能は未実装です'); return false;">ホームに戻る</a>
-                        <a href="#" class="button" onclick="alert('フレンドon/off機能は未実装です'); return false;">フレンドon/off</a>
-                        <a href="#" class="button" onclick="alert('フレンド新規登録機能は未実装です'); return false;">フレンド新規登録</a>
+                        <a href="{% url 'home' %}" class="button">ホームに戻る</a>
+                        <a href="{% url 'friend_registration' %}" class="button">フレンド新規登録</a>
                 </div>
         </div>
 
         <script>
-                const dummyRankings = {
-                        coin: [
-                                { rank: 1, playerName: '強者ゴルシ', value: 12000 },
-                                { rank: 2, playerName: 'ウマ娘大好き', value: 10500 },
-                                { rank: 3, playerName: '蹄鉄マスター', value: 9800 },
-                                { rank: 4, playerName: '風の如く', value: 8700 },
-                                { rank: 5, playerName: '爆走皇帝', value: 7500 },
-                                { rank: 6, playerName: '伝説の調教師', value: 6200 },
-                                { rank: 7, playerName: '駆け抜ける星', value: 5800 },
-                                { rank: 8, playerName: 'ラッキー馬主', value: 4900 },
-                                { rank: 9, playerName: '黄金の脚', value: 4200 },
-                                { rank: 10, playerName: '新米トレーナー', value: 3500 },
-                        ],
-                        winrate: [
-                                { rank: 1, playerName: '勝利の女神', value: '92%' },
-                                { rank: 2, playerName: 'パーフェクトラン', value: '88%' },
-                                { rank: 3, playerName: '勝率の鬼', value: '85%' },
-                                { rank: 4, playerName: 'プロ馬券師', value: '82%' },
-                                { rank: 5, playerName: '無敗の軌跡', value: '79%' },
-                                { rank: 6, playerName: '確実な一歩', value: '76%' },
-                                { rank: 7, playerName: '勝負師ケン', value: '73%' },
-                                { rank: 8, playerName: 'ベストパフォーマンス', value: '70%' },
-                                { rank: 9, playerName: '高みを目指す者', value: '68%' },
-                                { rank: 10, playerName: '堅実な走り', value: '65%' },
-                        ],
-                        wins: [
-                                { rank: 1, playerName: '百戦錬磨', value: 250 },
-                                { rank: 2, playerName: '勝ち街道', value: 220 },
-                                { rank: 3, playerName: '勝利請負人', value: 190 },
-                                { rank: 4, playerName: '勝ち点稼ぎ', value: 160 },
-                                { rank: 5, playerName: '韋駄天', value: 130 },
-                                { rank: 6, playerName: 'コツコツ勝利', value: 100 },
-                                { rank: 7, playerName: '馬群を抜ける', value: 80 },
-                                { rank: 8, playerName: '連勝記録更新中', value: 60 },
-                                { rank: 9, playerName: '期待の新星', value: 40 },
-                                { rank: 10, playerName: '初勝利の喜び', value: 20 },
-                        ],
-                };
+                const rankingForm = document.getElementById('rankingForm');
 
                 const rankingTypeButtons = document.querySelectorAll('.ranking-type-button');
-                const rankingTableBody = document.getElementById('rankingTableBody');
-                const currentRankingHeader = document.querySelector('.current-ranking-header');
-
-                function updateRankingTable(type) {
-                        const data = dummyRankings[type];
-                        rankingTableBody.innerHTML = '';
-
-                        data.forEach(item => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                    <td>${item.rank}.</td>
-                    <td>${item.playerName}</td>
-                    <td>${item.value}</td>
-                `;
-                                rankingTableBody.appendChild(row);
-                        });
-
-                        let headerText = '';
-                        if (type === 'coin') headerText = 'コイン';
-                        else if (type === 'winrate') headerText = '勝率';
-                        else if (type === 'wins') headerText = '勝ち数';
-                        currentRankingHeader.textContent = headerText;
-                }
+                const coinInput = document.getElementById('coin_button');
+                const winRateInput = document.getElementById('win_rate_button');
+                const numWinInput = document.getElementById('num_of_win_button');
 
                 rankingTypeButtons.forEach(button => {
                         button.addEventListener('click', function () {
+                                // ボタンの見た目切替
                                 rankingTypeButtons.forEach(btn => btn.classList.remove('active'));
                                 this.classList.add('active');
 
-                                const rankingType = this.dataset.rankingType;
-                                updateRankingTable(rankingType);
+                                const type = this.dataset.rankingType;
+                                coinInput.value = (type === 'coin') ? 'true' : 'false';
+                                winRateInput.value = (type === 'winrate') ? 'true' : 'false';
+                                numWinInput.value = (type === 'wins') ? 'true' : 'false';
+
+                                rankingForm.submit();
                         });
                 });
 
-                updateRankingTable('coin');
+                const friendToggle = document.getElementById('friendToggle');
+                const friendHiddenInput = document.getElementById('friend_or_all_button');
+
+                friendToggle.addEventListener('change', () => {
+                        // チェック状態をhiddenに反映
+                        friendHiddenInput.value = friendToggle.checked ? 'true' : 'false';
+
+                        // hiddenのコイン・勝率・勝ち数の値は保持されている状態
+                        rankingForm.submit();
+                });
         </script>
 </body>
 
