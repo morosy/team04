@@ -23,6 +23,16 @@
                                 <input type="text" class="user-id-input" name="user_id" placeholder="ユーザーID" required />
                                 <button type="submit" class="submit-button">申請</button>
                         </form>
+
+                        {% if message %}
+                        <p class="message">{{ message }}</p>
+                        <script>
+                                // 3秒後にフレンド新規登録画面にリダイレクト
+                                setTimeout(function () {
+                                        window.location.href = "{% url 'friend_registration' %}";
+                                }, 3000);
+                        </script>
+                        {% endif %}
                 </div>
         </div>
 </body>
