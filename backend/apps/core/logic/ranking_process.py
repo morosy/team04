@@ -50,8 +50,10 @@ def query_userdata_process():
 def sort_process(data_list, friend_list, coin, win_rate, num_win, is_friend, current_user_id):
     if is_friend:
         target_users = set(friend_list.get(current_user_id, []))
+        target_users.add(current_user_id)  # ← 自分自身も含める
     else:
         target_users = set(data_list.keys())
+
 
     filtered_users = [user for user in data_list if user in target_users]
     def sort_key(user):
