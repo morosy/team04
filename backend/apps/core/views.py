@@ -5,8 +5,11 @@ from .logic.user_information_process import (
     friend_request_accept_process,
     friend_request_decline_process,
 )
+from django.db import connections
 from django.db import connection
+from django.urls import reverse
 
+from django.views.decorators.csrf import csrf_exempt
 
 '''
 def home(request):
@@ -31,19 +34,55 @@ def home(request):
 def friend_registration_view(request):
     return render(request, 'core/friend-registration.html')
 
+@csrf_exempt
 def friend_accept_view(request):
+    current_user_id = 2  # ログインユーザーの仮ID
+
     if request.method == 'POST':
-        user_ids = request.POST.getlist("check_box")
-        msg = friend_request_accept_process(user_ids)
-        return render(request, 'core/friend-accept.html', {'message': msg})
-    return render(request, 'core/friend-accept.html')
+        selected_ids = request.POST.getlist("selected_applications")
+        action = request.POST.get("action")
+
+        for from_user_id in selected_ids:
+            if action == "accept":
+                friend_request_accept_process(int(from_user_id), current_user_id)
+            elif action == "reject":
+                friend_request_decline_process(int(from_user_id), current_user_id)
+
+    # GETでもPOSTでも一覧を更新して表示
+    applications = []
+    with connections['friend_db'].cursor() as cursor:
+        cursor.execute("SELECT from_user_id FROM friend_requests WHERE to_user_id=%s", [current_user_id])
+        rows = cursor.fetchall()
+
+        for row in rows:
+            from_user_id = row[0]
+            # user_nameの取得（user_info DB）
+            with connections['default'].cursor() as user_cursor:
+                user_cursor.execute("SELECT user_name FROM users WHERE user_id = %s", [from_user_id])
+                name_row = user_cursor.fetchone()
+                player_name = name_row[0] if name_row else "不明なユーザー"
+            applications.append({
+                'id': from_user_id,
+                'player_name': player_name,
+            })
+
+    return render(request, 'core/friend-accept.html', {
+        'applications': applications
+    })
 
 def friend_request_view(request):
+    current_user_id = 2  # ログインユーザーIDの仮置き--------------------------------------
     if request.method == 'POST':
-        msg = friend_request_process(request.POST.get("user_id"))
-        return render(request, 'core/friend-request.html', {'message': msg})
+        to_user_id = request.POST.get("user_id")
+        msg = friend_request_process(current_user_id, int(to_user_id))
+        # メッセージとリダイレクトURLをテンプレートに渡す
+        redirect_url = reverse('friend_registration')  # ここはフレンド新規登録画面のURL名に変更してください
+        return render(request, 'core/friend-request.html', {
+            'message': msg,
+            'redirect_url': redirect_url,
+            'redirect_delay': 2000,  # 3秒後にリダイレクト
+        })
     return render(request, 'core/friend-request.html')
-
 
 def friend_decline_view(request):
     if request.method == 'POST':
@@ -53,7 +92,7 @@ def friend_decline_view(request):
     return render(request, 'core/friend-accept.html')
 
 def ranking_view(request):
-    current_user_id = 1  # ログイン中のユーザーID（仮）
+    current_user_id = 1  # ログイン中のユーザーID（仮）----------------------------------------------------
 
     if request.method == 'POST':
         post_data = request.POST
