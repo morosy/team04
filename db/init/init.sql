@@ -114,12 +114,21 @@ CREATE TABLE IF NOT EXISTS horse_status (
 CREATE DATABASE IF NOT EXISTS friend;
 USE friend;
 
-CREATE TABLE friend_requests (
+CREATE TABLE IF NOT EXISTS friend_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     from_user_id INT NOT NULL,     -- 申請したユーザー
     to_user_id INT NOT NULL,       -- 申請を受けたユーザー
     status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
     request_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS friends (
+    user_id INT NOT NULL,
+    friend_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, friend_id),
+    FOREIGN KEY (user_id) REFERENCES user_info.users(user_ID),
+    FOREIGN KEY (friend_id) REFERENCES user_info.users(user_ID)
 );
 
 DELIMITER $$
