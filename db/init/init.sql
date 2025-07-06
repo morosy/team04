@@ -1,26 +1,3 @@
--- -- データベース作成（既に存在しなければ）
--- CREATE DATABASE IF NOT EXISTS horse_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
--- USE horse_db;
-
--- -- テーブル作成（Djangoの models.py に対応）
--- CREATE TABLE IF NOT EXISTS core_horse (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     name VARCHAR(100) NOT NULL,
---     birth_date DATE NOT NULL,
---     gender VARCHAR(10),
---     trainer VARCHAR(100),
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
-
--- -- 初期データを挿入
--- INSERT INTO core_horse (name, birth_date, gender, trainer) VALUES
--- ('サクラチヨノオー', '1990-03-01', '牡', '田中調教師'),
--- ('マヤノトップガン', '1993-04-19', '牡', '佐藤調教師'),
--- ('ウオッカ', '2004-04-04', '牝', '藤原調教師');
-
-
-
-
 /*
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/11 Version: 1.0
@@ -54,7 +31,6 @@ CREATE TABLE IF NOT EXISTS users (
     current_coin INT DEFAULT 0,
     login_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     login_count INT DEFAULT 0,
-
     -- 勝ち数および負け数のカラムを追加
     number_of_wins INT DEFAULT 0,
     number_of_losses INT DEFAULT 0
