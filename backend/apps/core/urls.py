@@ -9,7 +9,6 @@ urlpatterns = [
     path('friend/accept/', views.friend_accept_view, name='friend_accept'),
     path('friend/request/', views.friend_request_view, name='friend_request'),
     path('friend/decline/', views.friend_decline_view, name='friend_decline'),
-    path('ranking/', ranking_view, name='ranking'),
 ]
 
 

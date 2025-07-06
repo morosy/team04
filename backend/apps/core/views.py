@@ -18,7 +18,7 @@ def home(request):
     カレントディレクトリをfrontendに変更
 '''
 def home(request):
-    return render(request, 'core/ranking.html')
+    return ranking_view(request)
 
 
 
@@ -58,7 +58,6 @@ def ranking_view(request):
     if request.method == 'POST':
         post_data = request.POST
     else:
-        # POSTでない場合、QueryDictで構成しなおす
         from django.http import QueryDict
         post_data = QueryDict('', mutable=True)
         post_data.update({
@@ -68,16 +67,21 @@ def ranking_view(request):
             'friend_or_all_button': 'false',
         })
 
+    # フラグの取得（テンプレートで使うため）
+    coin = post_data.get('coin_button') == 'true'
+    win_rate = post_data.get('win_rate_button') == 'true'
+    num_win = post_data.get('num_of_win_button') == 'true'
+    is_friend = post_data.get('friend_or_all_button') == 'true'
+
     user_ids = ranking_main_process(post_data, current_user_id)
 
     player_list = []
     with connection.cursor() as cursor:
         for idx, user_id in enumerate(user_ids):
-            cursor.execute("USE user_info;")
             cursor.execute(
                 "SELECT user_name, current_coin, "
                 "ROUND(CASE WHEN number_of_wins + number_of_losses = 0 THEN 0 ELSE number_of_wins * 100 / (number_of_wins + number_of_losses) END), number_of_wins "
-                "FROM users WHERE user_ID = %s", [user_id]
+                "FROM user_info.users WHERE user_ID = %s", [user_id]
             )
             row = cursor.fetchone()
             if row:
@@ -89,7 +93,13 @@ def ranking_view(request):
                     'wins': row[3],
                 })
 
-    return render(request, 'core/ranking.html', {'player_list': player_list})
+    return render(request, 'core/ranking.html', {
+        'player_list': player_list,
+        'coin': coin,
+        'win_rate': win_rate,
+        'num_win': num_win,
+        'is_friend': is_friend,
+    })
 
 
 

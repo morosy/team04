@@ -16,22 +16,22 @@
         <div class="container">
                 <div class="main-content">
 
-                        <form method="POST" id="rankingForm">
+                        <form method="POST" id="rankingForm" action="{% url 'ranking' %}">
                                 {% csrf_token %}
                                 <div class="ranking-type-buttons-top">
-                                        <!-- それぞれのボタンはhidden inputで送信するようにJSで制御 -->
-                                        <button type="button" class="ranking-type-button active" data-ranking-type="coin">コイン</button>
-                                        <button type="button" class="ranking-type-button" data-ranking-type="winrate">勝率</button>
-                                        <button type="button" class="ranking-type-button" data-ranking-type="wins">勝ち数</button>
+                                        <button type="button" class="ranking-type-button {% if coin %}active{% endif %}" data-ranking-type="coin">コイン</button>
+                                        <button type="button" class="ranking-type-button {% if win_rate %}active{% endif %}" data-ranking-type="winrate">勝率</button>
+                                        <button type="button" class="ranking-type-button {% if num_win %}active{% endif %}" data-ranking-type="wins">勝ち数</button>
                                 </div>
 
-                                <input type="hidden" name="coin_button" id="coin_button" value="true" />
-                                <input type="hidden" name="win_rate_button" id="win_rate_button" value="false" />
-                                <input type="hidden" name="num_of_win_button" id="num_of_win_button" value="false" />
+                                <input type="hidden" name="coin_button" id="coin_button" value="{% if coin %}true{% else %}false{% endif %}" />
+                                <input type="hidden" name="win_rate_button" id="win_rate_button" value="{% if win_rate %}true{% else %}false{% endif %}" />
+                                <input type="hidden" name="num_of_win_button" id="num_of_win_button" value="{% if num_win %}true{% else %}false{% endif %}" />
+                                <input type="hidden" name="friend_or_all_button" id="friend_or_all_button" value="{% if is_friend %}true{% else %}false{% endif %}" />
 
                                 <div style="margin: 10px 0;">
                                         <label>
-                                                <input type="checkbox" name="friend_or_all_button" id="friendToggle" value="true" />
+                                                <input type="checkbox" id="friendToggle" {% if is_friend %}checked{% endif %} />
                                                 フレンドのみ表示
                                         </label>
                                 </div>
@@ -42,7 +42,6 @@
                                         <h2>ランキング</h2>
                                 </div>
 
-                                <!-- ランキング表示部 -->
                                 <table class="ranking-table">
                                         <thead>
                                                 <tr>
@@ -69,7 +68,6 @@
                                                 {% endfor %}
                                         </tbody>
                                 </table>
-
                         </div>
                 </div>
 
@@ -89,6 +87,7 @@
 
                 rankingTypeButtons.forEach(button => {
                         button.addEventListener('click', function () {
+                                // ボタンの見た目切替
                                 rankingTypeButtons.forEach(btn => btn.classList.remove('active'));
                                 this.classList.add('active');
 
@@ -102,9 +101,13 @@
                 });
 
                 const friendToggle = document.getElementById('friendToggle');
+                const friendHiddenInput = document.getElementById('friend_or_all_button');
+
                 friendToggle.addEventListener('change', () => {
-                        // チェックが入っていれば送信値はtrue、そうでなければfalseとしてhidden inputを上書きして送信してもいいですが
-                        // ここはDjango側でチェックボックスの有無で判定している前提でそのままsubmitします
+                        // チェック状態をhiddenに反映
+                        friendHiddenInput.value = friendToggle.checked ? 'true' : 'false';
+
+                        // hiddenのコイン・勝率・勝ち数の値は保持されている状態
                         rankingForm.submit();
                 });
         </script>

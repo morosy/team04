@@ -1,6 +1,6 @@
 from django.db import connection
-
 import time
+import logging
 
 # M1 ランキング主処理
 def ranking_main_process(post_data, current_user_id):
@@ -21,14 +21,13 @@ def ranking_main_process(post_data, current_user_id):
 # M2 ユーザデータ問合せ処理
 def query_userdata_process():
     with connection.cursor() as cursor:
-        # 正しいDBを指定
-        cursor.execute("USE user_info;")
-        cursor.execute("SELECT user_ID, current_coin, number_of_wins, number_of_losses FROM users;")
+        # 明示的にデータベースを指定してSELECT
+        cursor.execute("SELECT user_ID, current_coin, number_of_wins, number_of_losses FROM user_info.users;")
         users = cursor.fetchall()
 
-        cursor.execute("USE friend;")
-        cursor.execute("SELECT user_id, friend_id FROM friends;")
+        cursor.execute("SELECT user_id, friend_id FROM friend.friends;")
         friends = cursor.fetchall()
+
 
     data_list = {}
     for u in users:
@@ -50,13 +49,11 @@ def query_userdata_process():
 # M3 ソート処理
 def sort_process(data_list, friend_list, coin, win_rate, num_win, is_friend, current_user_id):
     if is_friend:
-        # 自分のフレンド一覧を使ってランキング対象を絞る
         target_users = set(friend_list.get(current_user_id, []))
     else:
         target_users = set(data_list.keys())
 
     filtered_users = [user for user in data_list if user in target_users]
-
     def sort_key(user):
         coin_val, wins_val, win_rate_val = data_list[user]
         key = ()
