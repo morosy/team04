@@ -118,12 +118,14 @@ def friend_request_view(request):
         })
     return render(request, 'core/friend-request.html')
 
+
 def friend_decline_view(request):
     if request.method == 'POST':
         user_ids = request.POST.getlist("check_box")
         msg = friend_request_decline_process(user_ids)
         return render(request, 'core/friend-accept.html', {'message': msg})
     return render(request, 'core/friend-accept.html')
+
 
 def ranking_view(request):
     current_user_id = 1  # ログイン中のユーザーID（仮）----------------------------------------------------
@@ -231,6 +233,7 @@ def user_result(request, user_id):
         )
         for row in rows
     ]
+
     return render(request, "user_result.html", {
         "user_ID": f"{int(user_id):08d}",  # 8桁ゼロ埋め
         "user_name": user_name,
