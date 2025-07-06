@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS users (
 
     -- 勝ち数および負け数のカラムを追加
     number_of_wins INT DEFAULT 0,
-    number_of_losses INT DEFAULT 0
+    number_of_losses INT DEFAULT 0,
 );
 
 -- ストアドプロシージャ: create_user_result_table
@@ -113,6 +113,14 @@ CREATE TABLE IF NOT EXISTS horse_status (
 -- ============================
 CREATE DATABASE IF NOT EXISTS friend;
 USE friend;
+
+CREATE TABLE friend_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    from_user_id INT NOT NULL,     -- 申請したユーザー
+    to_user_id INT NOT NULL,       -- 申請を受けたユーザー
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    request_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 DELIMITER $$
 
