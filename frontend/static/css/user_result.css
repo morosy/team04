@@ -1,55 +1,108 @@
 /*
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/23
+    UPDATE: 2025/07/03
     Description: 過去情報の表示用CSSスタイルシート
-    Note: このファイルは, ユーザーの過去情報を表示するためのCSSスタイルシート
 */
 
 body {
-    font-family: sans-serif;
-    padding: 2em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9fafb;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
 .container {
     text-align: center;
+    padding: 2em;
 }
 
 h1 {
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
+    font-size: 1.6em;
+    color: #333;
 }
 
 .table-wrapper {
     max-height: 400px;
     overflow-y: auto;
+    margin-bottom: 1.5em;
     display: inline-block;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 1em;
 }
 
 table {
     border-collapse: collapse;
-    margin: 0 auto;
+    width: 100%;
+    min-width: 500px;
 }
 
 th, td {
-    border: 1px solid #ccc;
-    padding: 0.5em;
+    border: 1px solid #ddd;
+    padding: 0.7em;
     text-align: center;
+    font-size: 0.95em;
 }
 
 th {
     background-color: #f0f0f0;
+    font-weight: bold;
 }
 
-button, .button {
-    margin-top: 1em;
-    padding: 0.5em 1em;
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8em;
+
+    position: fixed;
+    bottom: 2em;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.button-large,
+.button-small {
+    display: inline-block;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
     font-size: 1em;
+    padding: 0.7em 1.4em;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-large:hover,
+.button-small:hover {
+    background-color: #0056b3;
+}
+
+.button-large {
+    font-size: 1.1em;
+    padding: 0.8em 1.6em;
+}
+
+.button-small {
+    font-size: 1em;
+    padding: 0.6em 1.4em;
 }
 
 .hidden-row {
-    display: none;
+    display: none !important;
 }
 
 .error {

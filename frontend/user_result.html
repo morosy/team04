@@ -5,53 +5,56 @@
     Note: このファイルは, ユーザーの過去情報を表示するためのHTMLテンプレート
 -->
 
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>User Result</title>
-    {% load static %}
-    <!-- <link rel="stylesheet" href="{% static 'css/user_result.css' %}">
-    <script src="{% static 'js/user_result.js' %}" defer></script> -->
-
-    <!-- degug -->
-    <link rel="stylesheet" href="static/css/user_result.css">
-    <script src="static/js/user_result.js" defer></script>
+    <title>過去レース結果</title>
+    <link rel="stylesheet" href="{% static 'css/user_result.css' %}">
 </head>
-<body>
-    <div class="container">
-        <h1>User Result Table</h1>
-        {% if error %}
-            <p class="error">Error: {{ error }}</p>
-        {% elif rows %}
-            <div class="table-wrapper">
-                <table id="resultTable">
-                    <thead>
-                        <tr>
-                            {% for col in columns %}
-                                <th>{{ col }}</th>
-                            {% endfor %}
+    <body>
+        <div class="container">
+            <h1>{{ user_name }}の過去レース結果</h1>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>カテゴリー</th>
+                        <th>結果</th>
+                        <th>コインの増減</th>
+                        <th>所持コイン枚数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in result_rows %}
+                        <tr class="result-row {% if forloop.counter > 10 %}hidden-row{% endif %}">
+                            <td>{{ row.date|date:"Y/m/d" }}</td>
+                            <td>
+                                {% if row.category == 0 %}単勝
+                                {% elif row.category == 1 %}複勝
+                                {% elif row.category == 2 %}三連単
+                                {% else %}不明{% endif %}
+                            </td>
+                            <td>{{ row.result }}</td>
+                            <td>{{ row.coin_change }}</td>
+                            <td>{{ row.total_coin }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in rows %}
-                            <tr {% if forloop.counter > 10 %} class="hidden-row" {% endif %}>
-                                {% for cell in row %}
-                                    <td>{{ cell }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <button id="showMoreBtn">もっと見る</button>
-        {% else %}
-            <p>No data found.</p>
-        {% endif %}
-        <div class="home-button">
-            <a href="{% url 'home' %}" class="button">ホームに戻る</a>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">過去のレース情報はありません。</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-group">
+            <button class="button-large" id="showMoreBtn">もっと見る</button>
+            <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>
         </div>
     </div>
+    <script src="{% static 'js/user_result.js' %}" defer></script>
 </body>
 </html>

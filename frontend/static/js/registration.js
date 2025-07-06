@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
         messageDiv.textContent = '登録処理中...';
 
         try {
-            // バックエンドの /api/name-registration/register/ を呼び出す
-            const response = await fetch('/api/name-registration/register/', {
+            // バックエンドの /anew-registration/register/ を呼び出す
+            const response = await fetch('/new-registration/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 messageDiv.className = 'message success';
                 messageDiv.textContent = '登録が完了しました！ログイン画面へ遷移します。';
                 // 実際にはここでログイン画面へリダイレクトします
-                // 例: setTimeout(() => window.location.href = '/login/', 2000);
+                setTimeout(() => window.location.href = '/login/', 2000);
             } else {
                 messageDiv.className = 'message error';
                 messageDiv.textContent = `登録失敗: ${data.errorMessage}`;
