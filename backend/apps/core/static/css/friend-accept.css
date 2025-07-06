@@ -121,6 +121,9 @@ body {
         gap: 30px;
         padding: 0px 40px;
         box-sizing: border-box;
+        position: relative;
+        bottom: -60px;
+        /* 正の値で上に上がるので、負の値で下に下げる */
 }
 
 .action-button {
