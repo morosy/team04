@@ -21,8 +21,7 @@ def home(request):
     カレントディレクトリをfrontendに変更
 '''
 def home(request):
-    return ranking_view(request)
-
+    return ranking_view(request) #他の機能と結合するときはルーティングを変える
 
 
 #def ranking_view(request):
