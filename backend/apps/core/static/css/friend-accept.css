@@ -53,6 +53,13 @@ body {
         transition: background-color 0.2s ease;
         padding: 0;
         margin: 0;
+        text-decoration: none;
+        /* ← 追加: リンクの下線消す */
+}
+
+a.close-button {
+        text-decoration: none !important;
+        /* ← 確実に消す */
 }
 
 .close-button:hover {

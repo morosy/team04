@@ -40,6 +40,13 @@ body {
         cursor: pointer;
         color: #666;
         transition: color 0.2s ease;
+        text-decoration: none;
+        /* ← 追加: リンクの下線消す */
+}
+
+a.close-button {
+        text-decoration: none !important;
+        /* ← 確実に消す */
 }
 
 .close-button:hover {
