@@ -22,11 +22,11 @@ def home(request):
 
 
 
-def ranking_view(request):
-    if request.method == 'POST':
-        result = ranking_main_process(request.POST)
-        return render(request, 'core/ranking.html', {'user_list': result})
-    return render(request, 'core/ranking.html')
+#def ranking_view(request):
+#    if request.method == 'POST':
+#        result = ranking_main_process(request.POST)
+#        return render(request, 'core/ranking.html', {'user_list': result})
+#    return render(request, 'core/ranking.html')
 
 def friend_registration_view(request):
     return render(request, 'core/friend-registration.html')
@@ -53,34 +53,45 @@ def friend_decline_view(request):
     return render(request, 'core/friend-accept.html')
 
 def ranking_view(request):
-    # POSTでない場合はデフォルト値で初期化
-    post_data = {
-        'coin_button': 'true',
-        'win_rate_button': 'false',
-        'num_of_win_button': 'false',
-        'friend_or_all_button': 'false'
-    }
+    current_user_id = 1  # ログイン中のユーザーID（仮）
 
-    # 実行（DBからデータ取得＆ソート）
-    user_ids = ranking_main_process(post_data)
+    if request.method == 'POST':
+        post_data = request.POST
+    else:
+        # POSTでない場合、QueryDictで構成しなおす
+        from django.http import QueryDict
+        post_data = QueryDict('', mutable=True)
+        post_data.update({
+            'coin_button': 'true',
+            'win_rate_button': 'false',
+            'num_of_win_button': 'false',
+            'friend_or_all_button': 'false',
+        })
 
-    # 表示用にプレイヤー情報を再度取得（IDだけではなく名前も必要）
-    # 本当はJOINしておいた方が効率的
+    user_ids = ranking_main_process(post_data, current_user_id)
+
     player_list = []
     with connection.cursor() as cursor:
         for idx, user_id in enumerate(user_ids):
-            cursor.execute("SELECT player_name, coin, win_rate, wins FROM users WHERE user_id = %s", [user_id])
+            cursor.execute("USE user_info;")
+            cursor.execute(
+                "SELECT user_name, current_coin, "
+                "ROUND(CASE WHEN number_of_wins + number_of_losses = 0 THEN 0 ELSE number_of_wins * 100 / (number_of_wins + number_of_losses) END), number_of_wins "
+                "FROM users WHERE user_ID = %s", [user_id]
+            )
             row = cursor.fetchone()
             if row:
                 player_list.append({
                     'rank': idx + 1,
                     'playerName': row[0],
                     'coin': row[1],
-                    'winrate': f"{row[2]:.0f}%",  # 92.3 → "92%"
+                    'winrate': f"{row[2]}%",
                     'wins': row[3],
                 })
 
-    return render(request, 'ranking.html', {'player_list': player_list})
+    return render(request, 'core/ranking.html', {'player_list': player_list})
+
+
 
 '''
     Function Name: user_result_view

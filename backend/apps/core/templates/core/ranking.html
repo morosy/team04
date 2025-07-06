@@ -15,11 +15,27 @@
 
         <div class="container">
                 <div class="main-content">
-                        <div class="ranking-type-buttons-top">
-                                <button class="ranking-type-button active" data-ranking-type="coin">コイン</button>
-                                <button class="ranking-type-button" data-ranking-type="winrate">勝率</button>
-                                <button class="ranking-type-button" data-ranking-type="wins">勝ち数</button>
-                        </div>
+
+                        <form method="POST" id="rankingForm">
+                                {% csrf_token %}
+                                <div class="ranking-type-buttons-top">
+                                        <!-- それぞれのボタンはhidden inputで送信するようにJSで制御 -->
+                                        <button type="button" class="ranking-type-button active" data-ranking-type="coin">コイン</button>
+                                        <button type="button" class="ranking-type-button" data-ranking-type="winrate">勝率</button>
+                                        <button type="button" class="ranking-type-button" data-ranking-type="wins">勝ち数</button>
+                                </div>
+
+                                <input type="hidden" name="coin_button" id="coin_button" value="true" />
+                                <input type="hidden" name="win_rate_button" id="win_rate_button" value="false" />
+                                <input type="hidden" name="num_of_win_button" id="num_of_win_button" value="false" />
+
+                                <div style="margin: 10px 0;">
+                                        <label>
+                                                <input type="checkbox" name="friend_or_all_button" id="friendToggle" value="true" />
+                                                フレンドのみ表示
+                                        </label>
+                                </div>
+                        </form>
 
                         <div class="ranking-section-wrapper">
                                 <div class="ranking-header">
@@ -46,6 +62,10 @@
                                                         <td>{{ player.winrate }}</td>
                                                         <td>{{ player.wins }}</td>
                                                 </tr>
+                                                {% empty %}
+                                                <tr>
+                                                        <td colspan="5">データがありません</td>
+                                                </tr>
                                                 {% endfor %}
                                         </tbody>
                                 </table>
@@ -55,50 +75,38 @@
 
                 <div class="sidebar-buttons">
                         <a href="#" class="button" onclick="alert('ホームに戻る機能は未実装です'); return false;">ホームに戻る</a>
-                        <a href="#" class="button" onclick="alert('フレンドon/off機能は未実装です'); return false;">フレンドon/off</a>
                         <a href="{% url 'friend_registration' %}" class="button">フレンド新規登録</a>
                 </div>
         </div>
 
         <script>
-
+                const rankingForm = document.getElementById('rankingForm');
 
                 const rankingTypeButtons = document.querySelectorAll('.ranking-type-button');
-                const rankingTableBody = document.getElementById('rankingTableBody');
-                const currentRankingHeader = document.querySelector('.current-ranking-header');
-
-                function updateRankingTable(type) {
-                        const data = dummyRankings[type];
-                        rankingTableBody.innerHTML = '';
-
-                        data.forEach(item => {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                    <td>${item.rank}.</td>
-                    <td>${item.playerName}</td>
-                    <td>${item.value}</td>
-                `;
-                                rankingTableBody.appendChild(row);
-                        });
-
-                        let headerText = '';
-                        if (type === 'coin') headerText = 'コイン';
-                        else if (type === 'winrate') headerText = '勝率';
-                        else if (type === 'wins') headerText = '勝ち数';
-                        currentRankingHeader.textContent = headerText;
-                }
+                const coinInput = document.getElementById('coin_button');
+                const winRateInput = document.getElementById('win_rate_button');
+                const numWinInput = document.getElementById('num_of_win_button');
 
                 rankingTypeButtons.forEach(button => {
                         button.addEventListener('click', function () {
                                 rankingTypeButtons.forEach(btn => btn.classList.remove('active'));
                                 this.classList.add('active');
 
-                                const rankingType = this.dataset.rankingType;
-                                updateRankingTable(rankingType);
+                                const type = this.dataset.rankingType;
+                                coinInput.value = (type === 'coin') ? 'true' : 'false';
+                                winRateInput.value = (type === 'winrate') ? 'true' : 'false';
+                                numWinInput.value = (type === 'wins') ? 'true' : 'false';
+
+                                rankingForm.submit();
                         });
                 });
 
-                updateRankingTable('coin');
+                const friendToggle = document.getElementById('friendToggle');
+                friendToggle.addEventListener('change', () => {
+                        // チェックが入っていれば送信値はtrue、そうでなければfalseとしてhidden inputを上書きして送信してもいいですが
+                        // ここはDjango側でチェックボックスの有無で判定している前提でそのままsubmitします
+                        rankingForm.submit();
+                });
         </script>
 </body>
 
