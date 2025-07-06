@@ -36,7 +36,7 @@ def friend_registration_view(request):
 
 @csrf_exempt
 def friend_accept_view(request):
-    current_user_id = 2  # ログインユーザーの仮ID
+    current_user_id = 1  # ログインユーザーの仮ID--------------------------------------
 
     if request.method == 'POST':
         selected_ids = request.POST.getlist("selected_applications")
@@ -71,7 +71,7 @@ def friend_accept_view(request):
     })
 
 def friend_request_view(request):
-    current_user_id = 2  # ログインユーザーIDの仮置き--------------------------------------
+    current_user_id = 1  # ログインユーザーIDの仮置き--------------------------------------
     if request.method == 'POST':
         to_user_id = request.POST.get("user_id")
         msg = friend_request_process(current_user_id, int(to_user_id))
