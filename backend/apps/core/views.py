@@ -66,11 +66,11 @@ def home(request):
 #    return render(request, 'core/ranking.html')
 
 def friend_registration_view(request):
-    return render(request, 'core/friend-registration.html')
+    return render(request, 'friend-registration.html')
 
 @csrf_exempt
 def friend_accept_view(request):
-    current_user_id = 1  # ログインユーザーの仮ID--------------------------------------
+    current_user_id = request.session.get('logged_in_user_id')
 
     if request.method == 'POST':
         selected_ids = request.POST.getlist("selected_applications")
@@ -100,35 +100,35 @@ def friend_accept_view(request):
                 'player_name': player_name,
             })
 
-    return render(request, 'core/friend-accept.html', {
+    return render(request, 'friend-accept.html', {
         'applications': applications
     })
 
 def friend_request_view(request):
-    current_user_id = 1  # ログインユーザーIDの仮置き--------------------------------------
+    current_user_id = request.session.get('logged_in_user_id')
     if request.method == 'POST':
         to_user_id = request.POST.get("user_id")
         msg = friend_request_process(current_user_id, int(to_user_id))
         # メッセージとリダイレクトURLをテンプレートに渡す
         redirect_url = reverse('friend_registration')  # ここはフレンド新規登録画面のURL名に変更してください
-        return render(request, 'core/friend-request.html', {
+        return render(request, 'friend-request.html', {
             'message': msg,
             'redirect_url': redirect_url,
             'redirect_delay': 2000,  # 3秒後にリダイレクト
         })
-    return render(request, 'core/friend-request.html')
+    return render(request, 'friend-request.html')
 
 
 def friend_decline_view(request):
     if request.method == 'POST':
         user_ids = request.POST.getlist("check_box")
         msg = friend_request_decline_process(user_ids)
-        return render(request, 'core/friend-accept.html', {'message': msg})
-    return render(request, 'core/friend-accept.html')
+        return render(request, 'friend-accept.html', {'message': msg})
+    return render(request, 'friend-accept.html')
 
 
 def ranking_view(request):
-    current_user_id = 1  # ログイン中のユーザーID（仮）----------------------------------------------------
+    current_user_id = request.session.get('logged_in_user_id')
 
     if request.method == 'POST':
         post_data = request.POST
@@ -168,7 +168,7 @@ def ranking_view(request):
                     'wins': row[3],
                 })
 
-    return render(request, 'core/ranking.html', {
+    return render(request, 'ranking.html', {
         'player_list': player_list,
         'coin': coin,
         'win_rate': win_rate,
@@ -270,11 +270,6 @@ def mypage(request):
     }
 
     return render(request, 'mypage.html', context)
-
-
-def ranking(request):
-    return render(request, 'ranking.html')
-
 
 '''
     Class Name: LogoutViewAllowGet
