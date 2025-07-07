@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.title {
+  margin-bottom: 40px;
+  font-size: 24px;
+}
+
+.button-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
+
+.big-button {
+  font-size: 48px;
+  padding: 40px 30px;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: white;
+  writing-mode: vertical-rl;
+  text-align: center;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.back-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ccc;
+  border: 1px solid #333;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
