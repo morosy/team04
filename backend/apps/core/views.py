@@ -271,11 +271,6 @@ def mypage(request):
 
     return render(request, 'mypage.html', context)
 
-
-def ranking(request):
-    return render(request, 'ranking.html')
-
-
 '''
     Class Name: LogoutViewAllowGet
     Designer: Shunsuke MOROZUMI
