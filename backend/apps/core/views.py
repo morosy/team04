@@ -66,7 +66,7 @@ def home(request):
 #    return render(request, 'core/ranking.html')
 
 def friend_registration_view(request):
-    return render(request, 'core/friend-registration.html')
+    return render(request, 'friend-registration.html')
 
 @csrf_exempt
 def friend_accept_view(request):
@@ -100,7 +100,7 @@ def friend_accept_view(request):
                 'player_name': player_name,
             })
 
-    return render(request, 'core/friend-accept.html', {
+    return render(request, 'friend-accept.html', {
         'applications': applications
     })
 
@@ -116,7 +116,7 @@ def friend_request_view(request):
             'redirect_url': redirect_url,
             'redirect_delay': 2000,  # 3秒後にリダイレクト
         })
-    return render(request, 'core/friend-request.html')
+    return render(request, 'friend-request.html')
 
 
 def friend_decline_view(request):
@@ -124,7 +124,7 @@ def friend_decline_view(request):
         user_ids = request.POST.getlist("check_box")
         msg = friend_request_decline_process(user_ids)
         return render(request, 'core/friend-accept.html', {'message': msg})
-    return render(request, 'core/friend-accept.html')
+    return render(request, 'friend-accept.html')
 
 
 def ranking_view(request):
@@ -168,7 +168,7 @@ def ranking_view(request):
                     'wins': row[3],
                 })
 
-    return render(request, 'core/ranking.html', {
+    return render(request, 'ranking.html', {
         'player_list': player_list,
         'coin': coin,
         'win_rate': win_rate,

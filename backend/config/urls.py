@@ -28,8 +28,11 @@ urlpatterns = [
     path('new-registration/', include('new_registration.name_registration.urls')),
 
     # --- アプリコア ---
+    path('friend-registration/', core_views.friend_registration_view, name='friend_registration'),
+    path('friend-request/', core_views.friend_request_view, name='friend_request'),
+    path('friend-accept/', core_views.friend_accept_view, name='friend_accept'),
     path('home/', core_views.home, name='home'),
     path('mypage/', core_views.mypage, name='mypage'),
     path('user_result/<int:user_id>/', core_views.user_result, name='user_result'),
-    path('ranking/', core_views.ranking, name='ranking'),
+    path('ranking/', core_views.ranking_view, name='ranking'),
 ]
