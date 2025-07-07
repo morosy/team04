@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>馬とコインの枚数選択画面</title>
+    <link rel="stylesheet" href="/static/css/display_race1.css">
+</head>
+<body>
+
+    <header>
+        <h1>単勝or複勝</h1>
+        <div class="coin-box">{{current_coin}}</div>
+    </header>
+
+    <div class="race-info">レースの環境　天気など</div>
+
+    <main>
+        <div class="horse-select">
+            <p>賭ける馬を選べ！</p>
+            <form id="horse-form" method="POST" action="{% url 'start_race' %}">{% csrf_token %}
+                <p>賭ける馬を選べ！</p>
+                <label><input type="radio" name="horse" value="1" required> 1レーン</label>
+                <label><input type="radio" name="horse" value="2"> 2レーン</label>
+                <label><input type="radio" name="horse" value="3"> 3レーン</label>
+                <label><input type="radio" name="horse" value="4"> 4レーン</label>
+                <label><input type="radio" name="horse" value="5"> 5レーン</label>
+
+                <div class="coin-input">
+                    <p>何枚コインを賭ける？</p>
+                    <div class="coin-entry">
+                        <input type="number" name="coins" placeholder="0" min="0" required>
+                        <span>枚</span>
+                    </div>
+                </div>
+
+                 <button type="submit" class="start-button">レーススタート</button>
+            </form>
+        </div>
+
+        
+    </main>
+    <a href="{% url 'home' %}">
+        <button class="back-button">戻る</button>
+    </a>
+</body>
+</html>
