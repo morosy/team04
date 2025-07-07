@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>馬券選択</title>
+    <link rel="stylesheet" href="select_ticket.css">
+    <script>
+        async function sendSelection(value) {
+            const res = await fetch("{% url 'select' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ selection: value })
+            });
+            const result = await res.json();
+
+            // 成功したら指定された画面に遷移
+            if (result.redirect_url) {
+                window.location.href = result.redirect_url;
+            } else {
+                alert("エラーが発生しました");
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <h1 class="title">馬券の種類を選択</h1>
+
+    <script>
+        function sendSelection(value) {
+            if (value === 0 || value === 1) {
+                window.location.href = "{% url 'display_race1' %}";
+            } else if (value === 2) {
+                window.location.href = "{% url 'display_race2' %}";
+            }
+        }
+    </script>
+
+    <div class="button-container">
+        <button class="big-button" onclick="sendSelection(0)">勝<br>単</button>
+        <button class="big-button" onclick="sendSelection(1)">勝<br>複</button>
+        <button class="big-button" onclick="sendSelection(2)">単<br>連<br>三</button>
+    </div>
+
+    <a href="{% url 'home' %}">
+    <button class="back-button">戻る</button>
+    </a>
+</body>
+</html>
