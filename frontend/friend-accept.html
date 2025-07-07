@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>フレンド申請を受け入れる</title>
+        <link rel="stylesheet" href="{% static 'css/friend-accept.css' %}" />
+</head>
+
+<body>
+        <div class="modal-container">
+                <div class="modal-header">
+                        <h2>フレンド申請を受け入れる</h2>
+                        <a href="{% url 'friend_registration' %}" class="close-button">×</a>
+                </div>
+                <div class="modal-body">
+                        <p>申請を選択</p>
+                        <div class="application-list">
+                                <form id="friendAcceptForm" method="post" action="">
+                                        {% csrf_token %}
+                                        {% for application in applications %}
+                                        <div class="application-item">
+                                                <span class="application-player-name">{{ application.player_name }}</span>
+                                                <input type="checkbox" class="application-checkbox" name="selected_applications" value="{{ application.id }}" />
+                                        </div>
+                                        {% empty %}
+                                        <p style="text-align: left; width: 100%; font-size: 1.1em; margin: 50px 0 0 0; padding: 0;">
+                                                新しいフレンド申請はありません。
+                                        </p>
+                                        {% endfor %}
+                                </form>
+                        </div>
+                        <div class="action-buttons">
+                                <button type="submit" form="friendAcceptForm" class="action-button" name="action" value="accept">受け入れる</button>
+                                <button type="submit" form="friendAcceptForm" class="action-button" name="action" value="reject">拒否する</button>
+                        </div>
+                </div>
+        </div>
+</body>
+
+</html>
