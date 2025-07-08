@@ -49,10 +49,24 @@
         <!-- 非表示のフォーム -->
         <form method="POST" action="{% url 'update_username' %}" id="username-form" class="username-form" style="display: none;">
             {% csrf_token %}
-            <input type="hidden" name="user_ID" value="{{ user_ID }}">
-            <input type="text" name="new_username" placeholder="新しいユーザー名" required>
+            <input
+                type="hidden"
+                name="user_ID"
+                value="{{ user_ID }}"
+            >
+            <input
+                type="text"
+                name="new_username"
+                id="new_username"
+                placeholder="新しいユーザー名"
+                required
+                maxlength="10"
+                pattern=".{1,10}"
+            >
+            <span id="username-warning" style="color: red; font-size: 12px;"></span>
             <button type="submit">変更を確定</button>
         </form>
+
         <a href="{% url 'user_result' user_ID %}" class="button-large">過去のレース</a>
         <a href="{% url 'ranking' %}" class="button-large">フレンドを管理</a>
         <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>

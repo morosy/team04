@@ -31,6 +31,19 @@ function copyToClipboard(elementId, label) {
     });
 }
 
+/*
+    Function: containsFullWidth
+    Description: 文字列に全角文字が含まれているかをチェック
+    Parameters:
+        str (string): チェックする文字列
+    Returns:
+        boolean: 全角文字が含まれていればtrue、そうでなければfalse
+    Note: 半角英数字のみの場合はfalseを返します。
+*/
+function containsFullWidth(str) {
+    return /[^\u0020-\u007E]/.test(str);
+}
+
 
 /*
     Function: toggleUsernameForm
@@ -38,17 +51,45 @@ function copyToClipboard(elementId, label) {
     Parameters: なし
     Returns: なし
     Note: フォームの初期状態は非表示で、ボタンをクリックすると表示されます。
+    Error Handling: 文字列の長さチェックを行い、1文字以上10文字以下でない場合は警告を表示します。
 */
 document.addEventListener('DOMContentLoaded', function () {
     const toggleButton = document.getElementById('show-username-form');
     const form = document.getElementById('username-form');
+    const input = document.getElementById('new_username');
+    const warning = document.getElementById('username-warning');
+    const submitButton = form ? form.querySelector('button[type="submit"]') : null;
 
-    if (!toggleButton || !form) {
-        console.warn("要素が見つかりません");
-        return;
+    // フォームの表示/非表示切り替え
+    if (toggleButton && form) {
+        toggleButton.addEventListener('click', function () {
+            form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+        });
     }
 
-    toggleButton.addEventListener('click', function () {
-        form.style.display = form.style.display === 'none' ? 'flex' : 'none';
-    });
+    // バリデーション処理
+    if (input && warning && submitButton) {
+        input.addEventListener('input', function () {
+            const value = input.value;
+            let errorMsg = "";
+
+            if (value.length === 0) {
+                errorMsg = "1文字以上入力してください";
+            } else if (value.length > 10) {
+                errorMsg = "10文字以内で入力してください";
+                input.value = value.slice(0, 10);
+            } else if (containsFullWidth(value)) {
+                errorMsg = "全角文字は使用できません（半角英数字・記号のみ）";
+            }
+
+            // 警告表示
+            warning.textContent = errorMsg;
+
+            // エラーがある場合はボタンを非表示、なければ表示
+            submitButton.style.display = errorMsg ? 'none' : 'inline-block';
+        });
+
+        // 初期状態でボタン非表示にしておくと安心
+        submitButton.style.display = 'none';
+    }
 });
