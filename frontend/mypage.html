@@ -1,6 +1,7 @@
 <!--
     Designer: Shunsuke MOROZUMI
     Date: 2025/06/17
+    change: 2025/07/08 usernameの変更機能の追加
     Description: マイページのhtmlファイル
     Note: このファイルは, ユーザーのマイページを表示するためのHTMLテンプレート.
 -->
@@ -41,7 +42,17 @@
 
     <div class="container">
         <!-- <a href="#" class="button-small">ユーザ名の変更</a> -->
-        <button class="button-small" onclick="alert('まだ対応していません');">ユーザ名の変更</button>
+        <!-- <button class="button-small" onclick="alert('まだ対応していません');">ユーザ名の変更</button> -->
+        <!-- ユーザ名変更ボタン -->
+        <button id="show-username-form" class="button-small">ユーザ名を変更</button>
+
+        <!-- 非表示のフォーム -->
+        <form method="POST" action="{% url 'update_username' %}" id="username-form" class="username-form" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="user_ID" value="{{ user_ID }}">
+            <input type="text" name="new_username" placeholder="新しいユーザー名" required>
+            <button type="submit">変更を確定</button>
+        </form>
         <a href="{% url 'user_result' user_ID %}" class="button-large">過去のレース</a>
         <a href="{% url 'ranking' %}" class="button-large">フレンドを管理</a>
         <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>

@@ -25,6 +25,7 @@ from datetime import datetime
 
 from django.views.decorators.csrf import csrf_exempt
 
+
 '''
 def home(request):
     return render(request, 'core/home.html')
@@ -270,6 +271,39 @@ def mypage(request):
     }
 
     return render(request, 'mypage.html', context)
+
+
+'''
+    Function Name: update_username
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/08
+    Description:
+        ユーザー名を更新するためのビュー関数.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: redirect: マイページへのリダイレクト
+    Usage: update_username(request)
+'''
+@csrf_exempt
+def update_username(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_ID")
+        new_username = request.POST.get("new_username")
+
+        try:
+            user = UserCredentials.objects.get(user_id=user_id)
+            user.user_name = new_username
+            user.save()
+
+            # セッション内のユーザー名も更新
+            request.session['logged_in_user_name'] = new_username
+
+            return redirect('mypage')
+        except UserCredentials.DoesNotExist:
+            return render(request, "error.html", {"message": "ユーザーが存在しません。"})
+
+    return redirect('home')
+
+
 
 '''
     Class Name: LogoutViewAllowGet
