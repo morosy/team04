@@ -123,11 +123,16 @@ PASSWORD: password1
 
 ## 総合テスト用 起動手順
 
+> [!WARNING]
+> 絶対パスに日本語や全角文字，スペースなどが含まれないディレクトリにて作業を開始して下さい
+
+
 #### リポジトリのクローン
 `git clone https://github.com/morosy/team04.git`
 
 #### Dockerコンテナのビルド、起動
 `docker-compose up -d --build`
+
 
 以下のような表示があれば基本的に成功
 ```
@@ -144,7 +149,11 @@ Dockerコンテナに入る
 
 初期データ挿入用スクリプトの実行
 `cd docker/init`
-`python initialization.py`
+`python init.py`
+
+> [!IMPORTANT]
+> `python docker/init/init.py`というようにディレクトリ移動を省くとファイル参照ができなくなり，実行が失敗する
+
 
 以下のような表示があれば成功
 ```
@@ -163,6 +172,7 @@ user_ID=2 に 50 件のデータを挿入しました。
 user_ID=3 に 20 件のデータを挿入しました。
 user_ID=4 に 10 件のデータを挿入しました。
 ```
+
 
 #### Webブラウザでアクセス
 `http://localhost:8000/`
@@ -190,6 +200,40 @@ ID: 00000005
 PASSWORD: password5
 ```
 
+#### MySQLの操作
+```
+# データベースにアクセス
+# コンテナ外からコマンド入力
+docker-compose exec db mysql -u team04 -p
+
+# passwordの入力
+password: advinfteam04
+
+# データベース一覧表示
+SHOW DATABASES;
+
+# 操作するデータベースを選択
+USE [DATABASE_NAME];
+
+# テーブル一覧の表示
+SHOW TABLES;
+
+# テーブルカラムの表示
+DESCRIBE [TABLE_NAME];
+
+# テーブルの内容表示
+SELECT * FROM [TABLE_NAME];
+```
+
+#### MySQLからの脱出
+`exit`
+
+
+#### コンテナからの脱出方法
+`exit`
+
+#### コンテナのシャットダウン・削除
+`docker-compose down -v`
 
 
 #### 変更履歴
