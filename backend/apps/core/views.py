@@ -392,3 +392,70 @@ def race1(request):
 
     return render(request, 'race1.html', context)
 
+
+def race2(request):
+    # セッションに user_id があるか確認
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login')  # 未ログインならログインページへ
+
+    try:
+        # user_id から User オブジェクトを取得
+        user = UserCredentials.objects.get(user_id=user_id)
+    except UserCredentials.DoesNotExist:
+        return redirect('login')  # 不正な ID の場合もログインへ
+
+    # ランダムな天気・トラック・距離生成
+    weather_options = ['晴れ', '小雨', '大雨']
+    track_options = ['芝', 'ダート']
+    weather = random.choice(weather_options)
+    track = random.choice(track_options)
+    distance = random.choice(range(1000, 3100, 100))
+
+    # 馬の情報（仮に6頭、名前は馬1〜馬6、オッズは1.0〜9.9でランダム）
+    horse_info = []
+    for i in range(1, 7):
+        horse_name = f"馬{i}"
+        odds = round(random.uniform(1.0, 9.9), 1)
+        horse_info.append((i, horse_name, odds))
+
+    return render(request, 'race2.html', {
+        'user_ID': str(user.user_id).zfill(8),
+        'user_name': user.user_name,
+        'current_coin': user.current_coin,
+        'weather': weather,
+        'track': track,
+        'distance': distance,
+        'horse_info': horse_info,
+    })
+
+
+def race3(request):
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login_form')
+
+    try:
+        user = UserCredentials.objects.get(user_id=user_id)
+    except UserCredentials.DoesNotExist:
+        return redirect('login_form')
+
+    weather = random.choice(['晴れ', '小雨', '大雨'])
+    track = random.choice(['芝', 'ダート'])
+    distance = random.choice(range(1000, 3100, 100))
+
+    horse_info = []
+    for i in range(1, 7):
+        horse_name = f"馬{i}"
+        odds = round(random.uniform(1.0, 9.9), 1)
+        horse_info.append((i, horse_name, odds))
+
+    return render(request, 'race3.html', {
+        'user_ID': str(user.user_id).zfill(8),
+        'user_name': user.user_name,
+        'current_coin': user.current_coin,
+        'weather': weather,
+        'track': track,
+        'distance': distance,
+        'horse_info': horse_info,
+    })
