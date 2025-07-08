@@ -43,7 +43,7 @@
         <!-- <a href="#" class="button-small">ユーザ名の変更</a> -->
         <button class="button-small" onclick="alert('まだ対応していません');">ユーザ名の変更</button>
         <a href="{% url 'user_result' user_ID %}" class="button-large">過去のレース</a>
-        <a href="#" class="button-large">フレンドを管理</a>
+        <a href="{% url 'ranking' %}" class="button-large">フレンドを管理</a>
         <a href="{% url 'home' %}" class="button-small">ホームに戻る</a>
     </div>
 
