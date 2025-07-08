@@ -3,8 +3,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>単勝スタート</title>
-    <link rel="stylesheet" href="{% static 'css/race1.css' %}">
+    <title>複勝スタート</title>
+    <link rel="stylesheet" href="{% static 'css/race2.css' %}">
 </head>
 <body>
     <div class="top-bar">
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="top-section">
-        <h1>単勝</h1>
+        <h1>複勝</h1>
         <p class="race-info">
             天気: {{ weather }}
             トラック: {{ track }}
@@ -33,18 +33,18 @@
                 {% csrf_token %}
                 <table>
                     <tr>
-                        <th>選択</th>
+                        <th></th>
                         <th>馬名</th>
                         <th>オッズ</th>
                     </tr>
                     {% for num, horse, odds in horse_info %}
-                    <tr>
-                        <td class="radio-cell">
-                            <input type="radio" name="selected_horse" value="{{ num }}" required>
-                        </td>
-                        <td>馬{{ num }}</td>
-                        <td>{{ odds }}</td>
-                    </tr>
+                        <tr>
+                            <td class="radio-cell">
+                                <input type="radio" name="selected_horse" value="{{ num }}" required>
+                            </td>
+                            <td>馬{{ num }}</td>
+                            <td>{{ odds }}</td>
+                        </tr>
                     {% endfor %}
                 </table>
 

@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>三連単スタート</title>
+    <link rel="stylesheet" href="{% static 'css/race3.css' %}">
+    <script src="{% static 'js/race3.js' %}" defer></script>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <span>ID: {{ user_ID }}</span>
+            <span>名前: {{ user_name }}</span>
+        </div>
+        <div class="coin-info">
+            <span>コイン: {{ current_coin }}枚</span>
+        </div>
+    </div>
+
+    <div class="top-section">
+        <h1>三連単</h1>
+        <p class="race-info">
+            天気: {{ weather }}
+            トラック: {{ track }}
+            距離: {{ distance }}m
+        </p>
+    </div>
+
+    <div class="main-layout">
+        <div class="left-panel">
+            <form method="post">
+                {% csrf_token %}
+                <div id="place-label" class="select-label">1着予想</div>
+
+                <!-- 1着 -->
+                <div class="horse-panel" id="panel1">
+                    <table>
+                        <tr><th></th><th>馬名</th><th>オッズ</th></tr>
+                        {% for num, horse, odds in horse_info %}
+                            <tr>
+                                <td><input type="radio" name="first_place" value="{{ num }}"></td>
+                                <td>馬{{ num }}</td>
+                                <td>{{ odds }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <!-- 2着 -->
+                <div class="horse-panel" id="panel2" style="display:none">
+                    <table>
+                        <tr><th></th><th>馬名</th><th>オッズ</th></tr>
+                        {% for num, horse, odds in horse_info %}
+                            <tr>
+                                <td><input type="radio" name="second_place" value="{{ num }}"></td>
+                                <td>馬{{ num }}</td>
+                                <td>{{ odds }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <!-- 3着 -->
+                <div class="horse-panel" id="panel3" style="display:none">
+                    <table>
+                        <tr><th></th><th>馬名</th><th>オッズ</th></tr>
+                        {% for num, horse, odds in horse_info %}
+                            <tr>
+                                <td><input type="radio" name="third_place" value="{{ num }}"></td>
+                                <td>馬{{ num }}</td>
+                                <td>{{ odds }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+
+                <div class="switch-buttons">
+                    <button type="button" onclick="prevPanel()">&lt;</button>
+                    <button type="button" onclick="showPanel(0)">1</button>
+                    <button type="button" onclick="showPanel(1)">2</button>
+                    <button type="button" onclick="showPanel(2)">3</button>
+                    <button type="button" onclick="nextPanel()">&gt;</button>
+                </div>
+
+                <!-- 従来の位置 -->
+                <!-- <div class="bottom-left-buttons">
+                    <a href="{% url 'home' %}" class="nav-button">ホームに戻る</a>
+                    <a href="javascript:history.back()" class="nav-button">戻る</a>
+                </div> -->
+        </div>
+
+        <div class="right-panel">
+            <div class="coin-section">
+                <label for="coin_input">使用コイン枚数</label>
+                <div class="coin-input">
+                    <input type="number" id="coin_input" name="coin" min="1" required>
+                    <span>枚</span>
+                </div>
+            </div>
+
+            <button type="submit" class="start-button">レーススタート</button>
+
+            <!-- ▼ここに移動 -->
+            <div class="bottom-buttons-under-start">
+                <a href="{% url 'home' %}" class="nav-button">ホームに戻る</a>
+                <a href="javascript:history.back()" class="nav-button">戻る</a>
+            </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

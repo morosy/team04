@@ -40,5 +40,7 @@ urlpatterns = [
     # --- 馬券関連 ---
     path('select_ticket/', core_views.select_ticket, name='select_ticket'),
     path('race1/', core_views.race1, name='race1'),
+    path('race2/', core_views.race2, name='race2'),
+    path('race3/', core_views.race3, name='race3'),
 ]
 
