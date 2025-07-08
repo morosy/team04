@@ -21,6 +21,9 @@ from keiba_auth.login_request.views import Userdata_reader
 import MySQLdb
 from collections import namedtuple
 from datetime import datetime
+import random
+from .models import HorseStats
+from apps.core.models import User
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -331,68 +334,61 @@ def update_username(request):
     Usage: select_ticket(request)
 '''
 def select_ticket(request):
-    # セッションからユーザーIDを取得（他のビューと同様に統一）
     user_id = request.session.get('logged_in_user_id')
-    if not user_id:
-        return redirect('login_form')  # ログイン画面のURLパターン名に合わせる
+
+    if user_id is None:
+        return redirect('login')  # 未ログインならログインへ
+
+    try:
+        user = UserCredentials.objects.get(user_id=user_id)
+    except UserCredentials.DoesNotExist:
+        return redirect('login')
 
     context = {
-        'user_ID': user_id,
+        'user_ID': f"{int(user.user_id):08d}",  # ゼロ埋め表示
+        'user_name': user.user_name,
+        'current_coin': user.current_coin,
     }
     return render(request, 'select_ticket.html', context)
 
 
-'''
-    Function Name: display_race1
-    Designer: Shunsuke MOROZUMI
-    Date: 2025/07/08
-    Description:
-        単勝・複勝のレース画面を表示するビュー関数.
-        ユーザーIDをセッションから取得し、HTMLテンプレートに渡す.
-        ユーザーIDが存在しない場合はログイン画面へリダイレクトする.
-    Parameters: request: HTTPリクエストオブジェクト
-    Returns: render: 単勝・複勝のレース画面を表示するHTMLテンプレート
-    Usage: display_race1(request)
-'''
-def display_race1(request):
-    """
-    単勝・複勝のレース画面を表示するビュー
-    """
+
+def race1(request):
+    # セッションに user_id があるか確認
     user_id = request.session.get('logged_in_user_id')
     if not user_id:
-        return redirect('login_form')  # ログインしていなければログイン画面へ
+        return redirect('login')  # 未ログインならログインページへ
+
+    try:
+        # user_id から User オブジェクトを取得
+        user = UserCredentials.objects.get(user_id=user_id)
+    except UserCredentials.DoesNotExist:
+        return redirect('login')  # 不正な ID の場合もログインへ
+
+    # コイン枚数
+    current_coin = user.current_coin
+
+    # 天気・トラック・距離をランダムに決定
+    weather = random.choice(['晴れ', '小雨', '大雨'])
+    track = random.choice(['芝', 'ダート'])
+    distance = random.choice(range(1000, 3100, 100))  # 1000〜3000の100刻み
+
+    # horse_data DB からランダムに6頭取得
+    horses = HorseStats.objects.using('horse_data').order_by('?')[:6]
+
+    # ランダムオッズ（馬ごとに1.2〜9.9の範囲で生成）
+    odds_list = [round(random.uniform(1.2, 9.9), 1) for _ in range(6)]
+    horse_info = list(zip(range(1, 7), horses, odds_list))  # (馬番号, horse, オッズ)
 
     context = {
-        'user_ID': user_id,
-        'race_type': '単勝・複勝',
+        'user_ID': str(user.user_id).zfill(8),
+        'user_name': user.user_name,
+        'current_coin': current_coin,
+        'weather': weather,
+        'track': track,
+        'distance': distance,
+        'horse_info': horse_info,  # テンプレートで馬名とオッズを表示
     }
-    return render(request, 'race_display_1.html', context)
 
-
-
-'''
-    Function Name: display_race2
-    Designer: Shunsuke MOROZUMI
-    Date: 2025/07/08
-    Description:
-        三連単のレース画面を表示するビュー関数.
-        ユーザーIDをセッションから取得し、HTMLテンプレートに渡す.
-        ユーザーIDが存在しない場合はログイン画面へリダイレクトする.
-    Parameters: request: HTTPリクエストオブジェクト
-    Returns: render: 三連単のレース画面を表示するHTMLテンプレート
-    Usage: display_race2(request)
-'''
-def display_race2(request):
-    """
-    三連単のレース画面を表示するビュー
-    """
-    user_id = request.session.get('logged_in_user_id')
-    if not user_id:
-        return redirect('login_form')
-
-    context = {
-        'user_ID': user_id,
-        'race_type': '三連単',
-    }
-    return render(request, 'race_display_2.html', context)
+    return render(request, 'race1.html', context)
 

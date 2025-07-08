@@ -4,54 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>馬券選択</title>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-
-    {% comment %}
-    <!-- <script>
-        async function sendSelection(value) {
-            const res = await fetch("{% url 'select' %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({ selection: value })
-            });
-            const result = await res.json();
-
-            // 成功したら指定された画面に遷移
-            if (result.redirect_url) {
-                window.location.href = result.redirect_url;
-            } else {
-                alert("エラーが発生しました");
-            }
-        }
-    </script>
-    -->
-    {% endcomment %}
-
-
+    <link rel="stylesheet" href="{% static 'css/select_ticket.css' %}">
+</head>
 <body>
 
-    <h1 class="title">馬券の種類を選択</h1>
-    <script>
-        function sendSelection(value) {
-            if (value === 0 || value === 1) {
-                window.location.href = "{% url 'display_race1' %}";
-            } else if (value === 2) {
-                window.location.href = "{% url 'display_race2' %}";
-            }
-        }
-    </script>
-
-    <div class="button-container">
-        <button class="big-button" onclick="sendSelection(0)">勝<br>単</button>
-        <button class="big-button" onclick="sendSelection(1)">勝<br>複</button>
-        <button class="big-button" onclick="sendSelection(2)">単<br>連<br>三</button>
+    <div class="top-bar">
+        <div class="user-info">
+            <span>ID: {{ user_ID }}</span>
+            <span>名前: {{ user_name }}</span>
+        </div>
+        <div class="coin-info">
+            <span>コイン: {{ current_coin }}</span>
+        </div>
     </div>
 
-    <a href="{% url 'home' %}">
-    <button class="back-button">戻る</button>
-    </a>
+    <div class="main-content">
+        <h1>馬券の種類を選択</h1>
+
+        <div class="button-group">
+            <a href="{% url 'race1' %}" class="ticket-button">単勝</a>
+            <a href="#" class="ticket-button">複勝</a>
+            <a href="#" class="ticket-button">三連単</a>
+        </div>
+
+        <div class="home-button-wrapper">
+            <a href="{% url 'home' %}" class="home-button">ホームへ戻る</a>
+        </div>
+    </div>
+
 </body>
 </html>

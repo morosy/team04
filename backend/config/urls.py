@@ -39,7 +39,6 @@ urlpatterns = [
 
     # --- 馬券関連 ---
     path('select_ticket/', core_views.select_ticket, name='select_ticket'),
-    path('display_race1/', core_views.display_race1, name='display_race1'),
-    path('display_race2/', core_views.display_race2, name='display_race2'),
+    path('race1/', core_views.race1, name='race1'),
 ]
 

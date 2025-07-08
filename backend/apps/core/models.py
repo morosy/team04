@@ -25,3 +25,25 @@ class FriendRequest(models.Model):
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received_requests')
     status = models.CharField(max_length=10, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')], default='pending')
     request_timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class HorseStats(models.Model):
+    body_weight = models.IntegerField()
+    power = models.IntegerField()
+    speed = models.IntegerField()
+    stamina = models.IntegerField()
+    clear_weather_status = models.IntegerField()
+    light_rain_status = models.IntegerField()
+    heavy_rain_status = models.IntegerField()
+    grass_status = models.IntegerField()
+    dirt_status = models.IntegerField()
+    sprint_status = models.IntegerField()
+    middle_status = models.IntegerField()
+    long_status = models.IntegerField()
+
+    def __str__(self):
+        return f"Horse {self.id}"
+
+    class Meta:
+        db_table = 'horse_status'
+        managed = False
