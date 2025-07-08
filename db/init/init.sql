@@ -46,7 +46,7 @@ BEGIN
     SET @sql = CONCAT(
         'CREATE TABLE IF NOT EXISTS ', @table_name, ' (',
         'user_ID INT NOT NULL, ',
-        'date INT NOT NULL, ',
+        'date BIGINT NOT NULL, ',
         'category INT NOT NULL, ',
         'result VARCHAR(20) NOT NULL, ',
         'change_coin INT NOT NULL, ',
