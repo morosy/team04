@@ -283,3 +283,82 @@ def mypage(request):
 #     def get(self, request, *args, **kwargs):
 #         return self.post(request, *args, **kwargs)
 
+
+'''
+    Function Name: select_ticket
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/03
+    Description:
+        馬券選択画面を表示するビュー関数.
+        ユーザーIDをセッションから取得し、HTMLテンプレートに渡す.
+        ユーザーIDが存在しない場合はログイン画面へリダイレクトする.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: 馬券選択画面を表示するHTMLテンプレート
+    Usage: select_ticket(request)
+'''
+def select_ticket(request):
+    # セッションからユーザーIDを取得（他のビューと同様に統一）
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login_form')  # ログイン画面のURLパターン名に合わせる
+
+    context = {
+        'user_ID': user_id,
+    }
+    return render(request, 'select_ticket.html', context)
+
+
+'''
+    Function Name: display_race1
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/08
+    Description:
+        単勝・複勝のレース画面を表示するビュー関数.
+        ユーザーIDをセッションから取得し、HTMLテンプレートに渡す.
+        ユーザーIDが存在しない場合はログイン画面へリダイレクトする.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: 単勝・複勝のレース画面を表示するHTMLテンプレート
+    Usage: display_race1(request)
+'''
+def display_race1(request):
+    """
+    単勝・複勝のレース画面を表示するビュー
+    """
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login_form')  # ログインしていなければログイン画面へ
+
+    context = {
+        'user_ID': user_id,
+        'race_type': '単勝・複勝',
+    }
+    return render(request, 'race_display_1.html', context)
+
+
+
+'''
+    Function Name: display_race2
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/08
+    Description:
+        三連単のレース画面を表示するビュー関数.
+        ユーザーIDをセッションから取得し、HTMLテンプレートに渡す.
+        ユーザーIDが存在しない場合はログイン画面へリダイレクトする.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: 三連単のレース画面を表示するHTMLテンプレート
+    Usage: display_race2(request)
+'''
+def display_race2(request):
+    """
+    三連単のレース画面を表示するビュー
+    """
+    user_id = request.session.get('logged_in_user_id')
+    if not user_id:
+        return redirect('login_form')
+
+    context = {
+        'user_ID': user_id,
+        'race_type': '三連単',
+    }
+    return render(request, 'race_display_2.html', context)
+

@@ -111,7 +111,7 @@ docker-compose exec web /bin/bash
 
 # テストアカウントの作成
 cd docker/init
-python initialization.py
+python init.py
 
 # Webブラウザで以下にアクセス
 http://localhost:8000/

@@ -1,10 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>馬券選択</title>
-    <link rel="stylesheet" href="select_ticket.css">
-    <script>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    {% comment %}
+    <!-- <script>
         async function sendSelection(value) {
             const res = await fetch("{% url 'select' %}", {
                 method: 'POST',
@@ -24,12 +27,13 @@
             }
         }
     </script>
-</head>
+    -->
+    {% endcomment %}
+
 
 <body>
 
     <h1 class="title">馬券の種類を選択</h1>
-
     <script>
         function sendSelection(value) {
             if (value === 0 || value === 1) {
