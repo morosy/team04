@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>単勝スタート</title>
+    <link rel="stylesheet" href="{% static 'css/race1.css' %}">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <span>ID: {{ user_ID }}</span>
+            <span>名前: {{ user_name }}</span>
+        </div>
+        <div class="coin-info">
+            <span>コイン: {{ current_coin }}枚</span>
+        </div>
+    </div>
+    <div class="top-section">
+        <h1>単勝</h1>
+        <p class="race-info">
+            天気: {{ weather }}
+            トラック: {{ track }}
+            距離: {{ distance }}m
+        </p>
+    </div>
+
+    <div class="main-layout">
+
+        <!-- 左パネル：チェックボックス＋表 -->
+        <div class="left-panel">
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    <tr><th>馬名</th><th>オッズ</th></tr>
+                    {% for num, horse, odds in horse_info %}
+                        <tr>
+                            <td>馬{{ num }}</td>
+                            <td>{{ odds }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <div class="bottom-left-buttons">
+                    <a href="{% url 'home' %}" class="nav-button">ホームに戻る</a>
+                    <a href="javascript:history.back()" class="nav-button">戻る</a>
+                </div>
+        </div>
+
+        <!-- 右パネル：コイン入力とスタート -->
+        <div class="right-panel">
+            <div class="coin-section">
+                <label for="coin_input">使用コイン枚数</label>
+                <div class="coin-input">
+                    <input type="number" id="coin_input" name="coin" min="1" required>
+                    <span>枚</span>
+                </div>
+            </div>
+
+            <button type="submit" class="start-button">レーススタート</button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>
