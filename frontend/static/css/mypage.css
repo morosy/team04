@@ -145,3 +145,37 @@ body {
     transform: scale(1.1);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
+
+
+.username-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.username-form input[type="text"] {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.username-form button {
+    padding: 5px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.username-form button:hover {
+    background-color: #45a049;
+}
+
+#username-form {
+    transition: all 0.3s ease;
+}

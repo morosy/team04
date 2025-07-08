@@ -33,6 +33,7 @@ urlpatterns = [
     path('friend-accept/', core_views.friend_accept_view, name='friend_accept'),
     path('home/', core_views.home, name='home'),
     path('mypage/', core_views.mypage, name='mypage'),
+    path('update_username/', core_views.update_username, name='update_username'),
     path('user_result/<int:user_id>/', core_views.user_result, name='user_result'),
     path('ranking/', core_views.ranking_view, name='ranking'),
 
