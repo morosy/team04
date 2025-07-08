@@ -35,4 +35,10 @@ urlpatterns = [
     path('mypage/', core_views.mypage, name='mypage'),
     path('user_result/<int:user_id>/', core_views.user_result, name='user_result'),
     path('ranking/', core_views.ranking_view, name='ranking'),
+
+    # --- 馬券関連 ---
+    path('select_ticket/', core_views.select_ticket, name='select_ticket'),
+    path('display_race1/', core_views.display_race1, name='display_race1'),
+    path('display_race2/', core_views.display_race2, name='display_race2'),
 ]
+
