@@ -42,7 +42,6 @@ urlpatterns = [
     path('race1/', core_views.race1, name='race1'),
     path('race2/', core_views.race2, name='race2'),
     path('race3/', core_views.race3, name='race3'),
-    path('race1/result/', core_views.race1_result, name='race1_result'),
 ]
 
 

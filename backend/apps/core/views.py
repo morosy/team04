@@ -368,17 +368,18 @@ def race1(request):
         selected_num = int(request.POST.get("selected_horse"))
         used_coin = int(request.POST.get("coin"))
 
+        # セッションから情報を取得
         weather = request.session.get("race1_weather")
         track = request.session.get("race1_track")
         distance = int(request.session.get("race1_distance"))
         horse_info = request.session.get("race1_horse_info")
 
+        # 各ステータスキーを決定
         weather_key = {
             "晴れ": "clear_weather_status",
             "小雨": "light_rain_status",
             "大雨": "heavy_rain_status"
         }[weather]
-
         track_key = "grass_status" if track == "芝" else "dirt_status"
         if distance < 1500:
             dist_key = "sprint_status"
@@ -387,27 +388,25 @@ def race1(request):
         else:
             dist_key = "long_status"
 
+        # 馬のスコア計算
         horse_scores = []
         for num, horse_dict, odds in horse_info:
             score = horse_dict[weather_key] + horse_dict[track_key] + horse_dict[dist_key]
             horse_scores.append((num, score))
 
+        # 順位決定
         sorted_result = sorted(horse_scores, key=lambda x: x[1], reverse=True)
         winner = sorted_result[0][0]
 
         result = "win" if selected_num == winner else "lose"
-        selected_odds = None
-        for num, _, odds in horse_info:
-            if num == selected_num:
-                selected_odds = odds
-                break
 
-        if result == "win":
-            gain = int(used_coin * selected_odds)
-        else:
-            gain = 0
+        # 選択した馬のオッズを探す
+        selected_odds = next((odds for num, _, odds in horse_info if num == selected_num), 1.0)
 
+        gain = int(used_coin * selected_odds) if result == "win" else 0
         change_coin = gain - used_coin
+
+        # コインと勝敗更新
         user.current_coin += change_coin
         if result == "win":
             user.number_of_wins += 1
@@ -415,6 +414,7 @@ def race1(request):
             user.number_of_losses += 1
         user.save()
 
+        # 結果をDBに保存
         now_str = datetime.now().strftime("%Y%m%d%H%M%S")
         with connection.cursor() as cursor:
             table = f"user_result_{user_id}"
@@ -423,6 +423,7 @@ def race1(request):
                 VALUES (%s, %s, %s, %s, %s, %s)
             """, [user_id, now_str, 0, result, change_coin, user.current_coin])
 
+        # テンプレートへ返す
         context = {
             "user_ID": str(user.user_ID).zfill(8),
             "user_name": user.user_name,
@@ -430,52 +431,51 @@ def race1(request):
             "weather": weather,
             "track": track,
             "distance": distance,
-            "sorted_result": [(i+1, num, score) for i, (num, score) in enumerate(sorted_result)],
-            "selected_horse": selected_num,
-            "selected_odds": selected_odds,
-            "result_text": "的中！" if result == "win" else "ハズレ",
-            "used_coin": used_coin,
-            "change_coin": change_coin,
+            "race_results": [(i+1, num, score) for i, (num, score) in enumerate(sorted_result)],
+            "user_choice": selected_num,
+            "is_win": result == "win",
+            "change_coin": abs(change_coin),
         }
         return render(request, "race1_result.html", context)
 
-    # GET時の初期化
-    weather = random.choice(["晴れ", "小雨", "大雨"])
-    track = random.choice(["芝", "ダート"])
-    distance = random.choice(range(1000, 3100, 100))
-    horses = HorseStats.objects.using('horse_data').order_by('?')[:6]
-    odds_list = [round(random.uniform(1.2, 9.9), 1) for _ in range(6)]
+    else:
+        # GET：レース前の初期画面
+        weather = random.choice(["晴れ", "小雨", "大雨"])
+        track = random.choice(["芝", "ダート"])
+        distance = random.choice(range(1000, 3100, 100))
+        horses = HorseStats.objects.using('horse_data').order_by('?')[:6]
+        odds_list = [round(random.uniform(1.2, 9.9), 1) for _ in range(6)]
 
-    horse_info = []
-    for i, horse in enumerate(horses):
-        horse_dict = {
-            "clear_weather_status": horse.clear_weather_status,
-            "light_rain_status": horse.light_rain_status,
-            "heavy_rain_status": horse.heavy_rain_status,
-            "grass_status": horse.grass_status,
-            "dirt_status": horse.dirt_status,
-            "sprint_status": horse.sprint_status,
-            "middle_status": horse.middle_status,
-            "long_status": horse.long_status,
+        horse_info = []
+        for i, horse in enumerate(horses):
+            horse_dict = {
+                "clear_weather_status": horse.clear_weather_status,
+                "light_rain_status": horse.light_rain_status,
+                "heavy_rain_status": horse.heavy_rain_status,
+                "grass_status": horse.grass_status,
+                "dirt_status": horse.dirt_status,
+                "sprint_status": horse.sprint_status,
+                "middle_status": horse.middle_status,
+                "long_status": horse.long_status,
+            }
+            horse_info.append((i + 1, horse_dict, odds_list[i]))
+
+        # セッションに保存
+        request.session["race1_weather"] = weather
+        request.session["race1_track"] = track
+        request.session["race1_distance"] = distance
+        request.session["race1_horse_info"] = horse_info
+
+        context = {
+            "user_ID": str(user.user_ID).zfill(8),
+            "user_name": user.user_name,
+            "current_coin": user.current_coin,
+            "weather": weather,
+            "track": track,
+            "distance": distance,
+            "horse_info": [(i + 1, odds_list[i]) for i in range(6)],  # 表示用の馬番号とオッズ
         }
-        horse_info.append((i + 1, horse_dict, odds_list[i]))
-
-    request.session["race1_weather"] = weather
-    request.session["race1_track"] = track
-    request.session["race1_distance"] = distance
-    request.session["race1_horse_info"] = horse_info
-
-    context = {
-        "user_ID": str(user.user_ID).zfill(8),
-        "user_name": user.user_name,
-        "current_coin": user.current_coin,
-        "weather": weather,
-        "track": track,
-        "distance": distance,
-        "horse_info": horse_info,
-    }
-    return render(request, "race1.html", context)
-
+        return render(request, "race1.html", context)
 
 
 
@@ -547,88 +547,3 @@ def race3(request):
     })
 
 
-def race1_result(request):
-    user_id = request.session.get('logged_in_user_id')
-    if not user_id:
-        return redirect('login_form')
-
-    try:
-        user = UserCredentials.objects.get(user_id=user_id)
-    except UserCredentials.DoesNotExist:
-        return redirect('login_form')
-
-    # POSTデータから選択馬と使用コインを取得
-    selected_horse = int(request.POST.get('horse_choice'))
-    used_coin = int(request.POST.get('coin'))
-
-    # 馬情報と天気情報をセッションから取得（race1で保存しておく）
-    horses = request.session.get('race1_horses')  # 各馬のhorse_id一覧
-    weather = request.session.get('weather')
-    track = request.session.get('track')
-    distance = request.session.get('distance')
-
-    # スコアを計算
-    horse_objects = HorseStats.objects.using('horse_data').filter(id__in=horses)
-    score_map = {}
-    for horse in horse_objects:
-        weather_score = getattr(horse, {
-            '晴れ': 'clear_weather_status',
-            '小雨': 'light_rain_status',
-            '大雨': 'heavy_rain_status'
-        }[weather])
-
-        track_score = getattr(horse, {
-            '芝': 'grass_status',
-            'ダート': 'dirt_status'
-        }[track])
-
-        distance_score = (
-            horse.sprint_status if distance <= 1400 else
-            horse.middle_status if distance <= 2000 else
-            horse.long_status
-        )
-
-        total_score = weather_score + track_score + distance_score
-        score_map[horse.id] = total_score
-
-    # スコア降順で順位決定
-    sorted_horses = sorted(score_map.items(), key=lambda x: x[1], reverse=True)
-    horse_ranks = [(i+1, hid, score) for i, (hid, score) in enumerate(sorted_horses)]
-
-    # 1着が選んだ馬と一致するか
-    winner_id = sorted_horses[0][0]
-    is_win = (selected_horse == horses.index(winner_id) + 1)
-
-    # 結果保存
-    now = datetime.now()
-    result_str = "win" if is_win else "lose"
-    change_coin = used_coin if is_win else -used_coin
-    new_coin = user.current_coin + change_coin
-    user.current_coin = new_coin
-    if is_win:
-        user.number_of_wins += 1
-    else:
-        user.number_of_losses += 1
-    user.save()
-
-    table = f"user_result_{user_id}"
-    with connection.cursor() as cursor:
-        cursor.execute(f"""
-            INSERT INTO {table} (user_ID, date, category, result, change_coin, current_coin)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, [user_id, now.strftime("%Y%m%d"), 0, result_str, change_coin, new_coin])
-
-    context = {
-        "user_ID": str(user.user_id).zfill(8),
-        "user_name": user.user_name,
-        "current_coin": new_coin,
-        "weather": weather,
-        "track": track,
-        "distance": distance,
-        "race_results": horse_ranks,
-        "user_choice": selected_horse,
-        "is_win": is_win,
-        "change_coin": abs(change_coin)
-    }
-
-    return render(request, "race1_result.html", context)
