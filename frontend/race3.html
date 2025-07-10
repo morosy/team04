@@ -33,47 +33,32 @@
                 {% csrf_token %}
                 <div id="place-label" class="select-label">1着予想</div>
 
-                <!-- 1着 -->
-                <div class="horse-panel" id="panel1">
-                    <table>
-                        <tr><th></th><th>馬名</th><th>オッズ</th></tr>
-                        {% for num, odds in horse_info %}
+                {% for i in "123" %}
+                    <div class="horse-panel" id="panel{{ i|add:"0"|slice:"-1" }}" style="{% if forloop.first %}display:block{% else %}display:none{% endif %}">
+                        <table>
                             <tr>
-                                <td><input type="radio" name="first_place" value="{{ num }}"></td>
-                                <td>馬{{ num }}</td>
-                                <td>{{ odds }}</td>
+                                <th>選択</th>
+                                <th>馬名</th>
+                                <th>体重</th>
+                                <th>パワー</th>
+                                <th>スピード</th>
+                                <th>スタミナ</th>
+                                <th>オッズ</th>
                             </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-
-                <!-- 2着 -->
-                <div class="horse-panel" id="panel2" style="display:none">
-                    <table>
-                        <tr><th></th><th>馬名</th><th>オッズ</th></tr>
-                        {% for num, odds in horse_info %}
+                            {% for horse in horse_info %}
                             <tr>
-                                <td><input type="radio" name="second_place" value="{{ num }}"></td>
-                                <td>馬{{ num }}</td>
-                                <td>{{ odds }}</td>
+                                <td><input type="radio" name="{% if forloop.parentloop.counter == 1 %}first_place{% elif forloop.parentloop.counter == 2 %}second_place{% else %}third_place{% endif %}" value="{{ horse.num }}"></td>
+                                <td>{{ horse.name }}</td>
+                                <td>{{ horse.weight }}</td>
+                                <td>{{ horse.power }}</td>
+                                <td>{{ horse.speed }}</td>
+                                <td>{{ horse.stamina }}</td>
+                                <td>{{ horse.odds }}</td>
                             </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-
-                <!-- 3着 -->
-                <div class="horse-panel" id="panel3" style="display:none">
-                    <table>
-                        <tr><th></th><th>馬名</th><th>オッズ</th></tr>
-                        {% for num, odds in horse_info %}
-                            <tr>
-                                <td><input type="radio" name="third_place" value="{{ num }}"></td>
-                                <td>馬{{ num }}</td>
-                                <td>{{ odds }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endfor %}
 
                 <div class="switch-buttons">
                     <button type="button" onclick="prevPanel()">&lt;</button>
@@ -82,12 +67,6 @@
                     <button type="button" onclick="showPanel(2)">3</button>
                     <button type="button" onclick="nextPanel()">&gt;</button>
                 </div>
-
-                <!-- 従来の位置 -->
-                <!-- <div class="bottom-left-buttons">
-                    <a href="{% url 'home' %}" class="nav-button">ホームに戻る</a>
-                    <a href="javascript:history.back()" class="nav-button">戻る</a>
-                </div> -->
         </div>
 
         <div class="right-panel">
@@ -101,14 +80,12 @@
 
             <button type="submit" class="start-button">レーススタート</button>
 
-            <!-- ▼ここに移動 -->
             <div class="bottom-buttons-under-start">
                 <a href="{% url 'home' %}" class="nav-button">ホームに戻る</a>
                 <a href="javascript:history.back()" class="nav-button">戻る</a>
             </div>
             </form>
         </div>
-
     </div>
 </body>
 </html>

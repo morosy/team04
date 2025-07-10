@@ -16,7 +16,7 @@ body {
 
 .main-layout {
     display: flex;
-    height: calc(100vh - 160px); /* 天気情報 + 上バーの余白を引く */
+    height: calc(100vh - 160px);
     padding: 20px;
     box-sizing: border-box;
 }
@@ -29,13 +29,13 @@ body {
 .left-panel table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 20px;
+    font-size: 18px;
     background-color: #fff;
     border: 2px solid #333;
 }
 
 .left-panel th, .left-panel td {
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #ccc;
     text-align: center;
 }
@@ -125,5 +125,5 @@ body {
 
 .left-panel td.radio-cell {
     width: 40px;
-    text-align: center;
+    text-align: cen
 }

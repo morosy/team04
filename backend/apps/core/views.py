@@ -447,8 +447,19 @@ def race1(request):
         horses = HorseStats.objects.using('horse_data').order_by('?')[:6]
         odds_list = [round(random.uniform(1.2, 9.9), 1) for _ in range(6)]
 
-        horse_info = []
-        for i, horse in enumerate(horses):
+        display_horse_info = []
+        session_horse_info = []
+
+        for i, (horse, odds) in enumerate(zip(horses, odds_list)):
+            display_horse_info.append({
+                "num": i + 1,
+                "name": f"馬{i+1}",
+                "weight": horse.body_weight,
+                "power": horse.power,
+                "speed": horse.speed,
+                "stamina": horse.stamina,
+                "odds": odds
+            })
             horse_dict = {
                 "clear_weather_status": horse.clear_weather_status,
                 "light_rain_status": horse.light_rain_status,
@@ -459,13 +470,13 @@ def race1(request):
                 "middle_status": horse.middle_status,
                 "long_status": horse.long_status,
             }
-            horse_info.append((i + 1, horse_dict, odds_list[i]))
+            session_horse_info.append((i + 1, horse_dict, odds))
 
         # セッションに保存
         request.session["race1_weather"] = weather
         request.session["race1_track"] = track
         request.session["race1_distance"] = distance
-        request.session["race1_horse_info"] = horse_info
+        request.session["race1_horse_info"] = session_horse_info
 
         context = {
             "user_ID": str(user.user_ID).zfill(8),
@@ -474,7 +485,7 @@ def race1(request):
             "weather": weather,
             "track": track,
             "distance": distance,
-            "horse_info": [(i + 1, odds_list[i]) for i in range(6)],  # 表示用の馬番号とオッズ
+            "horse_info": display_horse_info,
         }
         return render(request, "race1.html", context)
 
@@ -538,7 +549,7 @@ def race2(request):
             cursor.execute(f"""
                 INSERT INTO {table} (user_ID, date, category, result, change_coin, current_coin)
                 VALUES (%s, %s, %s, %s, %s, %s)
-            """, [user_id, now_str, 1, result, change_coin, user.current_coin])  # category = 1 (複勝)
+            """, [user_id, now_str, 1, result, change_coin, user.current_coin])  # category = 1
 
         context = {
             "user_ID": str(user.user_ID).zfill(8),
@@ -555,15 +566,25 @@ def race2(request):
         return render(request, "race2_result.html", context)
 
     else:
-        # GET：レース前の初期画面
         weather = random.choice(["晴れ", "小雨", "大雨"])
         track = random.choice(["芝", "ダート"])
         distance = random.choice(range(1000, 3100, 100))
         horses = HorseStats.objects.using('horse_data').order_by('?')[:6]
         odds_list = [round(random.uniform(1.2, 9.9), 1) for _ in range(6)]
 
-        horse_info = []
-        for i, horse in enumerate(horses):
+        display_horse_info = []
+        session_horse_info = []
+
+        for i, (horse, odds) in enumerate(zip(horses, odds_list)):
+            display_horse_info.append({
+                "num": i + 1,
+                "name": f"馬{i+1}",
+                "weight": horse.body_weight,
+                "power": horse.power,
+                "speed": horse.speed,
+                "stamina": horse.stamina,
+                "odds": odds
+            })
             horse_dict = {
                 "clear_weather_status": horse.clear_weather_status,
                 "light_rain_status": horse.light_rain_status,
@@ -574,12 +595,12 @@ def race2(request):
                 "middle_status": horse.middle_status,
                 "long_status": horse.long_status,
             }
-            horse_info.append((i + 1, horse_dict, odds_list[i]))
+            session_horse_info.append((i + 1, horse_dict, odds))
 
         request.session["race2_weather"] = weather
         request.session["race2_track"] = track
         request.session["race2_distance"] = distance
-        request.session["race2_horse_info"] = horse_info
+        request.session["race2_horse_info"] = session_horse_info
 
         context = {
             "user_ID": str(user.user_ID).zfill(8),
@@ -588,7 +609,7 @@ def race2(request):
             "weather": weather,
             "track": track,
             "distance": distance,
-            "horse_info": [(i + 1, odds_list[i]) for i in range(6)],
+            "horse_info": display_horse_info,
         }
         return render(request, "race2.html", context)
 
@@ -692,15 +713,25 @@ def race3(request):
         })
 
     else:
-        # GET: スタート画面の表示
         weather = random.choice(["晴れ", "小雨", "大雨"])
         track = random.choice(["芝", "ダート"])
         distance = random.choice(range(1000, 3100, 100))
         horses = HorseStats.objects.using('horse_data').order_by('?')[:6]
         odds_list = [round(random.uniform(1.2, 9.9), 1) for _ in range(6)]
 
-        horse_info = []
-        for i, horse in enumerate(horses):
+        display_horse_info = []
+        session_horse_info = []
+
+        for i, (horse, odds) in enumerate(zip(horses, odds_list)):
+            display_horse_info.append({
+                "num": i + 1,
+                "name": f"馬{i+1}",
+                "weight": horse.body_weight,
+                "power": horse.power,
+                "speed": horse.speed,
+                "stamina": horse.stamina,
+                "odds": odds
+            })
             horse_dict = {
                 "clear_weather_status": horse.clear_weather_status,
                 "light_rain_status": horse.light_rain_status,
@@ -711,12 +742,12 @@ def race3(request):
                 "middle_status": horse.middle_status,
                 "long_status": horse.long_status,
             }
-            horse_info.append((i + 1, horse_dict, odds_list[i]))
+            session_horse_info.append((i + 1, horse_dict, odds))
 
         request.session["race3_weather"] = weather
         request.session["race3_track"] = track
         request.session["race3_distance"] = distance
-        request.session["race3_horse_info"] = horse_info
+        request.session["race3_horse_info"] = session_horse_info
 
         return render(request, 'race3.html', {
             'user_ID': str(user.user_ID).zfill(8),
@@ -725,5 +756,5 @@ def race3(request):
             'weather': weather,
             'track': track,
             'distance': distance,
-            'horse_info': [(i + 1, odds_list[i]) for i in range(6)],
+            'horse_info': display_horse_info,
         })
