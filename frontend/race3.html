@@ -37,7 +37,7 @@
                 <div class="horse-panel" id="panel1">
                     <table>
                         <tr><th></th><th>馬名</th><th>オッズ</th></tr>
-                        {% for num, horse, odds in horse_info %}
+                        {% for num, odds in horse_info %}
                             <tr>
                                 <td><input type="radio" name="first_place" value="{{ num }}"></td>
                                 <td>馬{{ num }}</td>
@@ -51,7 +51,7 @@
                 <div class="horse-panel" id="panel2" style="display:none">
                     <table>
                         <tr><th></th><th>馬名</th><th>オッズ</th></tr>
-                        {% for num, horse, odds in horse_info %}
+                        {% for num, odds in horse_info %}
                             <tr>
                                 <td><input type="radio" name="second_place" value="{{ num }}"></td>
                                 <td>馬{{ num }}</td>
@@ -65,7 +65,7 @@
                 <div class="horse-panel" id="panel3" style="display:none">
                     <table>
                         <tr><th></th><th>馬名</th><th>オッズ</th></tr>
-                        {% for num, horse, odds in horse_info %}
+                        {% for num, odds in horse_info %}
                             <tr>
                                 <td><input type="radio" name="third_place" value="{{ num }}"></td>
                                 <td>馬{{ num }}</td>

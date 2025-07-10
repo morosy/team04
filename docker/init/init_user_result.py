@@ -29,8 +29,13 @@ def insert_user_result(user_id: int, num_records=10):
 
         while insert_count < num_records and attempts < max_attempts:
             attempts += 1
-            delta_days = random.randint(0, 30)
-            date = int((base_date - timedelta(days=delta_days)).strftime("%Y%m%d"))
+            timestamp = datetime.now() - timedelta(
+                days=random.randint(0, 30),
+                hours=random.randint(0, 23),
+                minutes=random.randint(0, 59),
+                seconds=random.randint(0, 59)
+            )
+            date = int(timestamp.strftime("%Y%m%d%H%M%S"))
             category = random.choice([0, 1, 2])
             key = (date, category)
 
@@ -50,6 +55,7 @@ def insert_user_result(user_id: int, num_records=10):
             """
             cursor.execute(insert_sql, (user_id, date, category, result, change_coin, current_coin))
             insert_count += 1
+
 
         conn.commit()
         cursor.close()

@@ -1,0 +1,57 @@
+body {
+    font-family: "Yu Gothic", sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
+}
+
+.top-bar {
+    background-color: #004d99;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.result-table {
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.result-table th, .result-table td {
+    border: 1px solid #999;
+    padding: 8px;
+}
+
+.judgement {
+    margin-top: 20px;
+}
+
+.win {
+    color: green;
+    font-weight: bold;
+}
+
+.lose {
+    color: red;
+    font-weight: bold;
+}
+
+.button-area {
+    margin-top: 30px;
+}
+
+.nav-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #004d99;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}

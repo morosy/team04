@@ -44,3 +44,4 @@ urlpatterns = [
     path('race3/', core_views.race3, name='race3'),
 ]
 
+
