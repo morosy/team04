@@ -1,3 +1,11 @@
+/*
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description: CSS for the race3 page.
+    Note: このファイルは, 三連単レースのCSSスタイルを定義
+*/
+
+
 body {
     font-family: 'Helvetica Neue', sans-serif;
     background-color: #f2f2f2;

@@ -325,7 +325,9 @@ def update_username(request):
 
 '''
     Function Name: select_ticket
-    Designer: Shunsuke MOROZUMI
+    Designer: RYOTA MURAI
+    Author: RYOTA MURAI
+    Editor: Shunsuke MOROZUMI
     Date: 2025/07/03
     Description:
         馬券選択画面を表示するビュー関数.
@@ -355,6 +357,22 @@ def select_ticket(request):
 
 
 
+'''
+    Function Name: race1
+    Designer: RYOTA MURAI
+    Editor, Author: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description:
+        レース1の処理を行うビュー関数.
+        ユーザーIDをセッションから取得し、ユーザー情報をデータベースから取得する.
+        POSTリクエストの場合は選択した馬とコインを取得し、レース結果を計算する.
+        GETリクエストの場合はレース前の初期画面を表示する.
+        レース結果を計算し、勝敗やコインの変動をユーザー情報に反映する.
+        レース結果をデータベースに保存し、結果をHTMLテンプレートに渡して表示する.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: レース結果を表示するHTMLテンプレート
+    Usage: race1(request)
+'''
 def race1(request):
     user_id = request.session.get('logged_in_user_id')
     if not user_id:
@@ -491,6 +509,22 @@ def race1(request):
 
 
 
+'''
+    Function Name: race2
+    Designer: RYOTA MURAI
+    Editor, Author: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description:
+        レース2の処理を行うビュー関数.
+        ユーザーIDをセッションから取得し、ユーザー情報をデータベースから取得する.
+        POSTリクエストの場合は選択した馬とコインを取得し、レース結果を計算する.
+        GETリクエストの場合はレース前の初期画面を表示する.
+        レース結果を計算し、勝敗やコインの変動をユーザー情報に反映する.
+        レース結果をデータベースに保存し、結果をHTMLテンプレートに渡して表示する.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: レース結果を表示するHTMLテンプレート
+    Usage: race2(request)
+'''
 def race2(request):
     user_id = request.session.get('logged_in_user_id')
     if not user_id:
@@ -613,7 +647,16 @@ def race2(request):
         }
         return render(request, "race2.html", context)
 
-
+'''
+    Function Name: get_weather_score
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description:
+        天候に応じた馬のスコアを取得する関数.
+    Parameters: weather: 天候の文字列, horse_num: 馬の番号
+    Returns: horseの天候に応じたスコア
+    Usage: get_weather_score(weather, horse_num)
+'''
 def get_weather_score(weather, horse_num):
     horse = HorseStats.objects.using('horse_data').get(id=horse_num)
     if weather == "晴れ":
@@ -623,6 +666,17 @@ def get_weather_score(weather, horse_num):
     else:  # 大雨
         return horse.heavy_rain_status
 
+
+'''
+    Function Name: get_track_score
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description:
+        トラックの種類に応じた馬のスコアを取得する関数.
+    Parameters: track: トラックの種類の文字列, horse_num: 馬の番号
+    Returns: horseのトラックに応じたスコア
+    Usage: get_track_score(track, horse_num)
+'''
 def get_track_score(track, horse_num):
     horse = HorseStats.objects.using('horse_data').get(id=horse_num)
     if track == "芝":
@@ -630,6 +684,17 @@ def get_track_score(track, horse_num):
     else:
         return horse.dirt_status
 
+
+'''
+    Function Name: get_distance_score
+    Designer: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description:
+        距離に応じた馬のスコアを取得する関数.
+    Parameters: distance: 距離の整数, horse_num: 馬の番号
+    Returns: horseの距離に応じたスコア
+    Usage: get_distance_score(distance, horse_num)
+'''
 def get_distance_score(distance, horse_num):
     horse = HorseStats.objects.using('horse_data').get(id=horse_num)
     if distance <= 1200:
@@ -639,6 +704,25 @@ def get_distance_score(distance, horse_num):
     else:
         return horse.long_status
 
+
+
+'''
+    Function Name: race3
+    Designer: RYOTA MURAI
+    Editor, Author: Shunsuke MOROZUMI
+    Date: 2025/07/09
+    Description:
+        レース3の処理を行うビュー関数.
+        ユーザーIDをセッションから取得し、ユーザー情報をデータベースから取得する.
+        POSTリクエストの場合は選択した馬とコインを取得し、レース結果を計算する.
+        GETリクエストの場合はレース前の初期画面を表示する.
+        レース結果を計算し、勝敗やコインの変動をユーザー情報に反映する.
+        レース結果をデータベースに保存し、
+        結果をHTMLテンプレートに渡して表示する.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: レース結果を表示するHTMLテンプレート
+    Usage: race3(request)
+'''
 def race3(request):
     user_id = request.session.get('logged_in_user_id')
     if not user_id:
