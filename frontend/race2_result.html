@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>レース結果 - 複勝</title>
+    <link rel="stylesheet" href="{% static 'css/race1_result.css' %}">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <span>ID: {{ user_ID }}</span>
+            <span>名前: {{ user_name }}</span>
+        </div>
+        <div class="coin-info">
+            <span>コイン: {{ current_coin }}枚</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>レース結果</h1>
+
+        <div class="race-summary">
+            <p>天気: {{ weather }} トラック: {{ track }} 距離: {{ distance }}m</p>
+        </div>
+
+        <h2>順位</h2>
+        <table class="result-table">
+            <tr><th>順位</th><th>馬番号</th><th>スコア</th></tr>
+            {% for rank, num, score in race_results %}
+                <tr>
+                    <td>{{ rank }}</td>
+                    <td>馬{{ num }}</td>
+                    <td>{{ score }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="judgement">
+            <h3>あなたの予想: 馬{{ user_choice }}</h3>
+            {% if is_win %}
+                <p class="win">的中！ +{{ change_coin }} コイン</p>
+            {% else %}
+                <p class="lose">ハズレ -{{ change_coin }} コイン</p>
+            {% endif %}
+        </div>
+
+        <div class="button-area">
+            <a href="{% url 'home' %}" class="nav-button">ホームに戻る</a>
+            <a href="{% url 'select_ticket' %}" class="nav-button">馬券選択に戻る</a>
+        </div>
+    </div>
+</body>
+</html>
