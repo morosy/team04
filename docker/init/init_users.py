@@ -11,12 +11,13 @@ db_config = {
     "database": "user_info"
 }
 
+# ユーザー定義（testuser2〜5 + 特別ユーザーteam04）
 test_users = [
-    ("testuser1", "password1"),
-    ("testuser2", "password2"),
-    ("testuser3", "password3"),
-    ("testuser4", "password4"),
-    ("testuser5", "password5"),
+    ("team04",   "advinfteam04", 10000000),  # 特別ユーザー
+    ("testuser2", "password2", None),
+    ("testuser3", "password3", None),
+    ("testuser4", "password4", None),
+    ("testuser5", "password5", None),
 ]
 
 def insert_users():
@@ -24,8 +25,9 @@ def insert_users():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        for name, pwd in test_users:
-            current_coin = random.randint(0, 1000)
+        for name, pwd, fixed_coin in test_users:
+            # 特別ユーザーなら固定コイン、他はランダム
+            current_coin = fixed_coin if fixed_coin is not None else random.randint(0, 1000)
             number_of_wins = random.randint(0, 20)
             number_of_losses = random.randint(0, 20)
 

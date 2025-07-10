@@ -179,9 +179,9 @@ user_ID=4 に 10 件のデータを挿入しました。
 
 #### 以下のいずれかのアカウントでログイン
 ```
-# testuser1
+# team04
 ID: 00000001
-PASSWORD: password1
+PASSWORD: advinfteam04
 
 # testuser2
 ID: 00000002
