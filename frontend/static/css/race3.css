@@ -178,3 +178,9 @@ body {
 .horse-panel {
     margin-bottom: 30px;
 }
+
+
+.disabled-button {
+    opacity: 0.5;
+    pointer-events: none;
+}

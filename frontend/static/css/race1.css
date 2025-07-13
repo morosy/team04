@@ -135,3 +135,9 @@ body {
     width: 40px;
     text-align: center;
 }
+
+.disabled-button {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
