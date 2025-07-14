@@ -72,6 +72,14 @@ tr:nth-child(even) {
     transform: translateX(-50%);
 }
 
+.button-row {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
 .button-large,
 .button-small {
     display: inline-block;
