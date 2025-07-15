@@ -101,3 +101,13 @@ a.close-button {
 .submit-button:active {
         transform: translateY(0);
 }
+
+/* メッセージ表示用スタイル */
+.message {
+        margin-top: 20px;
+        color: #d9534f;
+        /* エラーメッセージの赤色 */
+        font-weight: bold;
+        font-size: 1.2em;
+        text-align: center;
+}
