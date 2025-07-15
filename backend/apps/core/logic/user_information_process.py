@@ -1,4 +1,12 @@
-from .user_information_control import userdata_exists, userdata_transfer_process,insert_friend_request,accept_friend_request,decline_friend_request
+#   Designer: Kuraishi Sora
+#   Date: 2025/07/15
+#   Description: フレンド登録関連の処理を行うpythonファイル
+#   Note: このファイルは, フレンド登録のためのデータを受け取り、フレンド登録に必要な処理を行うためのpythonファイル.
+
+from .user_information_control import (
+    userdata_exists, userdata_transfer_process,
+    insert_friend_request, accept_friend_request, decline_friend_request
+)
 
 # M4 フレンド申請処理
 def friend_request_process(from_user_id, to_user_id):
@@ -33,4 +41,3 @@ def friend_request_decline_process(from_user_id, to_user_id):
 
     decline_friend_request(from_user_id, to_user_id)
     return "フレンド申請を拒否しました。"
-

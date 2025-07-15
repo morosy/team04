@@ -1,3 +1,8 @@
+#   Designer: Kuraishi Sora
+#   Date: 2025/07/15
+#   Description: データベースとの処理を行うpythonファイル
+#   Note: このファイルは, ユーザ情報として扱うデータをデータベースから取得し、他の関数に渡すためのpythonファイル.
+
 from django.db import connections, transaction
 import time
 

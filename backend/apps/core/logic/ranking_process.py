@@ -1,3 +1,8 @@
+#   Designer: Kuraishi Sora
+#   Date: 2025/07/15
+#   Description: ランキング表示処理を行うpythonファイル
+#   Note: このファイルは, データベースに格納されているユーザ情報をもとに,それぞれの要素に関するランキング表示処理を行うpythonファイル.
+
 from django.db import connection
 import time
 import logging
