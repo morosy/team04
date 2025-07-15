@@ -1,3 +1,9 @@
+/*
+    Designer: Mikami Kengo
+    Description: ログイン画面のjsファイル
+    Note: このファイルは, ログイン画面を表示するためのjsファイル.
+*/
+
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault(); // フォームの通常の送信を停止
 

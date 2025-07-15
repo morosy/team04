@@ -1,4 +1,8 @@
-# backend/register_user_id/views.py (変更後)
+"""
+    Designer: Mikami Kengo
+    Description: ユーザIDを登録するアプリ
+    Note: このファイルは, ユーザIDをデータベースに登録するものである。
+"""
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,8 +10,6 @@ import json
 from .models import UserID
 from django.db import IntegrityError
 
-# ヘルパー関数: UserIDをデータベースに保存するロジック
-# この関数は HttpRequest オブジェクトではなく、直接 user_id_int データを受け取る。
 def _save_user_id_to_db(user_id_int):
     # 入力チェック
     if user_id_int is None:
@@ -29,9 +31,8 @@ def _save_user_id_to_db(user_id_int):
         return {'success': False, 'errorMessage': f'An unexpected error occurred during ID saving: {str(e)}'}
 
 
-@csrf_exempt # APIテスト中はこれを付けておくことが多い。本番環境では適切なCSRF対策が必要
+@csrf_exempt 
 def register_user_id(request):
-    # このビュー関数は外部からのHTTPリクエストを受け取るためのもの
     if request.method == 'POST':
         try:
             # リクエストボディからJSONデータを取得

@@ -1,3 +1,9 @@
+"""
+    Designer: Mikami Kengo
+    Description: 新規登録機能のユーザの入力を検証するアプリ
+    Note: このファイルは,ユーザが入力したユーザ名、パスワードが期待した形か確認するものである。
+"""
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -43,8 +49,6 @@ def name_registration_main(request):
                     'errorMessage': 'User ID must be an integer.'
                 }, status=400)
 
-            # C2情報管理部（register_nameアプリ）のヘルパー関数を直接呼び出す
-            # HTTPリクエストではなく、Pythonの関数として直接データを渡す
             registration_result = _update_user_credentials(user_id_int, user_name, password)
 
             if registration_result.get('success'):

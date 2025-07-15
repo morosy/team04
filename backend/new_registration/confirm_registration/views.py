@@ -1,8 +1,13 @@
+"""
+    Designer: Mikami Kengo
+    Description: 新規登録機能の登録を確認するアプリ
+    Note: このファイルは, ユーザ情報がデータベースに登録されているか確認するものである。
+"""
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-# register_name アプリケーションヘルパー関数をインポート
 from new_registration.register_name.views import _update_user_credentials
 
 @csrf_exempt
@@ -26,8 +31,6 @@ def confirm_registration_main(request):
                     'errorMessage': 'User ID must be an integer.'
                 }, status=400)
 
-            # C2ユーザー情報管理部（register_nameアプリ）のヘルパー関数に登録要求として送信
-            # HTTPリクエストではなく、直接Python関数としてデータを渡す
             registration_result = _update_user_credentials(user_ID_int, user_name, password)
 
             if registration_result.get('success'):
