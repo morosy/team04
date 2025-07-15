@@ -1,8 +1,8 @@
 <!--
     Designer: Kuraishi Sora
     Date: 2025/07/15
-    Description: フレンド申請のhtmlファイル
-    Note: このファイルは, ユーザが他のユーザに対してフレンド申請を行うためのhtmlテンプレート.
+    Description: フレンド申請を行うためのhtmlファイル
+    Note: このファイルは, フレンド申請を行いたいユーザを指定し、そのユーザに対してフレンド申請を送るhtmlテンプレート.
 -->
 
 {% load static %}
@@ -33,12 +33,6 @@
 
                         {% if message %}
                         <p class="message">{{ message }}</p>
-                        <script>
-                                // 3秒後にフレンド新規登録画面にリダイレクト
-                                setTimeout(function () {
-                                        window.location.href = "{% url 'friend_registration' %}";
-                                }, 3000);
-                        </script>
                         {% endif %}
                 </div>
         </div>
