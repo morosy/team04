@@ -111,17 +111,21 @@ def friend_accept_view(request):
 
 def friend_request_view(request):
     current_user_id = request.session.get('logged_in_user_id')
+    message = None
+
     if request.method == 'POST':
-        to_user_id = request.POST.get("user_id")
-        msg = friend_request_process(current_user_id, int(to_user_id))
-        # メッセージとリダイレクトURLをテンプレートに渡す
-        redirect_url = reverse('friend_registration')  # ここはフレンド新規登録画面のURL名に変更してください
-        return render(request, 'friend-request.html', {
-            'message': msg,
-            'redirect_url': redirect_url,
-            'redirect_delay': 2000,  # 3秒後にリダイレクト
-        })
-    return render(request, 'friend-request.html')
+        to_user_id_str = request.POST.get("user_id")
+        try:
+            to_user_id = int(to_user_id_str)
+            msg = friend_request_process(current_user_id, to_user_id)
+            message = msg
+        except (ValueError, TypeError):
+            message = "ユーザーIDは数字で入力してください。"
+
+    return render(request, 'friend-request.html', {
+        'message': message,
+    })
+
 
 
 def friend_decline_view(request):
