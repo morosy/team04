@@ -3,10 +3,22 @@ morozumi_win/
 access.txt
 zsh.txt
 .vscode/
-__pycache__/
-*.pyc
-logs/
-*.log
+.env
 
-.DS_Store
-venv/
+# macOS specific
+.DS_Store 
+
+# Python specific files
+*.pyc
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+.pytest_cache/
+.coverage
+venv/ # Python virtual environment directory
+
+# Django specific files
+*.log
+*.sqlite3 # SQLite database files (if you were using SQLite)
+/media/ # User-uploaded media files (if applicable)

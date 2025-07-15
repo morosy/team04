@@ -1,4 +1,8 @@
-# backend/keiba_auth/login_request/views.py
+"""
+    Designer: Mikami Kengo
+    Description: ログイン機能を構成するアプリ
+    Note: このファイルは, ログイン機能に必要な関数を実装している
+"""
 
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -25,9 +29,6 @@ def Userdata_reader(user_identifier):
     try:
         # 生のSQLクエリを使ってユーザーデータを取得
         with connection.cursor() as cursor:
-            # users テーブルから必要なカラムを選択
-            # カラム名と順序はDBのusersテーブルと完全に一致させてください。
-            # user_ID, user_name, password, current_coin, login_timestamp, login_count
             cursor.execute(
                 "SELECT user_ID, user_name, password, current_coin, login_timestamp, login_count FROM users WHERE user_ID = %s",
                 [user_identifier]
@@ -38,16 +39,14 @@ def Userdata_reader(user_identifier):
             # UserCredentials モデルのインスタンスを手動で作成し、属性を埋める
             user_obj = UserCredentials()
             user_obj.user_id = row[0]
-            user_obj.user_name = row[1] # ここでuser_nameを確実にセット
+            user_obj.user_name = row[1]
             user_obj.password = row[2]
             user_obj.current_coin = row[3]
             user_obj.login_timestamp = row[4]
             user_obj.login_count = row[5]
 
-            # ここでデバッグログを出力しても良い
-            # logging.error(f"DEBUG: Userdata_reader fetched user_name: {user_obj.user_name}")
 
-            return user_obj, True # 属性が埋められたオブジェクトを返す
+            return user_obj, True 
 
         # ユーザーが見つからない場合
         logging.error(f"DEBUG: User ID {user_identifier} not found in UserCredentials table via raw SQL.")
@@ -123,12 +122,10 @@ def login_process_view(request):
     if found:
         if password == user_credentials.password:
             # 認証成功（カスタム認証）
-            # request.session にユーザー情報を保存
             request.session['logged_in_user_id'] = user_credentials.user_id
             request.session['logged_in_user_name'] = user_credentials.user_name
 
             # ログイン履歴、コイン追加などのロジック
-            # ここで login_count_Main を呼び出す
             login_success, updated_login_count = login_count_Main(user_credentials)
 
             LoginAttemptHistory.objects.create(user=user_credentials, success=True)
@@ -143,16 +140,13 @@ def login_process_view(request):
 
 # ログアウト機能
 def user_logout(request):
-    # Django標準のlogout()関数があれば使う
-    logout(request) # これでセッションから認証情報がクリアされる
-    # セッションからカスタム情報を削除
+    logout(request) 
     if 'logged_in_user_id' in request.session:
         del request.session['logged_in_user_id']
     if 'logged_in_user_name' in request.session:
         del request.session['logged_in_user_name']
 
-    return redirect('/login/') # ログインページへリダイレクト
-
+    return redirect('/login/') 
 
 '''
     Function Name: initial_entry_view

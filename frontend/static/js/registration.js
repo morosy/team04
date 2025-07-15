@@ -1,4 +1,9 @@
-// frontend/static/js/registration.js
+/*
+    Designer: Mikami Kengo
+    Description: 新規登録画面のjsファイル
+    Note: このファイルは, 新規登録画面を表示するためのjsファイル.
+*/
+
 document.addEventListener('DOMContentLoaded', function() {
     const userIdField = document.getElementById('user_id');
     const usernameField = document.getElementById('username');
