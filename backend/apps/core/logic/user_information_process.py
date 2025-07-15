@@ -1,9 +1,12 @@
+#   Designer: Kuraishi Sora
+#   Date: 2025/07/15
+#   Description: フレンド登録関連の処理を行うpythonファイル
+#   Note: このファイルは, フレンド登録のためのデータを受け取り、フレンド登録に必要な処理を行うためのpythonファイル.
+
 from .user_information_control import (
-    userdata_exists,
-    userdata_transfer_process,
-    insert_friend_request,
+    userdata_exists, userdata_transfer_process,
+    insert_friend_request, accept_friend_request, decline_friend_request
 )
-from django.db import connections, transaction
 
 # M4 フレンド申請処理
 def friend_request_process(from_user_id, to_user_id):
@@ -38,44 +41,3 @@ def friend_request_decline_process(from_user_id, to_user_id):
 
     decline_friend_request(from_user_id, to_user_id)
     return "フレンド申請を拒否しました。"
-
-# --- フレンド申請を受け入れる（友達登録）---
-def accept_friend_request(from_user_id, to_user_id):
-    with transaction.atomic(using='friend_db'):
-        with connections['friend_db'].cursor() as cursor:
-            cursor.execute(
-                "SELECT COUNT(*) FROM friends WHERE user_id=%s AND friend_id=%s",
-                [from_user_id, to_user_id]
-            )
-            exists = cursor.fetchone()[0]
-            if exists == 0:
-                cursor.execute(
-                    "INSERT INTO friends (user_id, friend_id, created_at) VALUES (%s, %s, NOW())",
-                    [from_user_id, to_user_id]
-                )
-            cursor.execute(
-                "SELECT COUNT(*) FROM friends WHERE user_id=%s AND friend_id=%s",
-                [to_user_id, from_user_id]
-            )
-            exists = cursor.fetchone()[0]
-            if exists == 0:
-                cursor.execute(
-                    "INSERT INTO friends (user_id, friend_id, created_at) VALUES (%s, %s, NOW())",
-                    [to_user_id, from_user_id]
-                )
-
-            cursor.execute(
-                "DELETE FROM friend_requests WHERE from_user_id=%s AND to_user_id=%s",
-                [from_user_id, to_user_id]
-            )
-    return True
-
-# --- フレンド申請を拒否（申請削除）---
-def decline_friend_request(from_user_id, to_user_id):
-    with transaction.atomic(using='friend_db'):
-        with connections['friend_db'].cursor() as cursor:
-            cursor.execute(
-                "DELETE FROM friend_requests WHERE from_user_id=%s AND to_user_id=%s",
-                [from_user_id, to_user_id]
-            )
-    return True
