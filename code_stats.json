@@ -1,153 +1,68 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "2.06",
-  "elapsed_seconds"    : 7.81830096244812,
-  "n_files"            : 5344,
-  "n_lines"            : 1798366,
-  "files_per_second"   : 683.524467229853,
-  "lines_per_second"   : 230020.052775876},
+  "elapsed_seconds"    : 0.0357191562652588,
+  "n_files"            : 114,
+  "n_lines"            : 7935,
+  "files_per_second"   : 3191.56474899377,
+  "lines_per_second"   : 222149.704239172},
 "Python" :{
-  "nFiles": 3587,
-  "blank": 197720,
-  "comment": 259670,
-  "code": 875338},
-"PO File" :{
-  "nFiles": 1226,
-  "blank": 85165,
-  "comment": 14021,
-  "code": 258186},
-"CSV" :{
-  "nFiles": 35,
-  "blank": 0,
-  "comment": 0,
-  "code": 36820},
-"JavaScript" :{
-  "nFiles": 93,
-  "blank": 4719,
-  "comment": 4030,
-  "code": 18413},
-"C/C++ Header" :{
-  "nFiles": 31,
-  "blank": 1406,
-  "comment": 2336,
-  "code": 8243},
-"CSS" :{
-  "nFiles": 30,
-  "blank": 1182,
-  "comment": 190,
-  "code": 5540},
-"Text" :{
-  "nFiles": 43,
-  "blank": 1122,
-  "comment": 0,
-  "code": 5320},
-"C" :{
-  "nFiles": 7,
-  "blank": 362,
-  "comment": 265,
-  "code": 4469},
-"HTML" :{
-  "nFiles": 132,
-  "blank": 351,
-  "comment": 88,
-  "code": 3793},
-"Cython" :{
-  "nFiles": 11,
-  "blank": 520,
-  "comment": 454,
-  "code": 2304},
-"SQL" :{
-  "nFiles": 6,
-  "blank": 37,
-  "comment": 48,
-  "code": 1574},
-"Fortran 90" :{
   "nFiles": 61,
-  "blank": 132,
-  "comment": 97,
-  "code": 1007},
-"TOML" :{
-  "nFiles": 1,
-  "blank": 41,
-  "comment": 122,
-  "code": 653},
+  "blank": 597,
+  "comment": 692,
+  "code": 2177},
+"CSS" :{
+  "nFiles": 14,
+  "blank": 245,
+  "comment": 76,
+  "code": 1482},
+"HTML" :{
+  "nFiles": 16,
+  "blank": 101,
+  "comment": 80,
+  "code": 946},
 "Markdown" :{
+  "nFiles": 4,
+  "blank": 119,
+  "comment": 0,
+  "code": 386},
+"JavaScript" :{
   "nFiles": 6,
-  "blank": 139,
-  "comment": 0,
-  "code": 458},
-"Fortran 77" :{
-  "nFiles": 25,
-  "blank": 29,
-  "comment": 55,
-  "code": 401},
-"SVG" :{
-  "nFiles": 27,
-  "blank": 0,
-  "comment": 0,
-  "code": 184},
-"reStructuredText" :{
-  "nFiles": 1,
-  "blank": 52,
-  "comment": 1,
-  "code": 183},
+  "blank": 49,
+  "comment": 95,
+  "code": 233},
 "Bourne Shell" :{
   "nFiles": 3,
   "blank": 23,
   "comment": 12,
   "code": 181},
-"C++" :{
-  "nFiles": 1,
-  "blank": 13,
-  "comment": 14,
-  "code": 143},
-"Meson" :{
-  "nFiles": 3,
-  "blank": 24,
-  "comment": 9,
-  "code": 122},
-"PowerShell" :{
-  "nFiles": 1,
-  "blank": 49,
-  "comment": 90,
-  "code": 108},
-"Fish Shell" :{
+"SQL" :{
   "nFiles": 2,
-  "blank": 26,
-  "comment": 28,
-  "code": 84},
-"XML" :{
-  "nFiles": 4,
-  "blank": 1,
+  "blank": 37,
+  "comment": 48,
+  "code": 176},
+"CSV" :{
+  "nFiles": 5,
+  "blank": 0,
   "comment": 0,
-  "code": 42},
-"INI" :{
-  "nFiles": 3,
-  "blank": 5,
-  "comment": 0,
-  "code": 36},
+  "code": 118},
 "YAML" :{
   "nFiles": 1,
   "blank": 2,
   "comment": 0,
   "code": 31},
-"C Shell" :{
-  "nFiles": 2,
-  "blank": 20,
-  "comment": 10,
-  "code": 24},
 "Dockerfile" :{
   "nFiles": 1,
   "blank": 7,
   "comment": 4,
   "code": 13},
-"Fortran 95" :{
+"Text" :{
   "nFiles": 1,
   "blank": 0,
-  "comment": 1,
-  "code": 4},
+  "comment": 0,
+  "code": 5},
 "SUM": {
-  "blank": 293147,
-  "comment": 281545,
-  "code": 1223674,
-  "nFiles": 5344} }
+  "blank": 1180,
+  "comment": 1007,
+  "code": 5748,
+  "nFiles": 114} }
