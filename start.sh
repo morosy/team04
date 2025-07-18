@@ -12,5 +12,10 @@ echo "=== 初期化完了 ==="
 echo "=== Django マイグレーション実行 ==="
 python /app/backend/manage.py migrate
 
-echo "=== Django 開始 ==="
-exec python /app/backend/manage.py runserver 0.0.0.0:8000
+# echo "=== Django 開始 ==="
+# exec python /app/backend/manage.py runserver 0.0.0.0:8000
+echo "=== Gunicorn による本番サーバ起動 ==="
+exec gunicorn config.wsgi:application \
+    --chdir /app/backend \
+    --bind 0.0.0.0:8000 \
+    --workers 3
