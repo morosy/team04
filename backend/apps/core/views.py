@@ -70,9 +70,34 @@ def home(request):
 #        return render(request, 'core/ranking.html', {'user_list': result})
 #    return render(request, 'core/ranking.html')
 
+'''
+    Function Name: friend_registration_view
+    Designer: kurasora
+    Date: 2025/07/22
+    Change: 2025/07/22
+    Description:
+        フレンド登録画面を表示するビュー関数.
+        登録用のHTMLテンプレートを表示するのみで、ロジックは持たない.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: フレンド登録画面を表示するHTMLテンプレート
+    Usage: friend_registration_view(request)
+'''
 def friend_registration_view(request):
     return render(request, 'friend-registration.html')
 
+'''
+    Function Name: friend_accept_view
+    Designer: kurasora
+    Date: 2025/07/22
+    Change: 2025/07/22
+    Description:
+        フレンド申請を受け入れる／拒否する処理を行うビュー関数.
+        POSTメソッドでは選択された申請者に対して受け入れ／拒否処理を行い、
+        GETおよびPOSTのいずれでもフレンド申請一覧を再表示する.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: フレンド申請受理画面のHTMLテンプレート
+    Usage: friend_accept_view(request)
+'''
 @csrf_exempt
 def friend_accept_view(request):
     current_user_id = request.session.get('logged_in_user_id')
@@ -109,6 +134,19 @@ def friend_accept_view(request):
         'applications': applications
     })
 
+'''
+    Function Name: friend_request_view
+    Designer: kurasora
+    Date: 2025/07/22
+    Change: 2025/07/22
+    Description:
+        他ユーザーへのフレンド申請を行うビュー関数.
+        POSTメソッドでは対象のユーザーIDを受け取り、申請処理を行う.
+        結果メッセージをHTMLテンプレートに渡す.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: フレンド申請画面のHTMLテンプレート
+    Usage: friend_request_view(request)
+'''
 def friend_request_view(request):
     current_user_id = request.session.get('logged_in_user_id')
     message = None
@@ -127,7 +165,19 @@ def friend_request_view(request):
     })
 
 
-
+'''
+    Function Name: friend_decline_view
+    Designer: kurasora
+    Date: 2025/07/22
+    Change: 2025/07/22
+    Description:
+        フレンド申請を拒否する処理を行うビュー関数.
+        POSTメソッドでは選択されたユーザーIDに対して拒否処理を実行する.
+        処理結果に応じたメッセージをテンプレートに渡して表示する.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: フレンド申請受理画面のHTMLテンプレート
+    Usage: friend_decline_view(request)
+'''
 def friend_decline_view(request):
     if request.method == 'POST':
         user_ids = request.POST.getlist("check_box")
@@ -135,7 +185,20 @@ def friend_decline_view(request):
         return render(request, 'friend-accept.html', {'message': msg})
     return render(request, 'friend-accept.html')
 
-
+'''
+    Function Name: ranking_view
+    Designer: kurasora
+    Date: 2025/07/22
+    Change: 2025/07/22
+    Description:
+        ランキングを表示するビュー関数.
+        POSTデータまたは初期設定に基づいてランキングを取得し、
+        HTMLテンプレートに表示情報を渡す.
+        ソート条件（コイン、勝率、勝利数）やフレンド絞り込みが可能.
+    Parameters: request: HTTPリクエストオブジェクト
+    Returns: render: ランキング画面のHTMLテンプレート
+    Usage: ranking_view(request)
+'''
 def ranking_view(request):
     current_user_id = request.session.get('logged_in_user_id')
 
